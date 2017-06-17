@@ -13,42 +13,8 @@ var router = express.Router();
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('./config/config'); // get our config file
 var app = express();
-var nodemailer = require('nodemailer');
 var bcrypt = require('bcrypt-nodejs');
 var cors = require("cors");
-
-// create reusable transporter object using the default SMTP transport
-/*var smtpConfig = {
- host: 'smtp.mail.me.com',
- port: 587,
- //secure: true, // use SSL
- auth: {
- user: 'judsonmusic@me.com',
- pass: 'Morr2sse'
- }
- };
-
- var transporter = nodemailer.createTransport(smtpConfig);
-
- // setup e-mail data with unicode symbols
- var mailOptions = {
- from: 'judsonmusic@me.com', // sender address
- to: 'judsonmusic@me.com; rgabriel@skoolaide.com', // list of receivers
- subject: 'Goal Set!', // Subject line
- //text: 'Hello world', // plaintext body
- html: '<b>One of your students has set a goal. <a href="http://skoolaide.com/frontend">Click here to see.</a></b>' // html body
- };
-
- // send mail with defined transport object
- transporter.sendMail(mailOptions, function(error, info){
- if(error){
- return//console.log(error);
- }
-//console.log('Message sent: ' + info.response);
- });*/
-
-//end email..
-
 
 mongoose.connect(config.database);
 app.set('superSecret', config.secret);
