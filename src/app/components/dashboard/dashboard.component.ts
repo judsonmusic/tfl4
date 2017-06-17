@@ -29,6 +29,8 @@ export class DashboardComponent implements OnInit {
     public userData: any;
     public allUnlocked: boolean;
     public surveyComplete = false;
+    public overAllScore;
+    public overAllStressScore;
 
     constructor(public router: Router, public assessmentService: AssessmentService, public userService: UserService) {
 
@@ -54,29 +56,23 @@ export class DashboardComponent implements OnInit {
 
     ngOnInit() {
 
-        //this.userData = this.userService.userData || [];
-        //this.assessmentData = this.userData.assessment || [];
-
-
-
         //we added this to make sure we have data on page reload!
         this.userService.getUser().subscribe((user) => {
             console.log('user data retrieved...');
             this.userData = user;
             this.assessmentData = this.userData.assessment;
-
             let temp = [];
-
             this.assessmentService.questions.map((x) => {
 
                 temp.push({ id: x.id, category: x.category });
 
             });
-
             this.categories = temp;
             this.checkAllUnlocked();
             this.checkComplete();
             this.buildSeries();
+            this.getOverAllScore();
+            this.getOverAllStressScore();
         });
 
 
@@ -107,7 +103,24 @@ export class DashboardComponent implements OnInit {
         });
         var sum = parseInt(temp.reduce((pv, cv) => pv + cv, 0).toString());
         var avg = Math.floor(((sum / temp.length) + 1) / 10) * 10;
-        return avg;
+        this.overAllScore = avg;
+    }
+
+     getOverAllStressScore() {
+
+        var temp = [];
+
+        this.userData.dimensions.map((obj) => {
+         
+            if (!isNaN(obj.stressLevel)) {
+                temp.push(obj.stressLevel);
+            }
+
+        });
+        console.log(temp);
+        var sum = parseInt(temp.reduce((pv, cv) => pv + cv, 0).toString());
+        var avg = Math.floor(((sum / temp.length) + 1) / 10) * 10;        
+        this.overAllStressScore =  avg;
     }
 
     checkAllUnlocked() {

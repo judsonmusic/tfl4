@@ -36,6 +36,7 @@
 
           <ol>
             <li *ngFor="let s of subquestions; let i = index" [hidden]="i == 1">
+              
 
               <p class="sub-question">{{s.question}}</p>
               <div class="assessment-radio-wrapper-subs">
@@ -84,6 +85,7 @@
           </ol>
         </div>
         <div class="col-md-4">
+         
           <gauge-chart selector="{{dimension.category}}_2" heading="{{dimension.category}}" [seriesdata]="data.account.dimensions[dimension.id-1].stressLevel"></gauge-chart>
         </div>
       </div>
@@ -103,7 +105,7 @@
         <a href="javascript:void(0);" style="text-decoration: none;" class="red pull-right" routerLink="/dashboard"><i class="fa fa-lock grey"></i> Click here to unlock more dimensions!</a>
       </div>
       <hr>
-      <div *ngIf="seriesdata">
+      <div *ngIf="seriesdata && data.account.dimensions[dimension.id-1].stressLevel">
         <div class="panel panel-default">
           <div class="panel-heading bg-light-blue">
             <h4><i class="fa fa-tachometer" aria-hidden="true"></i> Stress Gauge</h4>

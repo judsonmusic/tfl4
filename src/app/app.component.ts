@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
     this.location = location;
     this.renderView = false;
 
-    jQuery(document).on('click', '.panel-heading span.clickable', function (e) {
+    jQuery(document).on('click touchstart', '.panel-heading span.clickable', function (e) {
 
       var jQuerythis = jQuery(this);
       jQuerythis.parents('.panel').find('.panel-body').css({ minHeight: '0' });
