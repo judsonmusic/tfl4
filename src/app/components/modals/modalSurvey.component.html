@@ -1,0 +1,65 @@
+<!-- Large modal -->
+<div bsModal #childModal="bs-modal" #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+       <!-- <button type="button" class="close" (click)="lgModal.hide()" aria-label="Close" style="color: white; opacity: 10; text-shadow: none; font-size: 36px; font-weight: normal;">
+          <span aria-hidden="true" style="opacity: 10;">&times;</span>
+        </button>-->
+        <h4 class="modal-title"><span *ngIf="!surveyComplete">Feedback</span><span *ngIf="surveyComplete">Thank You</span></h4>
+      </div>
+
+      <div class="modal-body">
+<!--TODO: this must possibly be based on actually being the final step etc.-->
+        <div *ngIf="surveyComplete">
+          <p><strong>Congratulations! You have successfully completed your TFL Assessment.</strong></p>
+          <p>Thank you for your feedback and we hope that you enjoyed your experience.</p>
+          <p>Reaching a state of Ideal Being is possible so become your greatest advocate. YOU have the ability to transform the course of your life one dimension at a time.</p>
+          <p>We value your feedback so feel free to provide any additional comments:
+              <textarea name="comments" class="form-control" (keyup)="updateSurvey($event, 101)" [value]="getSurveyAnswer(101)"></textarea>
+
+          </p>
+          <div class="text-right">
+            <button class="btn btn-primary" type="button" (click)="completeSurvey()" *ngIf="surveyComplete">Ok</button>
+          </div>
+        </div>
+
+        <form class="form" *ngIf="!surveyComplete">
+
+
+          <p>Congratulations! This is the final step of the assessment process. Our desire is to ensure the TFL Assessment experience is meaningful to all participants so your feedback is extremely important to us. Please take a few minutes and share your thoughts.</p>
+
+          <p>Please rate each statement based on the below rating scale.<br/>
+            1 = strongly disagree &nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp; 2 = disagree &nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp; 3 neutral &nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp; 4 = agree &nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp; 5 = strongly agree</p>
+
+          <ol style="padding: 0;">
+            <li *ngFor="let q of survey_questions | surveyFilter; let i = index;" class="" style="position:relative;">
+              <div style="padding-bottom:15px;">{{q.question}}</div>
+              <div class="assessment-radio-wrapper" *ngFor="let a of survey_answers">
+                <input type="radio" id="{{q.id}}_{{a.id}}" name="survey_question_{{q.id}}" [value]="a.id" (change)="updateSurvey($event, q.id)" [(ngModel)]="userData.survey[i].answer"/> {{a.id}}
+                <label [attr.for]="q.id + '_' + a.id"><span></span>{{a.value}}</label>
+              </div>
+            </li>
+           <!-- <li style="padding-top:15px;">I think the TFL assessment, reporting and TFL Empowerment Guide is worth:
+              <div class="form-group">
+              <select name="guideWorth" class="form-control" (change)="updateSurvey($event, 100)" [value]="getSurveyAnswer(100)">
+                <option value="">Please select</option>
+                <option value="49-58">$49 to $58</option>
+                <option value="59-68">$59 to $68</option>
+                <option value="69-78">$69 to $78</option>
+                <option value="79-88">$79 to $88</option>
+                <option value="89-98">$89 to $98</option>
+                <option value="99-108">$99 to $108</option>
+              </select></div>
+            </li>-->
+
+          </ol>
+          <div class="text-right">
+            <button class="btn btn-primary" type="button" (click)="completeSurvey()" *ngIf="surveyComplete">Ok</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+

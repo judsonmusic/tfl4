@@ -1,0 +1,237 @@
+<div class="container">
+
+  <h2 style="margin:0">
+    <img [src]="'/assets/images/icons/' + dimension.category.toLowerCase().replace(' ', '-') + '.jpg'" style="height:48px;">    {{dimension.category}} - <span *ngIf="score >= 0">Your Ideal Being Score</span>
+    <span *ngIf="score>=0" class="light-blue-bg" style="color: white; padding: 10px; display: inline-block; border-radius: 32px; min-width: 54px; height: 54px; text-align: center;"
+      tooltip="This score represents how your ranked your level of satisfaction" placement="right" triggers="hover" [isDisabled]="false">{{score}}</span>
+    <i class="pull-right fa fa-print" *ngIf="answerData && answerData.subs.indexOf(null) < 0 && answerConfirmed && !datamode && !guidemode"
+      aria-hidden="true" style="font-size: 48px;
+       cursor: pointer" tooltip="Print this page." placement="top" triggers="mouseenter" [isDisabled]="false" onclick="window.print()"></i>
+  </h2>
+  <div *ngIf="!datamode && !answerData || answerData.answer == ''">
+    <p>You have not yet answered this question in the assessment.</p>
+  </div>
+  <div *ngIf="answerData && answerData.answer > 0">
+    <p *ngIf="answerData" style="font-size: 16px; font-weight: bold;">The question was: {{dimension.question}} You answered: <span class="green">{{ (answers | myfilter: answerData.answer)[0].value }}</span></p>
+    <div *ngIf="(guidemode || datamode) && (!answerData || !answerConfirmed)">
+      <p style="padding: 20px; font-size: 18px;" class="red text-center">
+        Unlock this dimension in order to view your data and TFL Action Plan. <a (click)="goToDimension(dimension.id)"><i class="fa fa-unlock-alt green" aria-hidden="true" style="cursor: pointer"></i> Click here to unlock this dimension!</a></p>
+    </div>
+    <hr/>
+
+    <!--{{answerData | json}}<br>-->
+    <!--<div *ngIf="answerData">-->
+    <!--{{answerData.subs.indexOf('null')}}<br>-->
+    <!--{{answerData.subs.length}} {{subquestions.length}}<br>-->
+    <!--</div>-->
+
+    <div class="sub-assessment" *ngIf="!datamode && !answerConfirmed && !guidemode">
+      <div class="row">
+        <div class="col-md-8">
+          <h5 style="font-size: 16px;">Please answer the following 5 questions based on the below rating scale.</h5>
+
+          <p> 1 = strongly disagree &nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp; 2 = disagree &nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp;
+            3 neutral &nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp; 4 = agree &nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp;
+            5 = strongly agree</p>
+
+          <ol>
+            <li *ngFor="let s of subquestions; let i = index" [hidden]="i == 1">
+
+              <p class="sub-question">{{s.question}}</p>
+              <div class="assessment-radio-wrapper-subs">
+                <input type="radio" id="{{dimension.id}}_sub_{{s.id}}_1" name="assessment_sub_{{s.id}}_{{dimension.category}}" [value]="20"
+                  [(ngModel)]="answerData.subs[s.id-1]" (change)="checkScroll()" />
+                <label [attr.for]="dimension.id + '_sub_' + s.id + '_1'"><span></span>1</label>
+                <input type="radio" id="{{dimension.id}}_sub_{{s.id}}_2" name="assessment_sub_{{s.id}}_{{dimension.category}}" [value]="40"
+                  [(ngModel)]="answerData.subs[s.id-1]" (change)="checkScroll()" />
+                <label [attr.for]="dimension.id + '_sub_' + s.id + '_2'"><span></span>2</label>
+                <input type="radio" id="{{dimension.id}}_sub_{{s.id}}_3" name="assessment_sub_{{s.id}}_{{dimension.category}}" [value]="60"
+                  [(ngModel)]="answerData.subs[s.id-1]" (change)="checkScroll()" />
+                <label [attr.for]="dimension.id + '_sub_' + s.id + '_3'"><span></span>3</label>
+                <input type="radio" id="{{dimension.id}}_sub_{{s.id}}_4" name="assessment_sub_{{s.id}}_{{dimension.category}}" [value]="80"
+                  [(ngModel)]="answerData.subs[s.id-1]" (change)="checkScroll()" />
+                <label [attr.for]="dimension.id + '_sub_' + s.id + '_4'"><span></span>4</label>
+                <input type="radio" id="{{dimension.id}}_sub_{{s.id}}_5" name="assessment_sub_{{s.id}}_{{dimension.category}}" [value]="100"
+                  [(ngModel)]="answerData.subs[s.id-1]" (change)="checkScroll()" />
+                <label [attr.for]="dimension.id + '_sub_' + s.id + '_5'"><span></span>5</label>
+              </div>
+
+
+            </li>
+            <li>
+
+              <p class="sub-question">This dimension is causing stress in my life. {{answerData.stressLevel}}</p>
+              <div class="assessment-radio-wrapper-subs">
+                <input type="radio" id="stressLevel_{{dimension.category}}_0" name="stressLevel_{{dimension.category}}" [value]="20" [(ngModel)]="data.account.dimensions[dimension.id-1].stressLevel"
+                />
+                <label [attr.for]="'stressLevel_'+dimension.category+'_0'"><span></span>1</label>
+                <input type="radio" id="stressLevel_{{dimension.category}}_1" name="stressLevel_{{dimension.category}}" [value]="40" [(ngModel)]="data.account.dimensions[dimension.id-1].stressLevel"
+                />
+                <label [attr.for]="'stressLevel_'+dimension.category+'_1'"><span></span>2</label>
+                <input type="radio" id="stressLevel_{{dimension.category}}_2" name="stressLevel_{{dimension.category}}" [value]="60" [(ngModel)]="data.account.dimensions[dimension.id-1].stressLevel"
+                />
+                <label [attr.for]="'stressLevel_'+dimension.category+'_2'"><span></span>3</label>
+                <input type="radio" id="stressLevel_{{dimension.category}}_3" name="stressLevel_{{dimension.category}}" [value]="80" [(ngModel)]="data.account.dimensions[dimension.id-1].stressLevel"
+                />
+                <label [attr.for]="'stressLevel_'+dimension.category+'_3'"><span></span>4</label>
+                <input type="radio" id="stressLevel_{{dimension.category}}_4" name="stressLevel_{{dimension.category}}" [value]="100" [(ngModel)]="data.account.dimensions[dimension.id-1].stressLevel"
+                />
+                <label [attr.for]="'stressLevel_'+dimension.category+'_4'"><span></span>5</label>
+              </div>
+
+            </li>
+            <li class="clearfix" style="list-style: none;"></li>
+          </ol>
+        </div>
+        <div class="col-md-4">
+          <gauge-chart selector="{{dimension.category}}_2" heading="{{dimension.category}}" [seriesdata]="data.account.dimensions[dimension.id-1].stressLevel"></gauge-chart>
+        </div>
+      </div>
+      <div class="row" class="text-right">
+        <button class="btn btn-primary" *ngIf="data.account.dimensions[dimension.id-1].stressLevel > 0 && checkReveal()" (click)="save(); !sessionStorage.getItem('modal-tfl-chart') && t.show();">Reveal Your Results!</button>
+      </div>
+    </div>
+
+
+    <div *ngIf="answerData && answerConfirmed">
+
+      <div *ngIf="seriesdata">
+        <bar-chart heading="{{dimension.category}}" selector="{{dimension.category}}_bar_chart" [seriesdata]="seriesdata" [categories]="categories"></bar-chart>
+      </div>
+      <div *ngIf="!datamode" style="padding-bottom: 10px; clear: both; height: 24px;">
+        <a href="javascript:void(0);" style="text-decoration: none;" class="green pull-left" (click)="t.show();"><i class="fa fa-question-circle grey"></i> Understand my TFL chart</a>
+        <a href="javascript:void(0);" style="text-decoration: none;" class="red pull-right" routerLink="/dashboard"><i class="fa fa-lock grey"></i> Click here to unlock more dimensions!</a>
+      </div>
+      <hr>
+      <div *ngIf="seriesdata">
+        <div class="panel panel-default">
+          <div class="panel-heading bg-light-blue">
+            <h4><i class="fa fa-tachometer" aria-hidden="true"></i> Stress Gauge</h4>
+            <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span></div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-8">
+                <p style="font-size: 20px;">The World Health Organization calls stress &quot;the health epidemic of our time&quot;.</p>
+
+                <p style="font-size: 18px;"><strong>Stress Gauge:</strong> Your gauge reflects the level of stress you feel associated with each dimension.
+                  20% reflects low stress and 100% reflects high stress.</p>
+                <p style="font-size: 18px;">You indicated a <strong>{{data.account.dimensions[dimension.id-1].stressLevel}}%</strong> stress level for
+                  this dimension.</p>
+                <p><button class="btn btn-primary" (click)="goToStress()">Stress Management TFL Action Plan</button></p>
+              </div>
+              <div class="col-md-4">
+                <gauge-chart selector="{{dimension.category}}_2" heading="{{dimension.category}}" [seriesdata]="data.account.dimensions[dimension.id-1].stressLevel"></gauge-chart>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <hr>
+      <h3 *ngIf="!datamode"><img src="assets/images/logo-tfl-mini.jpg" style="float: left; height: 24px; margin-left: -4px;" /> Your TFL Action
+        Plan {{datamode}} </h3>
+      <hr>
+      <!--THE TEMPLATE URL IS: {{dimension | json}}-->
+      <!--<div [whencreateview]="dimension.templateUrl" *ngIf="!datamode">Html will appear here..</div>-->
+      <div [innerHTML]="dimension.template"></div>
+
+      <!--if on data junkie we need to hide this stuff-->
+      <div *ngIf="!datamode">
+
+
+        <!-- <h3 style="margin:0">
+                     {{dimension.category}}
+                 </h3>
+                 <hr>-->
+
+
+        <div class="panel panel-default">
+          <div class="panel-heading bg-light-blue">
+            <h4><i class="fa fa-question-circle-o blue" aria-hidden="true"></i> Tell us your Barriers and what Tools and Support
+              you need:</h4>
+            <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span></div>
+          <div class="panel-body">
+            <form name="frm_dimensions" style="padding-left: 25px;">
+              <div class="form-group">
+                <p>What are the barriers that are keeping you from improving this dimension of your life? Click all that apply</p>
+                <div style="margin-left: 40px;">
+                  <label><input type="checkbox" name="barrier_1" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[0]" (ngModelChange)="save()">This dimension is NOT important to me</label><br>
+                  <label><input type="checkbox" name="barrier_2" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[1]" (ngModelChange)="save()">Lack of motivation</label><br>
+                  <label><input type="checkbox" name="barrier_3" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[2]" (ngModelChange)="save()">Don’t know where to start</label><br>
+                  <label><input type="checkbox" name="barrier_4" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[3]" (ngModelChange)="save()">Lack of support</label><br>
+                  <label><input type="checkbox" name="barrier_5" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[4]" (ngModelChange)="save()">Self-doubt</label><br>
+                  <label><input type="checkbox" name="barrier_6" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[5]" (ngModelChange)="save()">Lack of money or resources</label><br>
+                  <label><input type="checkbox" name="barrier_7" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[6]" (ngModelChange)="save()">Lack of discipline and/or self-control</label><br>
+                  <label><input type="checkbox" name="barrier_8" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[7]" (ngModelChange)="save()">Fear of outcome</label><br>
+                  <label><input type="checkbox" name="barrier_9" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[8]" (ngModelChange)="save()">Lack of knowledge</label><br>
+                  <label><input type="checkbox" name="barrier_10" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[9]" (ngModelChange)="save()">Overwhelmed</label><br>
+                  <label><input type="checkbox" name="barrier_11" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[10]" (ngModelChange)="save()">Lack of time</label><br>
+                  <label><input type="checkbox" name="barrier_12" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[11]" (ngModelChange)="save()">Fear of change or trying something new</label><br>
+                  <label><input type="checkbox" name="barrier_13" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[12]" (ngModelChange)="save()">Depression and/or anxiety</label><br>
+                  <label><input type="checkbox" name="barrier_14" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[13]" (ngModelChange)="save()">Other (Please provide your comments below)</label><br>                  <label>Comments</label>
+                  <textarea class="form-control" name="barrier_15" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[14]" (ngModelChange)="save()"></textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <p>What tools and support do you need to be successful? Click all that apply</p>
+                <div style="margin-left: 40px;">
+                  <label><input type="checkbox" name="tool_1" [(ngModel)]="data.account.dimensions[dimension.id-1].tools[0]" (ngModelChange)="save()">Education</label><br>
+                  <label><input type="checkbox" name="tool_2" [(ngModel)]="data.account.dimensions[dimension.id-1].tools[1]" (ngModelChange)="save()">Encouragement</label><br>
+                  <label><input type="checkbox" name="tool_3" [(ngModel)]="data.account.dimensions[dimension.id-1].tools[2]" (ngModelChange)="save()">Support</label><br>
+                  <label><input type="checkbox" name="tool_4" [(ngModel)]="data.account.dimensions[dimension.id-1].tools[3]" (ngModelChange)="save()">Money</label><br>
+                  <label><input type="checkbox" name="tool_5" [(ngModel)]="data.account.dimensions[dimension.id-1].tools[4]" (ngModelChange)="save()">Tools and resources</label><br>
+                  <label><input type="checkbox" name="tool_6" [(ngModel)]="data.account.dimensions[dimension.id-1].tools[5]" (ngModelChange)="save()">Professional counseling/therapy</label><br>
+                  <label><input type="checkbox" name="tool_7" [(ngModel)]="data.account.dimensions[dimension.id-1].tools[6]" (ngModelChange)="save()">Specific coaching to help me with this dimension</label><br>
+                  <label><input type="checkbox" name="tool_8" [(ngModel)]="data.account.dimensions[dimension.id-1].tools[7]" (ngModelChange)="save()">Coaching to learn techniques to manage stress and to develop healthier coping skills</label><br>
+                  <label><input type="checkbox" name="tool_9" [(ngModel)]="data.account.dimensions[dimension.id-1].tools[8]" (ngModelChange)="save()">Coaching on mindfulness and intentional living</label><br>
+                  <label><input type="checkbox" name="tool_10" [(ngModel)]="data.account.dimensions[dimension.id-1].tools[9]" (ngModelChange)="save()">Coaching on personal empowerment and goal-setting</label><br>
+                  <label><input type="checkbox" name="tool_11" [(ngModel)]="data.account.dimensions[dimension.id-1].tools[10]" (ngModelChange)="save()">Other (Please provide your comments below)</label><br>                  <label>Comments</label>
+                  <textarea class="form-control" name="tool_12" [(ngModel)]="data.account.dimensions[dimension.id-1].tools[11]" (ngModelChange)="save()"></textarea>
+                </div>
+              </div>
+              <!-- <div class="form-group">
+                                 <label>What other elements would you like to see added to your TFL Action Plan? (optional)</label>
+                                 <textarea class="form-control" name="otherElements" [(ngModel)]="data.account.otherElements[dimension.id-1]" (ngModelChange)="save()"></textarea>
+                             </div>-->
+            </form>
+          </div>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-heading bg-light-blue">
+            <h4><i class="fa fa-smile-o light-blue" aria-hidden="true"></i> Support:</h4> <span class="pull-right clickable panel-is-collapsed"><i class="glyphicon glyphicon-chevron-down"></i></span></div>
+          <div class="panel-body panel-collapsed">
+
+
+            <p>Asking for help is not always easy and it can also be frustrating and scary when you can’t do something by yourself.
+              However, have the courage to ask for help anyway and you will be pleasantly surprised at the people who will
+              show up to help you. Always remember that everyone needs help some time and perhaps through your courage to
+              ask for help, you will help someone else have the courage to ask for help as well.
+            </p>
+
+            <ul>
+              <li>Seek support through coaching, counseling and/or a support group</li>
+              <li>Confide in a trusted friend or family member and ask them for support and assistance</li>
+              <li>Contact your primary care physician or call 911 if you feel you are a threat to yourself or others</li>
+            </ul>
+            <p>“Vulnerability sounds like truth and feels like courage. Truth and courage aren’t always comfortable, but they’re
+              never weakness.” - Brené Brown, Author, storyteller and researcher</p>
+            <p>“Kindness can transform someone's dark moment with a blaze of light. You'll never know how much your caring matters.
+              Make a difference for another today.” - Amy Leigh Mercree, Author</p>
+            <p><strong>Disclaimer:</strong> The information covered in the Action Plans are suggested recommendations only,
+              so please consult your primary care physician if you need professional medical help.</p>
+
+
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+  </div>
+  <modal-tfl-chart #t="child6"></modal-tfl-chart>
+  <modal-data-junkie #j="child4"></modal-data-junkie>
+  <button class="btn btn-primary pull-right" (click)="goToDashboard()" *ngIf="answerData && answerData.subs.indexOf(null) < 0 && answerConfirmed && !datamode && !guidemode">Save and continue</button>
+
+</div>

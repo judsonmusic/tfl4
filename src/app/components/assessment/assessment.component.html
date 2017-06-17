@@ -1,0 +1,138 @@
+<div class="container">
+    <div *ngIf="assessmentComplete">
+        <div class="row">
+            <div class="col-xs-4 col-sm-4 col-md-4">
+                <img src="/assets/images/tfl-color-wheel.jpg" style="float: left; width: 100%;"/>
+            </div>
+            <div class="col-md-8">
+                <p style="padding-top: 30px;">Looks like you have completed your TFL assessment. <br>Click the TFL Dashboard link to access your results, TFL Actions Plans and TFL Empowerment Guide!</p>
+                <button class="btn btn-primary pull-right" routerLink="/dashboard">TFL Dashboard</button>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="!assessmentComplete">
+        <!--<h1>Train For Life Assessment <span *ngIf="data.account.firstName">for {{data.account.firstName}}</span></h1>-->
+        <h1>Welcome to your Train for Life (TFL) assessment!</h1>
+        <!--<h4>Please answer the following questions to create your profile. <a href="javascript:void(0)" (click)="finish($event)">Go to dashboard!</a></h4>-->
+        <hr>
+
+        <div *ngIf="!data.account.createdAt">
+            <div class="row">
+                <div class="col-md-12"><p>Before you begin, we just need to know a little bit about you.</p></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+
+                    <user-component></user-component>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+        </div>
+
+        <!--show the instructions if count is 0 and account has been created-->
+        <div class="instructions" *ngIf="count==0 && data.account.createdAt">
+            <div class="row">
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <img src="/assets/images/tfl-color-wheel.jpg" style="float: left; width: 100%;"/>
+                    <div class="clearfix"></div>
+                        <div class="panel panel-default" *ngIf="!showMotivated" style="margin-top: 20px;">
+                            <div class="panel-heading blue-bg text-center" style="color: white; font-weight: bold;">Aware &nbsp;&bull;&nbsp; Awake &nbsp;&bull;&nbsp; Empowered &nbsp;&bull;&nbsp; Transformed</div>
+                            <div class="panel-body">
+                                <p><strong><i class="blue">Ideal Being:</i></strong> You will notice throughout the TFL assessment that we refer to well-being as Ideal Being. Webster defines well-being as the state of being comfortable,
+                                    healthy, or happy. Ideal Being represents these elements but invites you to conceptualize your ideal state of being based on what is important to you. The TFL assessment will invite you to reflect on 15 dimensions of your life. Therefore, helping you conceptualize your Ideal Being.</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+            <div class="col-md-8">
+
+                <p>This self-reflection tool allows you to take inventory of your life in a comprehensive manner. Reflecting on one area would be incomplete so by using our holistic approach you will be able to assess your life in <strong>15 different dimensions.</strong> Through this experience we hope you gain valuable insight, a broader perspective of your total Ideal Being and that you are motivated to take action in the areas that are important to you.
+                    Being informed can empower you to become your greatest advocate.
+                </p>
+                <p><strong>Reflect over the past 3 months</strong> as you answer each question. There are no right or wrong answers so trust your gut and rate each dimension as authentically as possible. Knowing where you are is the first step in making mindful decisions on where you want to go.</p>
+
+                <p><strong>You are just 20 minutes</strong> away from receiving a complete overview of your life in 15 different dimensions. Once you complete the TFL assessment you will have immediate access to your results and a personalized TFL Action Plan on each dimension which includes: </p>
+                <ul style="padding-left: 40px;" class="fun-facts">
+                    <li>Insights and facts</li>
+                    <li>TFL actions to consider</li>
+                    <li>Self-guided exercises</li>
+                    <li>Tools and resources</li>
+                </ul>
+
+                <p>Before you leave the TFL site you will be able to print out your complete <strong>TFL Empowerment Guide</strong> which gives you information on all 15 dimensions. This will help you develop a game plan to take action.</p>
+
+                <p><strong>Your privacy is a priority to us so please be assured that the information you share will be kept confidential.</strong></p>
+                <div class="col-md-10">
+                    <p style="padding-left: 5px;">Start your journey to greater self-awareness by beginning your assessment now. </p>
+                </div>
+                <div class="col-md-2">
+                    <button (click)="start($event)" class="btn btn-primary pull-right">Let's Begin! <span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="instructions" *ngIf="count>0">
+        <p>
+            Please rate the below statements using the rating scale which best reflects how you view your life in each TFL dimension.
+        </p>
+    </div>
+
+    <div class="">
+        <div class="col-md-12">
+            <form class="form form-horizontal">
+                <ul *ngIf="count" style="margin: 0; list-style: none;">
+                    <li *ngFor="let q of (questions | myfilter:count)" class="row assessment-item">
+                        <div class="questions"><span class="assessment-category">{{q.category}}</span>
+                            <div class="assessment-question-count">
+                                <div style="float: left;">{{count}}</div>
+                                <div style="float: left; width: 300px; background-color:#efefef; height:24px; position: relative;">
+                                    <div [ngStyle]="{'background': '#337ab7', 'width': Math.ceil((((count*100/15)/100) * 100)) + '%',  'height':'22px'}"></div>
+                                </div>
+                                <div style="float: left;">{{questions.length}}</div>
+                            </div>
+                            <hr/>
+                            <p class="assessment-question">
+                                {{q.question}}
+                                <br/>
+
+                                <span style="color:#089b6f" *ngIf="data.account.assessment[q.id-1].answer">You: {{(answers | myfilter: data.account.assessment[q.id-1].answer)[0].value }}
+                  <button (click)="data.account.assessment[q.id-1].answer = ''" type="button" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Change my Answer </button>
+                  </span>
+                            </p>
+                        </div>
+                        <!--answers-->
+                        <div class="answers" *ngIf="!data.account.assessment[q.id-1].answer">
+                            <div class="assessment-radio-wrapper" *ngFor="let a of answers">
+                                <input type="radio" id="{{q.id}}_{{a.id}}" name="assessment_{{q.category}}" [value]="a.id" [(ngModel)]="data.account.assessment[q.id-1].answer" (change)="updateSubs(a.id, data.account.assessment[q.id-1])"/> {{a.id}}
+                                <label [attr.for]="q.id + '_' + a.id"><span></span>{{a.value}}</label>
+                            </div>
+                        </div>
+
+                        <div class="text-right assessment-nav">
+                            <button class="btn btn-primary" *ngIf="count <= questions.length && count > 1" (click)="counterDown()">Back</button>
+                            <button class="btn btn-primary" *ngIf="data.account.assessment[q.id-1].answer && count != questions.length" (click)="save();">Next</button>
+                            <button class="btn btn-primary" *ngIf="count == questions.length && data.account.assessment[q.id-1].answer" (click)="finish($event)">Finish</button>
+                        </div>
+
+                        <div class="assessment-image">
+                            <img src="/assets/images/slides/compressed/{{q.category.toLowerCase()}}.jpg" style="width: 100%;"/>
+                        </div>
+
+                    </li>
+                </ul>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<modal-generic #g="child10" message="Want to change any of your answers? Do it now! Once you hit the Ok button all of your answers will be final."></modal-generic>
+</div>

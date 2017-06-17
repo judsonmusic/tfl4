@@ -1,0 +1,36 @@
+<div *ngIf="users">
+    <h1>Admin Area</h1>
+    <hr>
+    <div>Welcome to admin portal. Here is a list of all users:</div>
+    <div>
+        <table width="100%" class="table table-striped table-bordered">
+            <tr *ngFor="let user of users | orderBy : 'firstName'">
+                <td>{{user.firstName}} {{user.lastName}}</td>
+                <td><a href="javascript:void(0)" (click)="viewUser(user);">[View Stats]</a></td>
+            </tr>
+        </table>
+    </div>
+
+    <hr>
+
+    <div *ngIf="user">
+        <h2>{{user.firstName}} {{user.lastName}}</h2>
+        <hr>
+        <h3>Assessment Answers</h3>
+        <table width="100%" class="table table-striped table-bordered">
+            <tr *ngFor="let item of user.assessment">
+                <td>{{item.questionValue}}</td>
+                <td>{{item.answerValue}}</td>
+            </tr>
+        </table>
+        <hr>
+        <h3>Survey Answers</h3>
+        <hr>
+        <table width="100%" class="table table-striped table-bordered">
+            <tr *ngFor="let item of user.survey">
+                <td>{{item.questionValue}}</td>
+                <td>{{item.answerValue}}</td>
+            </tr>
+        </table>
+    </div>
+</div>

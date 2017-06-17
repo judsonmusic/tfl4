@@ -1,0 +1,72 @@
+<!-- Large modal -->
+<div bsModal #childModal="bs-modal" #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+               <!-- <button type="button" class="close" (click)="lgModal.hide()" aria-label="Close" style="color: white; opacity: 10; text-shadow: none; font-size: 36px; font-weight: normal;">
+                    <span aria-hidden="true" style="opacity: 10;">&times;</span>
+                </button>-->
+                <h4 class="modal-title">Data Junkie</h4>
+            </div>
+
+
+            <div class="modal-body">
+
+                <p>Have fun reviewing your interactive TFL overview chart.</p>
+                <p><strong>What is my TFL chart?:</strong> It is an interactive chart that will provide you a comprehensive overview of how you ranked yourself in all of the dimensions of your life that you have unlocked. Each bar on the
+                    chart is color coded and represents the following:</p>
+
+
+                <ul style="margin-left: 50px; list-style: none;">
+                    <li>
+                        <div class="swatch swatch-blue"></div>
+                        How <strong class="blue">important</strong> the dimension is to you
+                    </li>
+                    <li>
+                        <div class="swatch swatch-yellow"></div>
+                        How the dimension impacts your <strong class="yellow">happiness</strong></li>
+                    <li>
+                        <div class="swatch swatch-green"></div>
+                        How the dimension impacts your work <strong class="green">performance</strong></li>
+                    <li>
+                        <div class="swatch swatch-red"></div>
+                        How <strong class="red">satisfied</strong> you are with the dimension
+                    </li>
+                    <li>
+                        <div class="swatch swatch-orange"></div>
+                        How <strong class="orange">actively</strong> you are working to improve and/or maintain the dimension
+                    </li>
+                    <li>
+                        <div class="swatch swatch-light-blue"></div>
+                        How <strong class="light-blue">motivated</strong> you are to improve and/or maintain the dimension
+                    </li>
+                </ul>
+
+                <p><strong>Your TFL Chart:</strong> Reflects how you responded to the above questions in your assessment and the bars populate your responses from a low of 20 to a high of 100. Your TFL chart will only reflect data findings
+                    in the dimensions that you have unlocked.</p>
+
+                <p><strong>How does my TFL chart work?:</strong> You can suppress and populate each bar on the chart by clicking and unclicking the words below the chart: <strong class="blue">Importance</strong>, <strong class="yellow">Happiness</strong>,
+                    <strong class="green">Performance</strong>, <strong class="red">Satisfaction</strong>, <strong class="orange">Action</strong>, and <strong class="light-blue">Motivation</strong>. This interactive view will allow you to
+                    compare and contrast each dimension you have unlocked in all 6 areas.</p>
+
+                <p><strong>Your Ideal Being Score:</strong> Reflects how you ranked your level of satisfaction in each dimension.</p>
+
+                <p><strong>Stress Gauge:</strong> Your <strong class="blue">stress</strong> gauge reflects the level of stress you feel associated with each dimension. 20% reflects low satisfaction and 100% reflects high satisfaction.</p>
+
+                <p><strong>Remember:</strong> By recognizing what impacts your total Ideal Being you can begin to take action in the dimensions which are most important to you. Have fun reviewing your data and remember self-awareness is the
+                    first step towards personal empowerment.</p>
+
+                <p><strong>Important to note:</strong> Your TFL Graph will only reflect data findings on the dimensions that you have unlocked. In order to view complete data you must unlock all dimensions. Have fun unlocking each
+                    dimension.</p>
+
+                <p><strong>Instructions:</strong> Click on the <i class="fa fa-question-circle-o blue"></i> Icon at any time for instructions on how to use what is displayed on your dashboard.</p>
+
+
+                <div class="text-right">
+                    <button class="btn btn-primary" (click)="hide()">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

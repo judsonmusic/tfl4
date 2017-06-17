@@ -1,0 +1,60 @@
+<alert type="danger" *ngIf="message">
+  {{message}}
+</alert>
+<form name="myForm" class="form" #myForm="ngForm">
+  <p *ngIf="!loggedIn">Create your account below.</p>
+  <p *ngIf="loggedIn">You are logged in. Please check your account information...</p>
+  <div class="form-group">
+  <input class="form-control" type="text" name="firstName" [(ngModel)]="user.firstName" placeholder="First Name" required/>
+    </div>
+  <div class="form-group">
+  <input class="form-control" type="text" name="lastName" [(ngModel)]="user.lastName" placeholder="Last Name" required/>
+  </div>
+  <div class="form-group">
+    <input class="form-control" type="text" name="birthDate" [(ngModel)]="user.birthDate" placeholder="Birth Date (MM/DD/YYYY)" required [textMask]="{mask: mask}"/> <!--[textMask]="{mask: mask}" -->
+  </div>
+  <div class="form-group">
+    <input class="form-control" type="text" name="phone" [(ngModel)]="user.phone"  placeholder="Phone Number (999) 999-9999" required [textMask]="{mask: maskPhone}"/><!--[textMask]="{mask: maskPhone}"-->
+  </div>
+  <div class="form-group">
+    <input tabindex="4" type="radio" id="1" name="gender" value="1"/>
+    <label [attr.for]="1"><span></span>Male</label>
+    <input tabindex="5" type="radio" id="2" name="gender" value="0"/>
+    <label [attr.for]="2"><span></span>Female</label>
+  </div>
+  <div class="form-group">
+  <input class="form-control" type="text" name="email" [(ngModel)]="user.email" placeholder="Email" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"/>
+  </div>
+  <div class="form-group">
+  <input class="form-control" type="password" name="password" [(ngModel)]="user.password" placeholder="Password" required/>
+  </div>
+
+  <div class="form-group">
+  <select class="form-control" required [(ngModel)]="user.occupation" name="occupation">
+    <option value="" selected>Primary Occupation</option>
+    <option *ngFor="let p of occupations" [value]="p.id">{{p.value}}</option>
+  </select>
+    </div>
+
+  <div class="form-group">
+    <select class="form-control" required [(ngModel)]="user.education" name="education">
+      <option value="" selected>Education Level</option>
+      <option *ngFor="let p of education" [value]="p.id">{{p.value}}</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <select class="form-control" required [(ngModel)]="user.hear" name="hear">
+      <option value="" selected>How did you hear about us?</option>
+      <option *ngFor="let p of hear" [value]="p.id">{{p.value}}</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+  <button class="btn btn-primary"  type="submit" *ngIf="loggedIn" (click)="updateAccount(user)" [disabled]="!myForm.form.valid">Update Account</button>
+  </div>
+  <div class="form-group">
+  <button class="btn btn-primary" type="submit" *ngIf="!loggedIn" (click)="addAccount(user)" [disabled]="!myForm.form.valid">Create Account</button>
+  </div>
+</form>
+

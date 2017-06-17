@@ -1,0 +1,105 @@
+<!-- Large modal -->
+
+
+<div bsModal #childModal="bs-modal" #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+               <!-- <button type="button" class="close" (click)="lgModal.hide()" aria-label="Close" style="color: white; opacity: 10; text-shadow: none; font-size: 36px; font-weight: normal;">
+                    <span aria-hidden="true" style="opacity: 10;">&times;</span>
+                </button>-->
+                <h4 class="modal-title">TFL Instructions at a Glance</h4>
+            </div>
+
+
+            <div class="modal-body">
+
+                <p><strong>How do I navigate my Train For Life (TFL) Assessment?:</strong> Use the TFL Assessment Steps on your dashboard to help you complete all 5 steps of the assessment process. </p>
+
+                <p><strong>How can I activate my toolkit?:</strong> By unlocking and answered the questions associated with the dimensions that you reported you were neutral or unsatisfied.</p>
+
+                <p><strong>Your 15 TFL Dimensions will display on your dashboard in the following order:</strong></p>
+
+                <ul>
+                    <li>TFL Dimensions you are motivated to change</li>
+                    <li>TFL Dimensions you are not motivated to take action</li>
+                    <li>TFL Dimensions that you are satisfied</li>
+                </ul>
+
+                <p><strong>TFL Tool Kit?:</strong></p>
+                <ul>
+                    <li>Click the <i class="fa fa-star orange"></i> Icon to reveal the dimensions in which you are motivated to take action.</li>
+                    <li>Click the <i class="fa fa-bar-chart blue"></i> Icon and view how you rated all 15 dimensions at a glance. In order to view data in each dimension, you must unlock it first.</li>
+                    <li>Click the <i class="fa fa-file-pdf-o red"></i> to view your comprehensive TFL Empowerment Guide, which gives you information on all 15 dimensions.</li>
+                    <li>Your overall Ideal Being Score: Reflects your overall satisfaction score based on all 15 dimensions.</li>
+                    <li>Stress Gauge: Your <strong class="blue">stress</strong> gauge reflects the level of stress you feel associated with each dimension. 20% reflects low satisfaction and 100% reflects high satisfaction.</li>
+                </ul>
+
+                <p><strong>What is my overall Ideal Being Score?</strong> Reflects your overall satisfaction score based on all 15 dimensions. 20% reflects low satisfaction and 100% reflects high satisfaction.</p>
+
+                <p><strong>How can I ensure I can view all of my data and TFL Action Plans.</strong></p>
+                <ul>
+                    <li>You must unlock each dimension before you can view your data.</li>
+                    <li>Your TFL Empowerment Guide will only reflect TFL Action Plans and data findings in the dimensions that you have unlocked. In order to access the entire TFL Empowerment Guide, you must unlock all dimensions.</li>
+                </ul>
+
+                <p><strong>What is the TFL chart?:</strong> It is an interactive chart that will provide you a comprehensive overview of how you ranked yourself in all of the dimensions of your life that you have unlocked. Each bar on the
+                    chart is color coded and represents the following:</p>
+                <ul style="margin-left: 50px; list-style: none;">
+                    <li>
+                        <div class="swatch swatch-blue"></div>
+                        How <strong class="blue">important</strong> the dimension is to you
+                    </li>
+                    <li>
+                        <div class="swatch swatch-yellow"></div>
+                        How the dimension impacts your <strong class="yellow">happiness</strong></li>
+                    <li>
+                        <div class="swatch swatch-green"></div>
+                        How the dimension impacts your work <strong class="green">performance</strong></li>
+                    <li>
+                        <div class="swatch swatch-red"></div>
+                        How <strong class="red">satisfied</strong> you are with the dimension
+                    </li>
+                    <li>
+                        <div class="swatch swatch-orange"></div>
+                        How <strong class="orange">actively</strong> you are working to improve and/or maintain the dimension
+                    </li>
+                    <li>
+                        <div class="swatch swatch-light-blue"></div>
+                        How <strong class="light-blue">motivated</strong> you are to improve and/or maintain the dimension
+                    </li>
+                </ul>
+
+
+                <p><strong>Your TFL Chart:</strong> Reflects how you responded to the above questions in the first 15 assessment questions and the bars populate your responses from a low of 20 to a high of 100. Your TFL chart will only
+                    reflect data findings in the dimensions that you have unlocked.
+                </p>
+
+                <p><strong>How does my TFL chart work?:</strong> You can suppress and populate each bar on the chart by clicking and unclicking the words below the chart: <strong class="blue">Importance</strong>, <strong class="yellow">Happiness</strong>,
+                    <strong class="green">Performance</strong>, <strong class="red">Satisfaction</strong>, <strong class="orange">Action</strong>, and <strong class="light-blue">Motivation</strong>. This interactive view will allow you to
+                    compare and contrast each dimension you have unlocked in all 6 areas.</p>
+
+                <p><strong>Your Ideal Being Score:</strong> Reflects how you ranked your level of satisfaction in each dimension.</p>
+                <p><strong>Stress Gauge:</strong> Your <strong class="blue">stress</strong> gauge reflects the level of stress you feel associated with each dimension. 20% reflects low satisfaction and 100% reflects high satisfaction.</p>
+                <p><strong>Your overall Ideal Being Score:</strong> Reflects your overall satisfaction score based on all 15 dimensions.</p>
+                <p><strong>Your TFL Action Plan:</strong> Once you unlock each dimension you will have access to dimension specific information, tools and resources designed to help you develop an action plan to improve your level of satisfaction.</p>
+
+                <p><strong>Disclaimer:</strong> The information covered in your TFL Action Plans are suggested recommendations only, so please consult your primary care physician if you need professional medical help.  </p>
+
+                <p><strong>What is the TFL Empowerment Guide?:</strong> It is a guide book with tools and resources designed to help you create an action plan to improve your Ideal Being in each dimension. It will also include all data and TFL Action Plans on the dimensions you have unlocked.</p>
+
+                <p><strong>How can I print my TFL Empowerment Guide?:</strong> Click the <i class="fa fa-print"></i> icon in the top right hand corner of your screen.</p>
+
+                <p><strong>How do I log back into the TFL Assessment site: </strong> Log back in by going to www.trainforlife.com and signing in as an existing user.</p>
+
+                <div class="text-right">
+                    <button class="btn btn-primary" (click)="hide()">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--<button id="openModalButton" class="btn btn-primary" (click)="lgModal.show()">Large modal</button>-->
+

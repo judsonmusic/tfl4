@@ -1,0 +1,29 @@
+<h1>Take Action! <i class="fa fa-question-circle-o blue" (click)="h.show()"></i></h1>
+<hr/>
+<!--<div class="row">-->
+<!--<div class="col-md-12"><bar-chart selector="chart_dashboard" heading="Your 15 TFL Dimensions" [seriesdata]="seriesdata" [categories]="categories"></bar-chart></div>-->
+<!--</div>-->
+<div class="row" *ngIf="assessmentData.length > 0">
+  <div *ngFor="let i of areas" class="col-sm-12 col-md-12 col-lg-6">
+    <div class="row" style="border: 1px solid grey; margin: 30px 0 0 0; padding-bottom: 20px;">
+     <div class="col-sm-4 col-md-5" >
+        <apple-chart selector="{{i.category}}" heading="{{i.category}}" [seriesdata]="assessmentData[i.id-1].subs"></apple-chart>
+      </div>
+      <div class="col-sm-8 col-md-7">
+        <h3>This items title the area.</h3>
+
+        <p>Some paragraph about this item. Some paragraph about this item. Some paragraph about this item. Some paragraph about this item. Some paragraph about this item. Some paragraph about this item. Some paragraph about this item. Some paragraph about this item. Some paragraph about this item. Some paragraph about this item. Some paragraph about this item. Some paragraph about this item. Some paragraph about this item. </p>
+
+        <div class="text-right">
+          <button class="btn btn-primary" (click)="goToDimension(i.id)">Learn More!</button>
+        </div>
+      </div>
+
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</div>
+
+
+
+
