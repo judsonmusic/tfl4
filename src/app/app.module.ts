@@ -2,6 +2,7 @@ import { AuthGuard } from './components/auth/auth-guard.service';
 import { AuthService } from './components/auth/auth.service';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { UtilitiesModule } from './utilities/utilities.module';
+import { UtilitiesService } from './utilities/utilities.component';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -110,6 +111,7 @@ import {TextMaskModule} from 'angular2-text-mask'
 
   ],
   providers: [
+    UtilitiesService,
     AuthService,
     UserService,
     AuthGuard,
