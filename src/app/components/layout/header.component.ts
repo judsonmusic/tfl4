@@ -1,3 +1,4 @@
+import { AuthService } from './../auth/auth.service';
 import {Component, ViewChild, ElementRef, AfterViewInit} from '@angular/core';
 import {UserService} from "../user-service/user.service";
 declare var jQuery: any;
@@ -10,12 +11,20 @@ declare var System: any;
 export class HeaderComponent implements AfterViewInit {
 
     public isAdmin: boolean;
+    public loggedIn;
 
-    constructor(private userService: UserService) {
+    constructor(private userService: UserService, public authService: AuthService) {
 
         this.userService = userService;
 
         this.isAdmin = false;
+
+        this.userService.loggedIn$.subscribe((res)=>{
+            console.log('Logged In', res);
+
+            this.loggedIn = res;
+
+        })
 
         this.userService.user$.subscribe((user) => {
 

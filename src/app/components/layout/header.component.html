@@ -1,25 +1,28 @@
 <nav class="navbar navbar-default">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+      aria-expanded="false">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" routerLink="/" style="padding: 0"><img src="assets/images/logo-eha-mini.png" style="max-height: 100%"/></a>
-    </div>
+    <a class="navbar-brand" routerLink="/" style="padding: 0"><img src="assets/images/logo-eha-mini.png" style="max-height: 100%"/></a>
+  </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" #hoversafe>
-      <ul class="nav navbar-nav">
-        <li class=""><a class="nav-link" routerLink="/about">About</a></li>
-        <li class=""><a class="nav-link" routerLink="/dashboard">TFL Dashboard <span class="sr-only">(current)</span></a></li>
-        <li class=""><a class="nav-link" routerLink="/assessment">TFL Assessment <span class="sr-only">(current)</span></a></li>
-          <li class=""><a class="nav-link" routerLink="/admin" *ngIf="isAdmin">Admin Portal<span class="sr-only">(current)</span></a></li>
-        <!--<li class=""><a class="nav-link" routerLink="/resources">Resources <span class="sr-only">(current)</span></a></li>-->
-        <li class=""><a class="nav-link" routerLink="/logout">Logout <span class="sr-only">(current)</span></a></li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" #hoversafe>
+    <ul class="nav navbar-nav">
+      <li class=""><a class="nav-link" routerLink="/">Home</a></li>
+      <li class=""><a class="nav-link" routerLink="/about">About</a></li>
+      <li class="" *ngIf="loggedIn"><a class="nav-link" routerLink="/dashboard">TFL Dashboard <span class="sr-only">(current)</span></a></li>
+      <li class=""><a class="nav-link" routerLink="/assessment">TFL Assessment <span class="sr-only">(current)</span></a></li>
+      <li class="" *ngIf="loggedIn && isAdmin"><a class="nav-link" routerLink="/admin">Admin Portal<span class="sr-only">(current)</span></a></li>
+      <!--<li class=""><a class="nav-link" routerLink="/resources">Resources <span class="sr-only">(current)</span></a></li>-->
+      <li class="" *ngIf="loggedIn"><a class="nav-link" routerLink="/logout">Logout <span class="sr-only">(current)</span></a></li>
+    </ul>
+  </div>
+  <!-- /.navbar-collapse -->
 
 </nav>

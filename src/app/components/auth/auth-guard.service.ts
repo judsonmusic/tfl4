@@ -29,14 +29,14 @@ export class AuthGuard implements CanActivate {
         }else{
           console.log('Validation Failed.');
           sessionStorage.clear();
-          this.router.navigate(['/login']);
+          this.router.navigate(['/']);
           return false;
         }
 
 
       }, (error) => {
         console.log('There was an error.');
-        this.router.navigate(['/login']);
+        this.router.navigate(['/']);
         return false
 
       });

@@ -31,7 +31,7 @@ export class UserService{
 
   getUser(){
 
-    console.log('USER SERVICE: get user...');
+    //console.log('USER SERVICE: get user...');
 
       let headers = new Headers();
       //headers.append('Content-Type', 'application/json');
@@ -44,13 +44,14 @@ export class UserService{
         .map((res) => {
 
           if(!res._id){
-            console.log('***THERE WAS AN ERROR!');
+            //console.log('***THERE WAS AN ERROR!');
             this.authService.isLoggedIn = false;
+            this.loggedIn.next(false);
+            this.userData = null;
 
           }else {
-            console.log('USER SERVICE: user was found.');
-            this.authService.isLoggedIn = true;
-            
+            //console.log('USER SERVICE: user was found.');
+            this.authService.isLoggedIn = true;            
             this.loggedIn.next(true);
             this.userData = res;
             this.user.next(res);
