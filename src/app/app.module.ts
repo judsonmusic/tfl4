@@ -1,13 +1,12 @@
 import { AuthGuard } from './components/auth/auth-guard.service';
 import { AuthService } from './components/auth/auth.service';
 import { AppRoutingModule } from './app-routing/app-routing.module';
-import { UtilitiesService } from './utilities/utilities.component';
+import { UtilitiesModule } from './utilities/utilities.module';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { Ng2BootstrapModule, ModalModule, TooltipModule } from 'ngx-bootstrap';
 import { HttpModule } from '@angular/http';
-
 import { AboutComponent } from './components/about/about.component';
 import { UserService } from "./components/user-service/user.service";
 import { LoginComponent } from "./components/login/login.component";
@@ -29,6 +28,7 @@ import { HeaderComponent } from "./components/layout/header.component";
 import { RouterModule } from "@angular/router";
 import { UserComponent } from "./components/user/user.component";
 import { MyFilterPipe } from "./components/pipes/filter.pipe";
+import { TitleCasePipe } from "./components/pipes/titlecase.pipe";
 import { ModalSurveyComponent } from "./components/modals/modalSurveyComponent";
 import { ModalTFLGuideComponent } from "./components/modals/modalTFLGuideComponent";
 import { ModalYourResultsComponent } from "./components/modals/modalYourResultsComponent";
@@ -73,6 +73,7 @@ import {TextMaskModule} from 'angular2-text-mask'
     HeaderComponent,
     UserComponent,
     MyFilterPipe,
+    TitleCasePipe,
     ModalSurveyComponent,
     ModalTFLChartComponent,
     ModalTFLGuideComponent,
@@ -98,6 +99,7 @@ import {TextMaskModule} from 'angular2-text-mask'
     FormsModule,
     Ng2BootstrapModule,
     TextMaskModule,
+    UtilitiesModule,
     RouterModule,
     HttpModule,
     AppRoutingModule,
@@ -108,7 +110,6 @@ import {TextMaskModule} from 'angular2-text-mask'
 
   ],
   providers: [
-    UtilitiesService,
     AuthService,
     UserService,
     AuthGuard,
