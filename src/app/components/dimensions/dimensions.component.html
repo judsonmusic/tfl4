@@ -17,7 +17,7 @@
       <p style="padding: 20px; font-size: 18px;" class="red text-center">
         Unlock this dimension in order to view your data and TFL Action Plan. <a (click)="goToDimension(dimension.id)"><i class="fa fa-unlock-alt green" aria-hidden="true" style="cursor: pointer"></i> Click here to unlock this dimension!</a></p>
     </div>
-    <hr/>
+    <hr>
 
     <!--{{answerData | json}}<br>-->
     <!--<div *ngIf="answerData">-->
@@ -113,11 +113,11 @@
           <div class="panel-body">
             <div class="row">
               <div class="col-md-8">
-                <p style="font-size: 20px;">The World Health Organization calls stress &quot;the health epidemic of our time&quot;.</p>
+                <p style="font-size: 16px;">The World Health Organization calls stress &quot;the health epidemic of our time&quot;.</p>
 
-                <p style="font-size: 18px;"><strong>Stress Gauge:</strong> Your gauge reflects the level of stress you feel associated with each dimension.
+                <p style="font-size: 14px;"><strong>Stress Gauge:</strong> Your gauge reflects the level of stress you feel associated with each dimension.
                   20% reflects low stress and 100% reflects high stress.</p>
-                <p style="font-size: 18px;">You indicated a <strong>{{data.account.dimensions[dimension.id-1].stressLevel}}%</strong> stress level for
+                <p style="font-size: 14px;">You indicated a <strong>{{data.account.dimensions[dimension.id-1].stressLevel}}%</strong> stress level for
                   this dimension.</p>
                 <p><button class="btn btn-primary" (click)="goToStress()">Stress Management TFL Action Plan</button></p>
               </div>

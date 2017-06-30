@@ -81,11 +81,11 @@
                             <button style="font-size: 20px;" tooltip="Reflects your overall satisfaction score based on all 15 dimensions" placement="bottom" triggers="hover" [isDisabled]="false" class="btn btn-primary bg-blue">Ideal Being Score is {{overAllScore}}
                             </button>
                         </div>
-                       <!-- <div class="col-md-6 text-center"  *ngIf="overAllStressScore">
+                       <!--<div class="col-md-6 text-center"  *ngIf="overAllStressScore">
                             <button style="font-size: 20px;" tooltip="Reflects your overall stress level score based on all 15 dimensions" placement="bottom" triggers="hover" [isDisabled]="false" class="btn btn-primary bg-blue">Stress Score is {{overAllStressScore}}
-                            </button>-->
+                            </button>
 
-                        </div>
+                        </div>-->
                     </div>
                 </div>
             </div>
@@ -127,12 +127,12 @@
         <div class="panel-heading"><h3 class="green">{{notGood.length}} TFL Dimensions:
             <span style="color:#666666">You reported neutral or not satisfied.<span *ngIf="!dataCheckPassed"> Unlock your dimensions now!</span><span *ngIf="dataCheckPassed"> Click <i class="fa fa-star orange"></i> to reveal your results!</span></span></h3></div>
         <div class="panel-body">
-            <!---THESE AREAS WERE REPORTED NOT GOOD--->
+            <!---THESE AREAS WERE REPORTED NOT GOOD-->
 
             <div class="row">
                 <div *ngIf="notGood.length === 0">
                     <p>
-                        <strong>Congratulations!!!</strong> You are satisfied in all dimensions of your life. However, we challenge you to take a deeper dive into the dimensions that interest you. <strong>You must unlock your satisfied dimensions to reveal more results.</strong> Once you unlock each dimension you will be given immediate access to a TFL Action Plan which contains self-guided questions and exercises, tools and resources, TFL tips and more. Start unlocking now and stay empowered to maintain satisfaction in each dimension of your life.</p>
+                        <strong>Congratulations!!! </strong>You reported that you were satisfied in all dimensions of your life but we want to ensure you are thriving. We encourage you to take a deeper dive by <strong>unlocking the dimensions that interest you.</strong> You will be invited to answer additional questions and once you unlock each dimension you will be given immediate access to a TFL Action Plan which contains self-guided questions and exercises, tools and resources, TFL tips and more. Start unlocking now so you can stay empowered to reach your state of Ideal Being.</p>
                 </div>
                 <!--<div class="col-md-12" *ngIf="motivatedAreasNon.length > 0"><h4>All TFL Dimensions</h4><hr/></div>-->
                 <div *ngIf="notGood.length > 0">
@@ -149,9 +149,9 @@
 
 
     <div class="panel panel-default">
-        <div class="panel-heading"><h3 class="green">{{allGood.length}} TFL Dimensions: <span style="color:#666666">You are Satisfied. Unlock your dimensions now!</span></h3></div>
+        <div class="panel-heading"><h3 class="green">{{allGood.length}} TFL Dimensions: <span style="color:#666666">You are satisfied. Unlock your dimensions now!</span></h3></div>
         <div class="panel-body">
-            <!---THESE AREAS WERE REPORTED GOOD--->
+            <!---THESE AREAS WERE REPORTED GOOD-->
             <div class="row">
                 <div class="col-md-12">
                     <p> Although you reported satisfaction in the below dimensions we encourage you to unlock the one’s that interest you. You will be invited to answer additional questions and you will have immediate access to a TFL Action Plan which contains self-guided
