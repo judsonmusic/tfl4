@@ -4,6 +4,7 @@ var Schema       = mongoose.Schema;
 
 var date = new Date();
 var AccountSchema   = new Schema({
+    companyCode: String,
     firstName: String,
     lastName: String,
     phone: String,

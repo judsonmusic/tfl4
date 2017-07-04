@@ -5,6 +5,9 @@
   <p *ngIf="!loggedIn">Create your account below.</p>
   <p *ngIf="loggedIn">You are logged in. Please check your account information...</p>
   <div class="form-group">
+  <input class="form-control" type="text" name="companyCode" [(ngModel)]="user.companyCode" placeholder="Company Code" required/>
+    </div>
+  <div class="form-group">
   <input class="form-control" type="text" name="firstName" [(ngModel)]="user.firstName" placeholder="First Name" required/>
     </div>
   <div class="form-group">

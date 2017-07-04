@@ -16,7 +16,10 @@ var app = express();
 var bcrypt = require('bcrypt-nodejs');
 var cors = require("cors");
 
-mongoose.connect(config.database);
+mongoose.connect(config.database, function(err, res){
+
+    console.log(err, res);
+});
 app.set('superSecret', config.secret);
 
 // use body parser so we can get info from POST and/or URL parameters
@@ -281,6 +284,7 @@ router.route('/accounts')
         //console.log('Create New Account: ', req.body);
         var account = new Account();      // create a new instance of the Bear model
         //console.log(account);
+        account.companyCode = req.body.companyCode;
         account.firstName = req.body.firstName;
         account.lastName = req.body.lastName;
         account.email = req.body.email;
@@ -319,6 +323,7 @@ router.route('/accounts')
                     res.end();
 
                 } else {
+
 
                     bcrypt.hash(account.password, null, null, function (err, hash) {
                         //bcrypt.hash(account.password, saltRounds, function (err, hash) {//old bcrypt
@@ -388,7 +393,7 @@ router.route('/accounts/:account_id')
 
             if (err)
                 return res.send(err);
-
+            account.companyCode = req.body.companyCode;
             account.firstName = req.body.firstName;
             account.lastName = req.body.lastName;
             account.email = req.body.email;
@@ -448,7 +453,7 @@ app.use('/api', router);
 var a = ['*', '!/api'];
 //all get requests resolve to index.
 app.get('*', (req, res) => {
-    console.log('THE URL WE ARE TRYING TO GET IS:', req.url, path.join(__dirname, 'dist/index.html'));
+    //console.log('THE URL WE ARE TRYING TO GET IS:', req.url, path.join(__dirname, 'dist/index.html'));
   res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
 
@@ -458,7 +463,7 @@ if ('development' === app.get('env')) {
 }
 
 http.createServer(app).listen(app.get('port'), function () {
-    open("http://localhost:" + app.get('port'));
+    //open("http://localhost:" + app.get('port'));
    console.log('myApp server listening on port ' + app.get('port'));
 });
 /**END SERVER*************************************/
