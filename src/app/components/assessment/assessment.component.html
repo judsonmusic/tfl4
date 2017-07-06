@@ -1,4 +1,5 @@
 <div class="container">
+    {{data.account.assessment | json}}
     <div *ngIf="assessmentComplete">
         <div class="row">
             <div class="col-xs-4 col-sm-4 col-md-4">
@@ -113,7 +114,7 @@
                         <!--answers-->
                         <div class="answers" *ngIf="!data.account.assessment[q.id-1].answer">
                             <div class="assessment-radio-wrapper" *ngFor="let a of answers">
-                                <input type="radio" id="{{q.id}}_{{a.id}}" name="assessment_{{q.category}}" [value]="a.id" [(ngModel)]="data.account.assessment[q.id-1].answer" (change)="updateSubs(a.id, data.account.assessment[q.id-1])"/> {{a.id}}
+                                <input type="radio" id="{{q.id}}_{{a.id}}" name="assessment_{{q.category}}" [value]="a.id" [(ngModel)]="data.account.assessment[q.id-1].answer" (click)="updateSubs($event, a.id, data.account.assessment[q.id-1])"/> {{a.id}}
                                 <label [attr.for]="q.id + '_' + a.id"><span></span>{{a.value}}</label>
                             </div>
                         </div>

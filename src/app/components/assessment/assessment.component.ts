@@ -1,44 +1,44 @@
-import{Component, OnInit, ViewChild, Renderer} from '@angular/core';
-import {Router} from '@angular/router';
-import {UserService} from "../user-service/user.service";
-import {AuthService} from "../auth/auth.service";
-import {AssessmentService} from "../assessment/assessment.service";
-import {ModalDirective} from 'ngx-bootstrap';
-declare var System:any;
+import { Component, OnInit, ViewChild, Renderer } from '@angular/core';
+import { Router } from '@angular/router';
+import { UserService } from "../user-service/user.service";
+import { AuthService } from "../auth/auth.service";
+import { AssessmentService } from "../assessment/assessment.service";
+import { ModalDirective } from 'ngx-bootstrap';
+declare var System: any;
 @Component({
   templateUrl: 'assessment.component.html',
 })
 export class AssessmentComponent implements OnInit {
 
 
-  @ViewChild('g') public g:ModalDirective;
+  @ViewChild('g') public g: ModalDirective;
 
-  public data:any;
+  public data: any;
   public count = 0;
-  public answers:any;
-  public questions:any;
-  public subquestions:any;
+  public answers: any;
+  public questions: any;
+  public subquestions: any;
   public user: any[];
   public Math: any;
   public assessmentComplete: boolean;
 
-  ngOnInit(){
+  ngOnInit() {
     //console.log(this.userService.userData, this.data.account);
     this.data.account = this.userService.userData || this.data.account;
     //console.log('@@@@@SURVEY INIT!', this.data.account);
-      this.userService.user$.subscribe((userData) => {
-        this.data.account = userData;
-        console.log('ACCOUNT INFORMATION ADDED!', this.data.account);
-        this.checkComplete();
+    this.userService.user$.subscribe((userData) => {
+      this.data.account = userData;
+      console.log('ACCOUNT INFORMATION ADDED!', this.data.account);
+      this.checkComplete();
 
-      });
+    });
 
     this.checkComplete();
 
 
   }
 
-  constructor(private router:Router, public userService: UserService, public authService: AuthService, public assessmentService: AssessmentService, private renderer: Renderer) {
+  constructor(private router: Router, public userService: UserService, public authService: AuthService, public assessmentService: AssessmentService, private renderer: Renderer) {
 
 
     this.authService.redirectUrl = '/assessment';
@@ -63,7 +63,7 @@ export class AssessmentComponent implements OnInit {
 
     this.count = 1;
   }
-  save(){
+  save() {
 
     //console.log('Saving Your Data!');
     //we need to add the assessment data to the account so it will get stored in use data;
@@ -75,13 +75,16 @@ export class AssessmentComponent implements OnInit {
 
   }
 
-  updateSubs(value, assessmentIndex){
+  updateSubs(ev, value, assessmentIndex) {
+    ev.stopPropagation()
     //we are using the 2nd value in the array to store satisfaction.
-    assessmentIndex.subs = [null, (value*20), null, null, null, null];
+    assessmentIndex.subs = [null, (value * 20), null, null, null, null];
 
   }
 
   counterUp() {
+
+    this.assessmentComplete = false;
 
     if (this.count < this.questions.length) {
 
@@ -96,6 +99,8 @@ export class AssessmentComponent implements OnInit {
 
   counterDown() {
 
+    this.assessmentComplete = false;
+
     if (this.count > 1 && this.count <= this.questions.length) {
 
       this.count--;
@@ -108,48 +113,53 @@ export class AssessmentComponent implements OnInit {
   }//end counter
 
   finish(ev) {
-
     ev.preventDefault();
     ev.stopPropagation();
+    this.assessmentComplete = true;
+    this.userService.updateAccount(this.data.account).subscribe((res) => {
 
-    this.g.onShow.subscribe((hidden)=> {
-
-      //console.log('The modal us showig!');
-
-    });
+      this.g.onShow.subscribe((hidden) => {
+        //console.log('The modal us showig!');
+      });
 
 
-    this.g.show();
+      this.g.show();
 
-    this.g.onHide.subscribe((hidden)=>{
+      this.g.onHide.subscribe((hidden) => {
+        //console.log('The modal us hidden!');
+        //this.save();      
+        this.router.navigate(['dashboard']);
+      });
 
-      //console.log('The modal us hidden!');
-      this.save();
-      this.router.navigate(['dashboard']);
-    });
+
+
+    }, (err) => console.log('There was an error!'));
+
+
+
   }
 
-  checkComplete(){
+  checkComplete() {
 
     console.log('Check completetion!');
     let tempComplete = [];
-    this.data.account.assessment.map((item)=>{
+    this.data.account.assessment.map((item) => {
 
-      if(item.answer != "") {
+      if (item.answer != "") {
         tempComplete.push(true);
 
-      }else{
+      } else {
 
         tempComplete.push(false);
       }
 
     });
 
-    if(tempComplete.indexOf(false) > -1){
+    if (tempComplete.indexOf(false) > -1) {
 
       this.assessmentComplete = false;
 
-    }else{
+    } else {
 
       this.assessmentComplete = true;
     }
