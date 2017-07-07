@@ -74,9 +74,10 @@ export class AssessmentComponent implements OnInit {
     }, (err) => console.log('There was an error!'));
 
   }
-
+  //she (terrie) wants to use the data from the satisfied option from the assessment for this..
   updateSubs(ev, value, assessmentIndex) {
-    ev.stopPropagation()
+    console.log('THIS IS A TEST: ' , ev,value,assessmentIndex,assessmentIndex.subs)
+    //ev.stopPropagation()
     //we are using the 2nd value in the array to store satisfaction.
     assessmentIndex.subs = [null, (value * 20), null, null, null, null];
 
@@ -165,6 +166,11 @@ export class AssessmentComponent implements OnInit {
     }
 
     console.log(tempComplete);
+  }
+
+  doSomething(){
+
+    console.log('Clicked!');
   }
 
 

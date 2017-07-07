@@ -24,7 +24,6 @@
     <!--{{answerData.subs.indexOf('null')}}<br>-->
     <!--{{answerData.subs.length}} {{subquestions.length}}<br>-->
     <!--</div>-->
-
     <div class="sub-assessment" *ngIf="!datamode && !answerConfirmed && !guidemode">
       <div class="row">
         <div class="col-md-8">
@@ -35,23 +34,29 @@
             5 = strongly agree</p>
 
           <ol>
-            <li *ngFor="let s of subquestions; let i = index" [hidden]="i == 1">
-              
-
+            <li *ngFor="let s of subquestions; let i = index" [hidden]="i == 1"> <!--this is somehow affecting out answers-->     
               <p class="sub-question">{{s.question}}</p>
               <div class="assessment-radio-wrapper-subs">
                 <input type="radio" id="{{dimension.id}}_sub_{{s.id}}_1" name="assessment_sub_{{s.id}}_{{dimension.category}}" [value]="20"
                   [(ngModel)]="answerData.subs[s.id-1]" (change)="checkScroll()" />
                 <label [attr.for]="dimension.id + '_sub_' + s.id + '_1'"><span></span>1</label>
+
+
                 <input type="radio" id="{{dimension.id}}_sub_{{s.id}}_2" name="assessment_sub_{{s.id}}_{{dimension.category}}" [value]="40"
                   [(ngModel)]="answerData.subs[s.id-1]" (change)="checkScroll()" />
                 <label [attr.for]="dimension.id + '_sub_' + s.id + '_2'"><span></span>2</label>
+
+
                 <input type="radio" id="{{dimension.id}}_sub_{{s.id}}_3" name="assessment_sub_{{s.id}}_{{dimension.category}}" [value]="60"
                   [(ngModel)]="answerData.subs[s.id-1]" (change)="checkScroll()" />
                 <label [attr.for]="dimension.id + '_sub_' + s.id + '_3'"><span></span>3</label>
+
+
                 <input type="radio" id="{{dimension.id}}_sub_{{s.id}}_4" name="assessment_sub_{{s.id}}_{{dimension.category}}" [value]="80"
                   [(ngModel)]="answerData.subs[s.id-1]" (change)="checkScroll()" />
                 <label [attr.for]="dimension.id + '_sub_' + s.id + '_4'"><span></span>4</label>
+
+
                 <input type="radio" id="{{dimension.id}}_sub_{{s.id}}_5" name="assessment_sub_{{s.id}}_{{dimension.category}}" [value]="100"
                   [(ngModel)]="answerData.subs[s.id-1]" (change)="checkScroll()" />
                 <label [attr.for]="dimension.id + '_sub_' + s.id + '_5'"><span></span>5</label>
@@ -60,7 +65,7 @@
 
             </li>
             <li>
-
+                <!--this one does not affect subs at all..-->
               <p class="sub-question">This dimension is causing stress in my life. {{answerData.stressLevel}}</p>
               <div class="assessment-radio-wrapper-subs">
                 <input type="radio" id="stressLevel_{{dimension.category}}_0" name="stressLevel_{{dimension.category}}" [value]="20" [(ngModel)]="data.account.dimensions[dimension.id-1].stressLevel"
