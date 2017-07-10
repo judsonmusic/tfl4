@@ -19,7 +19,7 @@ import {AdminComponent} from "./../components/admin/admin.component";
 import {StressPage} from "./../components/pages/stress";
 import {ContractComponent} from "./../components/contract/contract.component";
 
-const routes:Routes = [
+var routes:Routes = [
   { path: '', component: HomeComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'action', component: ActionComponent, canActivate: [AuthGuard]},
