@@ -55,7 +55,7 @@ router.get('/', function(req, res) {
 // route to authenticate a user (POST http://localhost:8080/api/authenticate)
 router.post('/authenticate', function (req, res) {
 
-    console.log(req.body.password);
+    //console.log(req.body.password);
 
     // find the user
     Account.find({
@@ -73,7 +73,7 @@ router.post('/authenticate', function (req, res) {
             //we need the actual plain password for comparison...
             bcrypt.compare(req.body.password, account[0].password, function (err, res1) {                
                 
-                console.log('bCrypt response: ', err, res1);
+                //console.log('bCrypt response: ', err, res1);
 
                 if (res1) {
 
