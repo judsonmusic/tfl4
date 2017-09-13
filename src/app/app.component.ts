@@ -63,7 +63,7 @@ export class AppComponent implements OnInit {
       // see also
       window.scrollTo(0, 0);
     });
-
+   if (this.location.path() != '/' && this.location.path() != '') {
     this.userService.getUser().subscribe((user) => {      
 
       if (!user) {
@@ -88,6 +88,7 @@ export class AppComponent implements OnInit {
 
 
     });
+   }
 
   }
 }
