@@ -281,7 +281,8 @@ router.route('/accounts')
                         assessment: item.assessment,
                         survey: item.survey,
                         dimensions: item.dimensions,
-                        otherElements: item.otherElements
+                        otherElements: item.otherElements,
+                        steps: item.steps || []
                     })
 
 

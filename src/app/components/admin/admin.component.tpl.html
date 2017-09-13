@@ -4,10 +4,24 @@
     <div>Welcome to admin portal. Here is a list of all users:</div>
     <div>
         <table width="100%" class="table table-striped table-bordered">
-            <tr *ngFor="let user of users | orderBy : 'firstName'">
-                <td>{{user.firstName}} {{user.lastName}}</td>
-                <td><a href="javascript:void(0)" (click)="viewUser(user);">[View Stats]</a></td>
-            </tr>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Steps Completed</th>
+                    <th>Took Survey?</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users | orderBy : 'firstName'">
+                    <td>{{user.firstName}} {{user.lastName}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{checkSteps(user.steps)}}</td>
+                    <td>{{checkSurvey(user.survey) ? 'Yes!' : ''}}</td>
+                    <td><a href="javascript:void(0)" (click)="viewUser(user);">[View Stats]</a></td>
+                </tr>
+            </tbody>
         </table>
     </div>
 
