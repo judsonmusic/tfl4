@@ -16,7 +16,7 @@
           <p>Thank you for your feedback and we hope that you enjoyed your experience.</p>
           <p>Reaching a state of Ideal Being is possible so become your greatest advocate. YOU have the ability to transform the course of your life one dimension at a time.</p>
           <p>We value your feedback so feel free to provide any additional comments:
-              <textarea name="comments" class="form-control" (keyup)="updateSurvey($event, 101)" [value]="getSurveyAnswer(101)"></textarea>
+              <textarea name="comments" class="form-control" (keyup)="updateSurvey($event, 101, $event.target.value)" [value]="getSurveyAnswer(101)"></textarea>
 
           </p>
           <div class="text-right">
@@ -35,8 +35,8 @@
           <ol style="padding: 0;">
             <li *ngFor="let q of survey_questions | surveyFilter; let i = index;" class="" style="position:relative;">
               <div style="padding-bottom:15px;">{{q.question}}</div>
-              <div class="assessment-radio-wrapper" *ngFor="let a of survey_answers">
-                <input type="radio" id="{{q.id}}_{{a.id}}" name="survey_question_{{q.id}}" [value]="a.id" (change)="updateSurvey($event, q.id)" [(ngModel)]="userData.survey[i].answer"/> {{a.id}}
+              <div class="assessment-radio-wrapper" *ngFor="let a of survey_answers">               
+                <input type="radio" id="{{q.id}}_{{a.id}}" name="survey_question_{{q.id}}" [value]="a.id" (change)="updateSurvey($event, q.id, a.id)" [(ngModel)]="userData.survey[i].answer"/> {{a.id}}
                 <label [attr.for]="q.id + '_' + a.id"><span></span>{{a.value}}</label>
               </div>
             </li>

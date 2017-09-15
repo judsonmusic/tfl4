@@ -1,8 +1,8 @@
-import {Component, ViewChild, AfterViewInit, ElementRef,ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
-import {Router} from "@angular/router";
-import {ModalDirective} from 'ngx-bootstrap';
-import {UserService} from "../user-service/user.service";
-import {SurveyService} from "../survey/survey.service";
+import { Component, ViewChild, AfterViewInit, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Router } from "@angular/router";
+import { ModalDirective } from 'ngx-bootstrap';
+import { UserService } from "../user-service/user.service";
+import { SurveyService } from "../survey/survey.service";
 declare var System: any;
 
 //import $ from 'jquery/dist/jquery';
@@ -21,6 +21,7 @@ export class ModalSurveyComponent implements AfterViewInit {
     public survey_answers;
     public userData;
     public surveyComplete: boolean;
+    public surveySubmitted;
 
     constructor(public userService: UserService, public surveyService: SurveyService, private router: Router, public changeRef: ChangeDetectorRef) {
 
@@ -30,6 +31,7 @@ export class ModalSurveyComponent implements AfterViewInit {
         this.survey_questions = surveyService.questions;
         this.survey_answers = surveyService.answers;
         this.userData = userService.userData;
+        this.surveySubmitted = false;
         //this.surveyComplete = false;
         if (this.userData.survey.length <= 0) {
 
@@ -40,21 +42,21 @@ export class ModalSurveyComponent implements AfterViewInit {
 
     }
 
-    public checkComplete() {
+    checkComplete() {
+        this.surveyComplete = false;
         console.log('Checking to see if survey is complete...')
 
         //really need to chane this to use angularl elementRef
-
         //$('.modal.in').animate({scrollTop: $('.modal.in').scrollTop() + 50});
-
         //$('.modal.open').animate({ scrollTop: $('.modal').height() }, 'fast');
 
         let complete = [];
-        
 
-        this.userData.survey.map((item, index)=> {
+        this.userData.survey.map((item, index) => {
 
-            if (item.id == 101 || item.id == 100 || item.answer != "") {
+            console.log(item, index);
+
+            if ((item.id < 100 && item.answer != '') || item.id == 101) {
 
                 complete.push(true);
 
@@ -65,14 +67,16 @@ export class ModalSurveyComponent implements AfterViewInit {
             }
 
         });
+
+        console.log(complete, complete.length);
         //console.log(complete);
         this.surveyComplete = complete.indexOf(false) == -1;
         //this.changeRef.detectChanges(); //this is necessary to fix issue with change ref..
 
-        if (this.surveyComplete) {
+        if (this.surveyComplete && this.surveySubmitted) {
             //console.log('The survey is complete. Lets update the account', this.userData);
             this.userData.steps[5] = true;
-            this.userService.updateAccount(this.userData).subscribe((user)=> {
+            this.userService.updateAccount(this.userData).subscribe((user) => {
                 this.surveyService.surveyComplete = true;
                 sessionStorage.setItem('steps', this.userData.steps);
                 //console.log('Account updated with survey data!', user);
@@ -81,28 +85,31 @@ export class ModalSurveyComponent implements AfterViewInit {
         }
     }
 
-    public updateSurvey(ev, id) {
+    public updateSurvey(ev, id, value) {
 
         this.surveyComplete = true;
 
-        //console.log('Attempting to update', ev, id);
-
         let itemExists = false;
 
-        this.userData.survey.map((item, index)=> {
-
+        this.userData.survey.map((item, index) => {
+            
             if (item.id == id) {
+                console.log(item, id)
                 itemExists = true;
-                item.answer = ev.target.value;
+                item.answer = value;        
             }
         });
 
+        console.log(this.userData.survey);
+
         itemExists = false;
-        this.checkComplete();
+        if (id != 101) {
+            this.checkComplete();
+        }
     }
 
     getSurveyAnswer(id: number): string {
-        return this.userData.survey.find(s => s.id == id).answer;
+        return this.userData.survey.find(s => s.id == id).answer || '';
     }
 
     public show() {
@@ -125,6 +132,8 @@ export class ModalSurveyComponent implements AfterViewInit {
     }
 
     public completeSurvey() {
+        
+        this.surveySubmitted = true;
         this.checkComplete();
         this.lgModal.hide();
         //this.router.navigate(['tfl-guide']);

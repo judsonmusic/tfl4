@@ -15,6 +15,7 @@ var config = require('./config/config'); // get our config file
 var app = express();
 var bcrypt = require('bcrypt-nodejs');
 var cors = require("cors");
+var survey = require("./middleware/survey.api");
 
 mongoose.connect(config.database, function(err, res){
 
@@ -463,6 +464,7 @@ app.use(morgan('dev'));
 // serve up static assets
 app.use(express.static(path.join(__dirname, 'dist')));
 app.use('/api', router);
+app.use('/api/survey', survey);
 var a = ['*', '!/api'];
 //all get requests resolve to index.
 app.get('*', (req, res) => {

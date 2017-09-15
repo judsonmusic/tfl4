@@ -51,7 +51,8 @@ import { GaugeComponent } from "./components/charts/guage.component";
 import { StressPage } from "./components/pages/stress";
 import { OrderByPipe } from "./components/pipes/orderBy.pipe";
 import { ContractComponent } from "./components/contract/contract.component";
-import {TextMaskModule} from 'angular2-text-mask'
+import {TextMaskModule} from 'angular2-text-mask';
+import { SurveyComponent } from './components/survey/survey.component'
 
 
 
@@ -92,7 +93,8 @@ import {TextMaskModule} from 'angular2-text-mask'
     SurveyFilterPipe,
     StressPage,
     OrderByPipe,
-    ContractComponent
+    ContractComponent,
+    SurveyComponent
   ],
   entryComponents: [],
   imports: [

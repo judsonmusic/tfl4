@@ -58,7 +58,7 @@ export class DashboardComponent implements OnInit {
 
         //we added this to make sure we have data on page reload!
         this.userService.getUser().subscribe((user) => {
-            console.log('user data retrieved...');
+            //console.log('user data retrieved...');
             this.userData = user;
             this.assessmentData = this.userData.assessment;
             let temp = [];
@@ -117,7 +117,7 @@ export class DashboardComponent implements OnInit {
             }
 
         });
-        console.log(temp);
+        //console.log(temp);
         var sum = parseInt(temp.reduce((pv, cv) => pv + cv, 0).toString());
         var avg = Math.floor(((sum / temp.length) + 1) / 10) * 10;        
         this.overAllStressScore =  avg;
@@ -211,7 +211,7 @@ export class DashboardComponent implements OnInit {
 
     buildSeries() {
 
-        console.log('Bulding series...');
+        //console.log('Bulding series...');
 
         //console.log('Build Series');
         //temp 2 represents the 6 sub questions. for building the chart, we iterate through these on each dimension.
@@ -352,12 +352,12 @@ export class DashboardComponent implements OnInit {
             }
         });
 
-        console.log('BAD AREAS:', this.notGood);
+        //console.log('BAD AREAS:', this.notGood);
         //console.log('NON MOTIVATED AREAS:', this.NONmotivatedAreas);
 
         if (this.dataCheckPassed) {
             //they have completed everything...
-            console.log('The data check passed!');
+            //console.log('The data check passed!');
             this.userData.steps[1] = true;
             sessionStorage.setItem('steps', this.userData.steps);
             this.updateUser();
@@ -432,7 +432,7 @@ export class DashboardComponent implements OnInit {
             }
 
         });
-        console.log('Check Passed ', checkPassed);
+        //console.log('Check Passed ', checkPassed);
 
         return checkPassed;
 

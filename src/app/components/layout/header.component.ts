@@ -20,7 +20,7 @@ export class HeaderComponent implements AfterViewInit {
         this.isAdmin = false;
 
         this.userService.loggedIn$.subscribe((res)=>{
-            console.log('Logged In', res);
+            //console.log('Logged In', res);
 
             this.loggedIn = res;
 
