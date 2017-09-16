@@ -17,7 +17,7 @@
         <tr *ngFor="let q of surveyQuestions">
           <td>{{q.id}}. {{q.question}}</td>
            <td *ngFor="let a of surveyAnswers">
-            {{surveyData.stats && surveyData.stats[q.id] && surveyData.stats[q.id][a.id] ? surveyData.stats[q.id][a.id] : ''}}
+            {{surveyData.stats && surveyData.stats[q.id] && surveyData.stats[q.id][a.id] ? ((surveyData.stats[q.id][a.id]/surveyData.count) * 100).toFixed(2)+'%' : ''}}
           </td>
           </tr>
       </tbody>

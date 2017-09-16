@@ -9,8 +9,9 @@
         </div>
     </div>
     <hr>
-   
+
     <div>
+        <h2>Users</h2>
         <table width="100%" class="table table-striped table-bordered">
             <thead>
                 <tr>
@@ -21,13 +22,33 @@
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr *ngFor="let user of users | orderBy : 'firstName'">
+            <tbody *ngFor="let user of users | orderBy : 'firstName'">
+                <tr>
                     <td>{{user.firstName}} {{user.lastName}}</td>
                     <td>{{user.email}}</td>
                     <td>{{checkSteps(user.steps)}}</td>
                     <td>{{checkSurvey(user.survey) ? 'Yes!' : ''}}</td>
                     <td><a href="javascript:void(0)" (click)="viewUser(user);">[View Stats]</a></td>
+                </tr>
+                <tr *ngIf="currentUser && currentUser.email == user.email">
+                    <td colspan="5" style="background:lightgrey">                         
+                            <h3>Assessment Answers for {{user.firstName + " " + user.lastName}}</h3>
+                            <table width="100%" class="table table-striped table-bordered">
+                                <tr *ngFor="let item of user.assessment">
+                                    <td>{{item.questionValue}}</td>
+                                    <td>{{item.answerValue}}</td>
+                                </tr>
+                            </table>
+                            <hr>
+                            <h3>Survey Answers for {{user.firstName + " " + user.lastName}}</h3>
+                            <hr>
+                            <table width="100%" class="table table-striped table-bordered">
+                                <tr *ngFor="let item of user.survey">
+                                    <td>{{item.questionValue}}</td>
+                                    <td>{{item.answerValue}}</td>
+                                </tr>
+                            </table>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -35,24 +56,5 @@
 
     <hr>
 
-    <div *ngIf="user">
-        <h2>{{user.firstName}} {{user.lastName}}</h2>
-        <hr>
-        <h3>Assessment Answers</h3>
-        <table width="100%" class="table table-striped table-bordered">
-            <tr *ngFor="let item of user.assessment">
-                <td>{{item.questionValue}}</td>
-                <td>{{item.answerValue}}</td>
-            </tr>
-        </table>
-        <hr>
-        <h3>Survey Answers</h3>
-        <hr>
-        <table width="100%" class="table table-striped table-bordered">
-            <tr *ngFor="let item of user.survey">
-                <td>{{item.questionValue}}</td>
-                <td>{{item.answerValue}}</td>
-            </tr>
-        </table>
-    </div>
+
 </div>

@@ -12,7 +12,7 @@ export class AdminComponent implements OnInit {
 
 
     public users: any[];
-    public user: any[];
+    public currentUser: any[];
 
     constructor(private adminService: AdminService, private assessmentService: AssessmentService, private surveyService: SurveyService, public router: Router) {
 
@@ -96,7 +96,7 @@ export class AdminComponent implements OnInit {
  
                  }else{
  
-                     obj.answerValue = 'No answer Provided. [' + obj.answer + ']';
+                     obj.answerValue = 'No answer Provided.';// [' + obj.answer + ']';
                  }
  
              }else{
@@ -108,7 +108,7 @@ export class AdminComponent implements OnInit {
 
         });
 
-        this.user = user;
+        this.currentUser = user;
         //now that we have a user, we need to match the values to the assessment values for data.
 
     }
