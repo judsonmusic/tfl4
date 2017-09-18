@@ -54,7 +54,7 @@ router.route('/aggregate')
         var fixAnswer = function(a) {
             var b = a;
             if (a.toString().toLowerCase() == "on") {
-                console.log('Had to fix the answer...', a);
+                //console.log('Had to fix the answer...', a);
                 b = 5;
             }
             return b;
@@ -87,7 +87,7 @@ router.route('/aggregate')
                     });
                 });
 
-                console.log(surveys);
+                //console.log(surveys);
 
                 var somObj = {};
 

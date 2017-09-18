@@ -41,12 +41,23 @@ var Account = require('../models/account');
 
      .get(function (req, res) {
 
-        var checkAssessment = function(assessment){
-            return parseInt(assessment[0].answer) > 0 
-            && parseInt(assessment[1].answer) > 0 
-            && parseInt(assessment[2].answer) > 0
-            && parseInt(assessment[3].answer) > 0
-            && parseInt(assessment[4].answer) > 0;
+       var checkAssessment = function(assessment, length) {
+            //console.log('Checking the assessment..', assessment);
+            //loop trough the length of the assessment to deteminted if completed.
+            var assessmentComplete = [];
+            for (i = 0; i < length; i++) {
+                assessmentComplete.push(parseInt(fixAnswer(assessment[i].answer)) > 0 || assessment[i].id >= 100)
+            }
+            return assessmentComplete.indexOf(false);
+        }
+
+        var fixAnswer = function(a) {
+            var b = a;
+            if (a.toString().toLowerCase() == "on") {
+                //console.log('Had to fix the answer...', a);
+                b = 5;
+            }
+            return b;
         }
         Account.find(function (err, accounts) {
             if (err) {
@@ -71,9 +82,11 @@ var Account = require('../models/account');
 
                 assessments.map(function(item, index){        
                     item.assessment.map(function(item2, index2){
-                       if(item2.id < 100) answersArray.push({questionId: item2.id, answer: item2.answer});
+                       if(item2.id < 100) answersArray.push({questionId: item2.id, answer: fixAnswer(item2.answer)});
                     });                    
                 });  
+
+                //console.log(assessments);
 
                 var somObj = {};
             

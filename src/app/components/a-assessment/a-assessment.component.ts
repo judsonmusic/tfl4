@@ -22,6 +22,12 @@ export class AAssessmentComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.as.aggregate().subscribe(res=>{
+
+        this.assessmentData = res;
+
+    })
   }
 
 }

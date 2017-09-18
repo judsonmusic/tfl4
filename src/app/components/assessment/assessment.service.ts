@@ -1,5 +1,7 @@
+import { UtilitiesService } from './../../utilities/utilities.component';
+import { UserService } from './../user-service/user.service';
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Headers } from '@angular/http';
 
 
 
@@ -12,7 +14,7 @@ export class AssessmentService{
   assessment: any;
 
 
-  constructor(public http: Http) {
+  constructor(public http: Http, public us: UtilitiesService) {
 
     this.http = http;
 
@@ -160,6 +162,20 @@ export class AssessmentService{
       return response['_body'];
 
     });
+
+  }
+
+  aggregate(id?){
+
+    let headers = new Headers();
+    let userId = id || ""; 
+      headers.append('x-access-token', sessionStorage['jwt']);
+      return this.http
+        .get(this.us.apiUrl() + '/api/assessment/aggregate' + userId, {headers : headers} )
+        .map(res => res.json())
+        .map((res) => {         
+            return res;          
+        }, (error) => console.log('There was an error', error));
 
   }
 
