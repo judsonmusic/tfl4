@@ -1,8 +1,8 @@
+import { SurveyService } from './../a-survey/survey.service';
 import { Component, ViewChild, AfterViewInit, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Router } from "@angular/router";
 import { ModalDirective } from 'ngx-bootstrap';
 import { UserService } from "../user-service/user.service";
-import { SurveyService } from "../survey/survey.service";
 declare var System: any;
 
 //import $ from 'jquery/dist/jquery';

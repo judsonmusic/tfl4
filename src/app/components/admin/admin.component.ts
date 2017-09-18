@@ -1,7 +1,7 @@
+import { SurveyService } from './../a-survey/survey.service';
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from "./admin.service";
 import { AssessmentService } from "../assessment/assessment.service";
-import { SurveyService } from "../survey/survey.service";
 import { Router } from "@angular/router";
 declare var System: any;
 @Component({

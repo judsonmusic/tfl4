@@ -5,16 +5,36 @@
 
     <div class="row">
         <div class="col-md-12">
-            <app-survey></app-survey>
+            <a-survey></a-survey>
+        </div>
+    </div>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-12">
+            <a-assessment></a-assessment>
+        </div>
+    </div>
+    <hr>
+
+      <div class="row">
+        <div class="col-md-12">
+            <a-dimensions></a-dimensions>
         </div>
     </div>
     <hr>
 
     <div>
         <h2>Users</h2>
+        <div padding>
+            <form>
+                <input name=""/>
+            </form>
+        </div>
         <table width="100%" class="table table-striped table-bordered">
             <thead>
                 <tr>
+                    <th>Company</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Steps Completed</th>
@@ -24,6 +44,7 @@
             </thead>
             <tbody *ngFor="let user of users | orderBy : 'firstName'">
                 <tr>
+                    <td>{{user.companyCode}}</td>
                     <td>{{user.firstName}} {{user.lastName}}</td>
                     <td>{{user.email}}</td>
                     <td>{{checkSteps(user.steps)}}</td>

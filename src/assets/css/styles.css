@@ -3,6 +3,10 @@
   outline: none;
 }
 
+[padding]{
+  padding: 16px;
+}
+
 .container {
   background: #fff !important;
 }

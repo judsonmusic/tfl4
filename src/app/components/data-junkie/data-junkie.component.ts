@@ -2,7 +2,7 @@ import{ Component , OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import {AssessmentService} from "../assessment/assessment.service";
 import {UserService} from "../user-service/user.service";
-import {SurveyService} from "../survey/survey.service";
+import {SurveyService} from "../a-survey/survey.service";
 declare var System:any;
 
 @Component({

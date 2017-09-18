@@ -3,17 +3,17 @@ var router = express.Router();
 var Account = require('../models/account');
 
 /*TODO: right now we are getting the survey only here from accounts. Eventually need to move the data to its own collection*/
- router.route('/')
+router.route('/')
 
-     .get(function (req, res) {
-        Account.find(function (err, accounts) {
+    .get(function(req, res) {
+        Account.find(function(err, accounts) {
             if (err) {
                 res.send(err);
             } else {
 
                 var temp = [];
 
-                accounts.map(function (item) {
+                accounts.map(function(item) {
 
                     temp.push({
                         firstName: item.firstName,
@@ -37,74 +37,88 @@ var Account = require('../models/account');
         });
     })
 
-     router.route('/aggregate')
+router.route('/aggregate')
 
-     .get(function (req, res) {
+    .get(function(req, res) {
 
-        var checkSurvey = function(survey){
-            return parseInt(survey[0].answer) > 0 
-            && parseInt(survey[1].answer) > 0 
-            && parseInt(survey[2].answer) > 0
-            && parseInt(survey[3].answer) > 0
-            && parseInt(survey[4].answer) > 0;
+        var checkSurvey = function(survey, length) {
+            //console.log('Checking the survey..', survey);
+            //loop trough the length of the survey to deteminted if completed.
+            var surveyComplete = [];
+            for (i = 0; i < length; i++) {
+                surveyComplete.push(parseInt(fixAnswer(survey[i].answer)) > 0 || survey[i].id >= 100)
+            }
+            return surveyComplete.indexOf(false);
         }
-        Account.find(function (err, accounts) {
+
+        var fixAnswer = function(a) {
+            var b = a;
+            if (a.toString().toLowerCase() == "on") {
+                console.log('Had to fix the answer...', a);
+                b = 5;
+            }
+            return b;
+        }
+
+        Account.find(function(err, accounts) {
             if (err) {
                 res.send(err);
             } else {
 
-                var surveys = [];            
+                var surveys = [];
 
-                accounts.map(function (item) {                  
-
-                    if(checkSurvey(item.survey)){
-                        surveys.push({                   
-                            survey: item.survey                 
-                        })
+                accounts.map(function(item) {
+                    //console.log(item.survey);
+                    if (item.survey) {
+                        if (checkSurvey(item.survey, item.survey.length)) {
+                            surveys.push({
+                                survey: item.survey
+                            })
+                        }
                     }
 
                 });
 
-                var answersArray = [] 
-                
-                //var answersArray = [{qa: []}]               
+                var answersArray = []
 
-                surveys.map(function(item, index){        
-                    item.survey.map(function(item2, index2){
-                       if(item2.id < 100) answersArray.push({questionId: item2.id, answer: item2.answer});
-                    });                    
-                });  
-
-                var somObj = {};
-            
-                answersArray.map(function(item,index){
-                       
-                        if(typeof somObj['question' + item.questionId] == "undefined" ){
-                            somObj['question' + item.questionId] = [];
-                        }
-                        //console.log(somObj['question' + item.questionId]);
-                        somObj['question' + item.questionId].push(item.answer);
-                       
+                surveys.map(function(item, index) {
+                    item.survey.map(function(item2, index2) {
+                        if (item2.id < 100) answersArray.push({ questionId: item2.id, answer: fixAnswer(item2.answer) });
+                    });
                 });
 
-            var result = {
+                console.log(surveys);
 
-                stats: {},
-                count: surveys.length
-            };
+                var somObj = {};
 
-               for (var key in somObj) {
-                    if (somObj.hasOwnProperty(key)) {                 
-                          
-                         result.stats[key.replace('question', '')] = somObj[key].reduce((r,k)=>{
-                             r[k]=1+r[k]||1;     
-                             return r
-                            },{})
-                           
+                answersArray.map(function(item, index) {
+
+                    if (typeof somObj['question' + item.questionId] == "undefined") {
+                        somObj['question' + item.questionId] = [];
+                    }
+                    //console.log(somObj['question' + item.questionId]);
+                    somObj['question' + item.questionId].push(item.answer);
+
+                });
+
+                var result = {
+
+                    stats: {},
+                    count: surveys.length
+                };
+
+                for (var key in somObj) {
+                    if (somObj.hasOwnProperty(key)) {
+
+                        result.stats[key.replace('question', '')] = somObj[key].reduce((r, k) => {
+                            r[k] = 1 + r[k] || 1;
+                            return r
+                        }, {})
+
                     }
                 }
 
-                
+
 
                 res.json(result);
             }

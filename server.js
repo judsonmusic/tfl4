@@ -16,6 +16,7 @@ var app = express();
 var bcrypt = require('bcrypt-nodejs');
 var cors = require("cors");
 var survey = require("./middleware/survey.api");
+var assessment = require("./middleware/assessment.api");
 
 mongoose.connect(config.database, function(err, res){
 
@@ -283,7 +284,8 @@ router.route('/accounts')
                         survey: item.survey,
                         dimensions: item.dimensions,
                         otherElements: item.otherElements,
-                        steps: item.steps || []
+                        steps: item.steps || [],
+                        companyCode: item.companyCode || 'betatester'
                     })
 
 
@@ -465,6 +467,7 @@ app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'dist')));
 app.use('/api', router);
 app.use('/api/survey', survey);
+app.use('/api/assessment', assessment);
 var a = ['*', '!/api'];
 //all get requests resolve to index.
 app.get('*', (req, res) => {

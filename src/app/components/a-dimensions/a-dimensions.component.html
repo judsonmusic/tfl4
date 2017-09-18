@@ -1,0 +1,27 @@
+<div>
+  <h2>Dimension Stats</h2>
+  Coming Soon!
+  <!--<div *ngIf="dimensionData && answers && questions">
+    <p>Based on all user data {{dimensionData.count}} users have reported the following on the survey.</p>   
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>
+            Questions
+          </th>
+          <th *ngFor="let a of answers">
+            {{a.value.replace('Strongly', 'S. ')}}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let q of questions">
+          <td>{{q.id}}. {{q.question}}</td>
+           <td *ngFor="let a of answers">
+            {{dimensionData.stats && dimensionData.stats[q.id] && dimensionData.stats[q.id][a.id] ? ((dimensionData.stats[q.id][a.id]/dimensionData.count) * 100).toFixed(2)+'%' : ''}}
+          </td>
+          </tr>
+      </tbody>
+    </table> 
+  </div>-->
+</div>

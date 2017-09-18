@@ -51,6 +51,7 @@ var SurveyService = (function () {
             { id: 10, answer: "" },
             { id: 11, answer: "" },
             { id: 12, answer: "" },
+            { id: 13, answer: "" },
             /*{id: 100, answer: ""},*/
             { id: 101, answer: "" }
         ];

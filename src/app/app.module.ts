@@ -18,7 +18,7 @@ import { AssessmentComponent } from "./components/assessment/assessment.componen
 import { ResourcesComponent } from "./components/resources/resources.component";
 import { LogoutComponent } from "./components/logout/logout.component";
 import { DimensionsComponent } from "./components/dimensions/dimensions.component";
-import { SurveyService } from "./components/survey/survey.service";
+import { SurveyService } from "./components/a-survey/survey.service";
 import { ActionComponent } from "./components/action/action.component";
 import { AssessmentService } from "./components/assessment/assessment.service";
 import { TflGuideComponent } from "./components/tfl-guide/tfl-guide.component";
@@ -52,7 +52,9 @@ import { StressPage } from "./components/pages/stress";
 import { OrderByPipe } from "./components/pipes/orderBy.pipe";
 import { ContractComponent } from "./components/contract/contract.component";
 import {TextMaskModule} from 'angular2-text-mask';
-import { SurveyComponent } from './components/survey/survey.component'
+import { ASurveyComponent } from './components/a-survey/survey.component';
+import { ADimensionsComponent } from './components/a-dimensions/a-dimensions.component';
+import { AAssessmentComponent } from './components/a-assessment/a-assessment.component'
 
 
 
@@ -94,7 +96,9 @@ import { SurveyComponent } from './components/survey/survey.component'
     StressPage,
     OrderByPipe,
     ContractComponent,
-    SurveyComponent
+    ASurveyComponent,
+    ADimensionsComponent,
+    AAssessmentComponent
   ],
   entryComponents: [],
   imports: [

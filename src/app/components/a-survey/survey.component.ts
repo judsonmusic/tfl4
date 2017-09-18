@@ -2,11 +2,11 @@ import { SurveyService } from './survey.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-survey',
+  selector: 'a-survey',
   templateUrl: 'survey.component.html',
   styleUrls: ['survey.component.css']
 })
-export class SurveyComponent implements OnInit {
+export class ASurveyComponent implements OnInit {
   public surveyQuestions;
   public surveyAnswers;
   public surveyData = [];

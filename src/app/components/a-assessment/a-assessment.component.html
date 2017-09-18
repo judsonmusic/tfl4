@@ -1,0 +1,26 @@
+<div>
+  <h2>Assessment Stats</h2>
+  <div *ngIf="assessmentData && answers && questions">
+    <p>Based on all user data {{assessmentData.count}} users have reported the following on the assessment.</p>   
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>
+            Questions
+          </th>
+          <th *ngFor="let a of answers">
+            {{a.value.replace('Strongly', 'S. ')}}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let q of questions">
+          <td>{{q.id}}. {{q.question}}</td>
+           <td *ngFor="let a of answers">
+            {{assessmentData.stats && assessmentData.stats[q.id] && assessmentData.stats[q.id][a.id] ? ((assessmentData.stats[q.id][a.id]/assessmentData.count) * 100).toFixed(2)+'%' : ''}}
+          </td>
+          </tr>
+      </tbody>
+    </table> 
+  </div>
+</div>
