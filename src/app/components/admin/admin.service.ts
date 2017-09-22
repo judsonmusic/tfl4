@@ -76,6 +76,27 @@ export class AdminService{
 
     }
 
+    deleteUser(payload){     
+
+      let headers = new Headers();
+      //headers.append('Content-Type', 'application/json');
+
+      headers.append('x-access-token', sessionStorage['jwt']);
+      //console.log('We have a user ID! Lets try to get a user!');
+      return this.http
+          .put(this.us.apiUrl() + '/api/accounts/delete', payload, {headers : headers} )
+          .map(res => res.json())
+          .map((res) => {
+
+            return res;
+
+
+          }, (error) => console.log('There was an error', error));
+
+
+   
+  }
+
 
 
 

@@ -18,7 +18,8 @@ var AccountSchema   = new Schema({
     survey: { type: Array, default: []},
     dimensions: { type: Array, default: []},
     otherElements: { type: Array, default: []},
-    steps: { type: Array, default: new Array(7)}
+    steps: { type: Array, default: new Array(7)},
+    deleted: { type: Boolean, default: false}
 },{
   timestamps: true
 });

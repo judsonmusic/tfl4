@@ -49,16 +49,16 @@ export class AdminComponent implements OnInit {
 
     }
 
-    checkSurvey(survey){
-        return parseInt(survey[0].answer) > 0; 
+    checkSurvey(survey) {
+        return parseInt(survey[0].answer) > 0;
     }
 
-    checkSteps(steps){
+    checkSteps(steps) {
         var count = 0;
-        steps.map(item=>{
-           if(item > 0) count++
+        steps.map(item => {
+            if (item > 0) count++
         })
-        return count;       
+        return count;
 
     }
 
@@ -83,26 +83,26 @@ export class AdminComponent implements OnInit {
 
 
         //loop through the survey..
-        user['survey'].map((obj) => {   
- 
-             //if its less than 100, set the answer value to the answer given.
-             if(obj.id < 100) {
+        user['survey'].map((obj) => {
 
-                 obj.questionValue = (this.surveyService.questions.filter((item: any) => item.id === obj.id)[0].question);
+            //if its less than 100, set the answer value to the answer given.
+            if (obj.id < 100) {
 
-                 if(obj.answer && obj.answer !== "on") {
- 
-                     obj.answerValue = (this.surveyService.answers.filter((item: any) => item.id === obj.answer)[0].value);
- 
-                 }else{
- 
-                     obj.answerValue = 'No answer Provided.';// [' + obj.answer + ']';
-                 }
- 
-             }else{
- 
-                 obj.answerValue = obj.answer;
-             }
+                obj.questionValue = (this.surveyService.questions.filter((item: any) => item.id === obj.id)[0].question);
+
+                if (obj.answer && obj.answer !== "on") {
+
+                    obj.answerValue = (this.surveyService.answers.filter((item: any) => item.id === obj.answer)[0].value);
+
+                } else {
+
+                    obj.answerValue = 'No answer Provided.';// [' + obj.answer + ']';
+                }
+
+            } else {
+
+                obj.answerValue = obj.answer;
+            }
 
 
 
@@ -111,6 +111,24 @@ export class AdminComponent implements OnInit {
         this.currentUser = user;
         //now that we have a user, we need to match the values to the assessment values for data.
 
+    }
+
+    deleteUser(user) {
+
+        var result = window.confirm("Are you sure you want to delete this user?");
+        if (result) {
+
+            console.log(result);
+
+            let index = this.users.indexOf(user);
+
+            this.adminService.deleteUser(user).subscribe((res) => {
+                this.users.splice(index, 1);
+                console.log('Account Deleted!');
+
+
+            })
+        }
     }
 
 

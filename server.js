@@ -257,12 +257,38 @@ router.route('/reports/:question_id/:sub_index')
     });
 //end reports
 
+router.route('/accounts/delete')
+.put(function(req,res){
+        //console.log('Attempting Delete', req.body._id);
+        // use our account model to find the account we want
+        Account.findById(req.body._id, function (err, account) {
+
+           
+
+            if (err)
+                return res.send(err); 
+
+
+            // save the account
+            account.deleted = true;
+            account.save(function (err, account) {
+                if (err)
+                    return res.send(err);
+
+                res.json({success: true, message: 'Account deleted!', account: account}).end();
+
+            });
+
+        });
+
+});
+
 
 router.route('/accounts')
 
 // get all the accounts (accessed at GET http://localhost:8080/api/accounts)
     .get(function (req, res) {
-        Account.find(function (err, accounts) {
+        Account.find({deleted: {$ne: true}}, function (err, accounts) {
             if (err) {
                 res.send(err);
             } else {
@@ -271,8 +297,10 @@ router.route('/accounts')
 
                 accounts.map(function (item) {
 
-                    temp.push({
+                    //console.log(item._id);
 
+                    temp.push({
+                        _id: item._id,
                         firstName: item.firstName,
                         lastName: item.lastName,
                         email: item.email,

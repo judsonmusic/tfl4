@@ -49,7 +49,7 @@
                     <td>{{user.email}}</td>
                     <td>{{checkSteps(user.steps)}}</td>
                     <td>{{checkSurvey(user.survey) ? 'Yes!' : ''}}</td>
-                    <td><a href="javascript:void(0)" (click)="viewUser(user);">[View Stats]</a></td>
+                    <td><a href="javascript:void(0)" (click)="viewUser(user);">[View Stats]</a> <a href="javascript:void(0)" (click)="deleteUser(user);">[Delete]</a></td>
                 </tr>
                 <tr *ngIf="currentUser && currentUser.email == user.email">
                     <td colspan="5" style="background:lightgrey">                         
