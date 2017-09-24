@@ -54,7 +54,8 @@ import { ContractComponent } from "./components/contract/contract.component";
 import {TextMaskModule} from 'angular2-text-mask';
 import { ASurveyComponent } from './components/a-survey/survey.component';
 import { ADimensionsComponent } from './components/a-dimensions/a-dimensions.component';
-import { AAssessmentComponent } from './components/a-assessment/a-assessment.component'
+import { AAssessmentComponent } from './components/a-assessment/a-assessment.component';
+import { AStressComponent } from './components/a-stress/a-stress.component'
 
 
 
@@ -98,7 +99,8 @@ import { AAssessmentComponent } from './components/a-assessment/a-assessment.com
     ContractComponent,
     ASurveyComponent,
     ADimensionsComponent,
-    AAssessmentComponent
+    AAssessmentComponent,
+    AStressComponent
   ],
   entryComponents: [],
   imports: [

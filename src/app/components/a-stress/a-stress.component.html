@@ -1,0 +1,26 @@
+<div>
+  <h2>Stress Stats</h2>
+  <div *ngIf="stressData && questions">
+    <p>The stress level score reflects the average stress level for each dimension from all users.</p>   
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>
+            Questions
+          </th>
+          <th>
+            Stress Level
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let q of questions">
+          <td>{{q.id}}. {{q.question}}</td>
+           <td>
+            {{stressData[q.id]}}
+          </td>
+          </tr>
+      </tbody>
+    </table> 
+  </div>
+</div>
