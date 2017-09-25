@@ -1,3 +1,4 @@
+import { ModalDataJunkieComponent } from './../modals/modalDataJunkieComponent';
 import { ModalGenericComponent } from './../modals/modalGenericComponent';
 import { ModalDirective } from 'ngx-bootstrap';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -17,6 +18,7 @@ export class DashboardComponent implements OnInit {
     @ViewChild('tooltip2') tooltip2;
     @ViewChild('s') public s: ModalDirective;
     @ViewChild('g') public g: ModalGenericComponent;
+    @ViewChild('j') public j: ModalDataJunkieComponent;
     
 
 
@@ -182,10 +184,10 @@ export class DashboardComponent implements OnInit {
 
     }
 
-    public checkComplete() {
+    public checkComplete(surveyComplete?) {
 
         let complete = [];
-        if (this.userData.survey.length === 0) {
+        if (!surveyComplete && this.userData.survey.length === 0) {
             this.surveyComplete = false;
         } else {
             this.userData.survey.map((item, index) => {
@@ -220,7 +222,11 @@ export class DashboardComponent implements OnInit {
 
             //alert('You havent compelted the survey!');
             //this.s.show();
-            this.g.show();
+            
+        }
+
+        if(!this.surveyComplete && this.getCurrentStep() > 3){
+            //this.g.show();
         }
     }
 
@@ -386,8 +392,17 @@ export class DashboardComponent implements OnInit {
     }
 
     goToDimension(id) {
+        if(!this.surveyComplete){
+            this.g.onHide.subscribe((hidden) => {
+                this.router.navigate(['/dimensions', id]);
+              });
+            this.g.show();
+        }else{
+            this.router.navigate(['/dimensions', id]);
+            
+        }
 
-        this.router.navigate(['/dimensions', id]);
+       
 
     }
 
@@ -469,6 +484,47 @@ export class DashboardComponent implements OnInit {
 
         return tempSteps.indexOf(false) + 1;
 
+    }
+
+    showDataJunkie(){
+        if(!this.surveyComplete){
+            this.g.onHide.subscribe((hidden) => {
+                this.j.show();
+              });
+              this.g.show();
+           
+        }else{
+            this.j.show();
+            
+        }
+
+    }
+
+    showTFLGuide(){
+        if(!this.surveyComplete){
+            this.g.onHide.subscribe((hidden) => {
+                this.router.navigate(['tfl-guide'])
+              });
+            this.g.show();
+        }else{
+            this.router.navigate(['tfl-guide'])
+            
+        }
+
+                
+        
+    }
+
+    takeSurvey(){
+
+        this.s.onHide.subscribe((complete) => { 
+            if(complete){
+                this.surveyComplete = true;
+                this.userData.steps[5] = true;
+            }          
+  
+        });
+        this.s.show();
     }
 
 

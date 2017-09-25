@@ -20,9 +20,9 @@
     <input class="form-control" type="text" name="phone" [(ngModel)]="user.phone"  placeholder="Phone Number (999) 999-9999" required [textMask]="{mask: maskPhone}"/><!--[textMask]="{mask: maskPhone}"-->
   </div>
   <div class="form-group">
-    <input tabindex="4" type="radio" id="1" name="gender" value="1"/>
+    <input tabindex="4" type="radio" id="1" name="gender" value="Male" [(ngModel)]="user.gender"/>
     <label [attr.for]="1"><span></span>Male</label>
-    <input tabindex="5" type="radio" id="2" name="gender" value="0"/>
+    <input tabindex="5" type="radio" id="2" name="gender" value="Female" [(ngModel)]="user.gender"/>
     <label [attr.for]="2"><span></span>Female</label>
   </div>
   <div class="form-group">

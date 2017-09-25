@@ -2,6 +2,7 @@
 
 var express = require('express');
 var http = require('http');
+var moment = require('moment');
 var open = require('open');
 var path = require('path');
 var morgan = require('morgan'); // formerly express.logger
@@ -305,6 +306,9 @@ router.route('/accounts')
                         firstName: item.firstName,
                         lastName: item.lastName,
                         email: item.email,
+                        gender: item.gender,
+                        birthDate: item.birthDate,
+                        age: moment.isDate(item.birthDate) && moment.isDate(item.createdAt) ? moment(item.createdAt).diff(item.birthDate, 'years',false) : 'Unknown',
                         occupation: item.occupation,
                         education: item.education,
                         hear: item.hear,
@@ -333,6 +337,8 @@ router.route('/accounts')
         account.firstName = req.body.firstName;
         account.lastName = req.body.lastName;
         account.email = req.body.email;
+        account.birthDate = req.body.birthDate;
+        account.gender = req.body.gender;
         account.occupation = req.body.occupation;
         account.education = req.body.education;
         account.hear = req.body.hear;

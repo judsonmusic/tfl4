@@ -1,5 +1,5 @@
 import { SurveyService } from './../a-survey/survey.service';
-import { Component, ViewChild, AfterViewInit, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
 import { Router } from "@angular/router";
 import { ModalDirective } from 'ngx-bootstrap';
 import { UserService } from "../user-service/user.service";
@@ -14,8 +14,11 @@ declare var System: any;
 })
 export class ModalSurveyComponent implements AfterViewInit {
 
-    @ViewChild('childModal') public childModal: ModalDirective;
     @ViewChild('lgModal') public lgModal: ModalDirective;
+    @Output() public onShow:EventEmitter<any> = new EventEmitter();
+    @Output() public onShown:EventEmitter<any> = new EventEmitter();
+    @Output() public onHide:EventEmitter<any> = new EventEmitter();
+    @Output() public onHidden:EventEmitter<any> = new EventEmitter();
 
     public survey_questions;
     public survey_answers;
@@ -34,28 +37,17 @@ export class ModalSurveyComponent implements AfterViewInit {
         this.surveySubmitted = false;
         //this.surveyComplete = false;
         if (this.userData.survey.length <= 0) {
-
             this.userData.survey = this.surveyService.survey;
-
         }
 
-
+        this.checkComplete();
     }
 
     checkComplete() {
         this.surveyComplete = false;
-        console.log('Checking to see if survey is complete...')
-
-        //really need to chane this to use angularl elementRef
-        //$('.modal.in').animate({scrollTop: $('.modal.in').scrollTop() + 50});
-        //$('.modal.open').animate({ scrollTop: $('.modal').height() }, 'fast');
-
         let complete = [];
-
         this.userData.survey.map((item, index) => {
-
-            console.log(item, index);
-
+            //console.log(item, index);
             if ((item.id < 100 && item.answer != '') || item.id == 101) {
 
                 complete.push(true);
@@ -68,7 +60,7 @@ export class ModalSurveyComponent implements AfterViewInit {
 
         });
 
-        console.log(complete, complete.length);
+        //console.log(complete, complete.length);
         //console.log(complete);
         this.surveyComplete = complete.indexOf(false) == -1;
         //this.changeRef.detectChanges(); //this is necessary to fix issue with change ref..
@@ -93,14 +85,11 @@ export class ModalSurveyComponent implements AfterViewInit {
 
         this.userData.survey.map((item, index) => {
             
-            if (item.id == id) {
-                console.log(item, id)
+            if (item.id == id) {                
                 itemExists = true;
                 item.answer = value;        
             }
-        });
-
-        console.log(this.userData.survey);
+        }); 
 
         itemExists = false;
         if (id != 101) {
@@ -112,32 +101,30 @@ export class ModalSurveyComponent implements AfterViewInit {
         return this.userData.survey.find(s => s.id == id).answer || '';
     }
 
-    public show() {
-        this.lgModal.show();
-        this.checkComplete();
-    }
-
-    public showChildModal(): void {
-        this.childModal.show();
-    }
-
-    public hideChildModal(): void {
-        this.childModal.hide();
-    }
-
-    ngAfterViewInit() {
-        //REMOVED BECAUSE THIS DOESNT NEED TO HAPPEN UNTIL MODAL POPS.
-        //this.checkComplete();
-
-    }
-
-    public completeSurvey() {
-        
-        this.surveySubmitted = true;
+    public show(){
+        this.lgModal.show();    
+        this.onShow.next(true);
+      }
+    
+    public hide(){
         this.checkComplete();
         this.lgModal.hide();
-        //this.router.navigate(['tfl-guide']);
+        this.onHide.next(this.surveyComplete);
+    }    
+
+    public completeSurvey() {        
+        this.surveySubmitted = true;
+        this.hide();
+
     }
+
+    ngAfterViewInit(){
+        //this.checkComplete();
+    }
+
+    public handler(type: string, $event: ModalDirective) {
+        this.onHide.next(true);
+      }
 
 
 }

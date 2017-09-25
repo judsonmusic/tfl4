@@ -7,18 +7,18 @@
         <tr>
           <th>Category</th>
           <th>Question</th>
-          <th>
-            Stress Level
-          </th>
+          <th *ngFor="let a of answers">
+              {{a.value.replace('Strongly', 'S. ')}}
+            </th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let q of questions">
           <td>{{q.id}}. {{q.category}}</td>
           <td>{{q.question}}</td>
-           <td>
-            {{stressData[q.id]}}
-          </td>
+          <td *ngFor="let a of answers"> 
+            {{stressData.stats && stressData.stats[q.id] && stressData.stats[q.id][a.id * 20] ? ((stressData.stats[q.id][a.id * 20]/stressData.count) * 100).toFixed(2)+'%' : ''}}
+            </td>
           </tr>
       </tbody>
     </table> 

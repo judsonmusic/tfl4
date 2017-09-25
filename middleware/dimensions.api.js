@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Account = require('../models/account');
 
-function getAverage(array){
+function getAverage(array) {
 
     let values = array;
     let sum = values.reduce((previous, current) => current += previous);
@@ -13,8 +13,16 @@ function getAverage(array){
 /*TODO: right now we are getting the assessment only here from accounts. Eventually need to move the data to its own collection*/
 router.route('/stress-data')
 
+    /*
+        1 = strongly disagree
+        2 = disagree 
+        3 = neutral
+        4 = agree &nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp;
+        5 = strongly agree
+    */
 
-.get(function (req, res) {
+
+    .get(function (req, res) {
 
         Account.find({}, { dimensions: 1 }, function (err, accounts) {
             if (err) {
@@ -25,8 +33,8 @@ router.route('/stress-data')
                 accounts.map(function (account, accountIndex) {
                     if (account.dimensions) {
                         account.dimensions.map(function (dimension, dimensionIndex) {
-                            console.log(dimension.id, dimension.stressLevel);
-                            if(!stressScores[dimension.id]) stressScores[dimension.id] = [];
+                            //console.log(dimension.id, dimension.stressLevel);
+                            if (!stressScores[dimension.id]) stressScores[dimension.id] = [];
                             if (dimension.stressLevel) stressScores[dimension.id].push(dimension.stressLevel)
 
                         });
@@ -34,13 +42,33 @@ router.route('/stress-data')
 
                 });
 
-                var result = {};
+                //console.log('Stress Scores for each dimension', stressScores);
+                var result = {
+
+                    stats: {},
+                    count: 15 //number of dimensions
+                };
+
+                for (var key in stressScores) {
+                    if (stressScores.hasOwnProperty(key)) {
+
+                        result.stats[key.replace('question', '')] = stressScores[key].reduce((r, k) => {
+                            r[k] = 1 + r[k] || 1;
+                            return r
+                        }, {})
+
+                    }
+                }
+
+                //console.log(result);
+
+                /* var result = {};
 
                 for (var key in stressScores) {
                     var obj = stressScores[key]; 
-                    console.log(key, getAverage(obj));   
+                    //console.log(key, getAverage(obj));   
                     result[key] = ((getAverage(obj) / 100) * 100).toFixed(2) + '%';    //Math.ceil((((count*100/15)/100) * 100)) + '%'   
-                }
+                } */
 
 
                 res.json(result);

@@ -1,5 +1,5 @@
 <!-- Large modal -->
-<div bsModal #childModal="bs-modal" #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" (onHidden)="handler('onHidden', $event)">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -7,6 +7,9 @@
           <span aria-hidden="true" style="opacity: 10;">&times;</span>
         </button>-->
         <h4 class="modal-title"><span *ngIf="!surveyComplete">Feedback</span><span *ngIf="surveyComplete">Thank You</span></h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="lgModal.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
       </div>
 
       <div class="modal-body">

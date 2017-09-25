@@ -19,7 +19,9 @@ var AccountSchema   = new Schema({
     dimensions: { type: Array, default: []},
     otherElements: { type: Array, default: []},
     steps: { type: Array, default: new Array(7)},
-    deleted: { type: Boolean, default: false}
+    deleted: { type: Boolean, default: false},
+    birthDate: Date,
+    gender: String
 },{
   timestamps: true
 });

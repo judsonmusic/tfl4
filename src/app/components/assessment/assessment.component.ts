@@ -28,7 +28,7 @@ export class AssessmentComponent implements OnInit {
     //console.log('@@@@@SURVEY INIT!', this.data.account);
     this.userService.user$.subscribe((userData) => {
       this.data.account = userData;
-      console.log('ACCOUNT INFORMATION ADDED!', this.data.account);
+      //console.log('ACCOUNT INFORMATION ADDED!', this.data.account);
       this.checkComplete();
 
     });

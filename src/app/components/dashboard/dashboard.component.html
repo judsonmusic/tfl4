@@ -64,12 +64,12 @@
                             <i *ngIf="!dataCheckPassed" class="fa fa-star" aria-hidden="true" style="color: #efefef; font-size: 72px; cursor: pointer; text-shadow: 0 0 3px #444;" tooltip="Reveal where you are motivated to take action." placement="top"></i><br/> Your Results
                         </div>
                         <div class="col-xs-4 col-sm-2 col-md-4 text-center action-icons" style="padding: 0;">
-                            <i *ngIf="dataCheckPassed" class="fa fa-bar-chart blue" aria-hidden="true" style="font-size: 72px; cursor: pointer" (click)="updateStep(3); j.show();" tooltip="View the dimensions that you have unlocked." placement="top" triggers="hover" [isDisabled]="false" [isOpen]="getCurrentStep() === 3"></i>
+                            <i *ngIf="dataCheckPassed" class="fa fa-bar-chart blue" aria-hidden="true" style="font-size: 72px; cursor: pointer" (click)="updateStep(3); showDataJunkie();" tooltip="View the dimensions that you have unlocked." placement="top" triggers="hover" [isDisabled]="false" [isOpen]="getCurrentStep() === 3"></i>
                             <i *ngIf="!dataCheckPassed" class="fa fa-bar-chart" aria-hidden="true" style="color: #efefef; font-size: 72px; cursor: pointer; text-shadow: 0 0 3px #444;" tooltip="View your 15 dimensions at a glance." placement="top" triggers="hover" [isDisabled]="false"></i><br/>
                             Data Junkie
                         </div>
                         <div class="col-xs-4 col-sm-2 col-md-4 text-center action-icons" style="padding: 0;">
-                            <i *ngIf="dataCheckPassed" class="fa fa-file-pdf-o red" aria-hidden="true" style="font-size: 72px; cursor: pointer" (click)="updateStep(4); router.navigate(['tfl-guide'])" tooltip="Access your TFL Empowerment Guide." placement="top" triggers="hover" [isDisabled]="false" [isOpen]="getCurrentStep() === 4"></i>
+                            <i *ngIf="dataCheckPassed" class="fa fa-file-pdf-o red" aria-hidden="true" style="font-size: 72px; cursor: pointer" (click)="updateStep(4); showTFLGuide()" tooltip="Access your TFL Empowerment Guide." placement="top" triggers="hover" [isDisabled]="false" [isOpen]="getCurrentStep() === 4"></i>
                             <i *ngIf="!dataCheckPassed" class="fa fa-file-pdf-o" aria-hidden="true" style="color: #efefef; font-size: 72px; cursor: pointer; text-shadow: 0 0 3px #444;" tooltip="Access your TFL Empowerment Guide." placement="top" triggers="hover" [isDisabled]="false"></i><br/>
                             TFL Guide
                         </div>
@@ -84,9 +84,8 @@
                             </button>
                         </div>
 
-                        <div class="col-md-6 text-center" *ngIf="!surveyComplete">
-                                <button style="font-size: 20px;  width: 100%" tooltip="Please take the TFL Survey" placement="bottom" triggers="hover" [isDisabled]="false" class="btn btn-primary orange-bg" (click)="s.show()">Take TFL Survey
-                                    </button>
+                        <div class="col-md-6 text-center" *ngIf="!surveyComplete && getCurrentStep() > 3">                       
+                                <button style="font-size: 20px;  width: 100%" tooltip="Please take the TFL Survey" placement="bottom" triggers="hover" [isDisabled]="false" class="btn btn-primary orange-bg" (click)="s.show()">Take TFL Survey</button>
                                 </div>
                        <!--<div class="col-md-6 text-center"  *ngIf="overAllStressScore">
                             <button style="font-size: 20px;" tooltip="Reflects your overall stress level score based on all 15 dimensions" placement="bottom" triggers="hover" [isDisabled]="false" class="btn btn-primary bg-blue">Stress Score is {{overAllStressScore}}
@@ -115,7 +114,7 @@
                         <li [ngClass]="{'current-step': getCurrentStep() === 4}"><i *ngIf="userData.steps[4]" class="fa fa-check-circle green" aria-hidden="true"></i><i *ngIf="!userData.steps[4]" class="fa fa-question-circle" aria-hidden="true"></i> 4. Click the TFL guide icon to
                             view/print your TFL Empowerment Guide
                         </li>
-                        <li [ngClass]="{'current-step': getCurrentStep() === 5}"><i *ngIf="userData.steps[5]" class="fa fa-check-circle green" aria-hidden="true"></i><i *ngIf="!userData.steps[5]" class="fa fa-question-circle" aria-hidden="true"></i> 5. <a (click)="s.show()">Click
+                        <li [ngClass]="{'current-step': getCurrentStep() === 5}"><i *ngIf="userData.steps[5]" class="fa fa-check-circle green" aria-hidden="true"></i><i *ngIf="!userData.steps[5]" class="fa fa-question-circle" aria-hidden="true"></i> 5. <a (click)="takeSurvey()">Click
                             Here</a> Provide TFL feedback to complete assessment
                         </li>
                         <li [ngClass]="{'current-step': getCurrentStep() === 6}"><i *ngIf="userData.steps[6]" class="fa fa-check-circle green" aria-hidden="true"></i><i *ngIf="!userData.steps[6]" class="fa fa-question-circle" aria-hidden="true"></i> 6. Unlock all dimensions
@@ -204,4 +203,7 @@
 <modal-results #r="child3"></modal-results>
 <modal-data-junkie #j="child4"></modal-data-junkie>
 <modal-survey #s="child6"></modal-survey>
-<modal-generic #g="child10" message="Please take a fewpassessment minutes to complete the TFL survey. Our desire is to ensure the TFL Assessment experience is meaningful to all participants so your feedback is extremely important to us. Please take a few minutes and share your thoughts."></modal-generic>
+<modal-generic #g="child10" message="Please take survey before you leave the assessment site.<br>
+    You will find the Take TFL Survey button on your dashbaord or #5 in the steps box.<br>
+Completing the survey is required if you are taking the assessment in association with a company. <br> 
+Thank you in advance for sharing your thoughts."></modal-generic>

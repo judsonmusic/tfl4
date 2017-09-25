@@ -4,12 +4,12 @@
     
     <img [src]="'/assets/images/icons/' + dimension.category.toLowerCase().replace(' ', '-') + '.jpg'" style="height:48px;">    {{dimension.category}} - <span *ngIf="score >= 0">Ideal Being Score</span>
     <span *ngIf="score>=0" class="light-blue-bg" style="color: white; padding: 10px; display: inline-block; border-radius: 32px; min-width: 54px; height: 54px; text-align: center;"
-      tooltip="Represents how you ranked your level of satisfaction in this dimension" placement="right" triggers="hover" [isDisabled]="false">{{score}}</span>
+      tooltip="Represents how you ranked your level of satisfaction in this dimension.  100 is optimal" placement="right" triggers="hover" [isDisabled]="false">{{score}}</span>
 
       <div *ngIf="seriesdata && data.account.dimensions[dimension.id-1].stressLevel" style="display: inline">
     <span>Stress Level</span>
     <span *ngIf="score>=0" class="light-blue-bg" style="color: white; padding: 10px; display: inline-block; border-radius: 32px; min-width: 54px; height: 54px; text-align: center;"
-        tooltip="Represents how your ranked your level of stress in this dimension" placement="right" triggers="hover" [isDisabled]="false">{{data.account.dimensions[dimension.id-1].stressLevel}}</span>
+        tooltip="Represents how your ranked your level of stress in this dimension.  20 is optimal" placement="right" triggers="hover" [isDisabled]="false">{{data.account.dimensions[dimension.id-1].stressLevel}}</span>
       </div>
 
 

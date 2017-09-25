@@ -36,6 +36,9 @@
                 <tr>
                     <th>Company</th>
                     <th>Name</th>
+                    <th>Gender</th>
+                    <!-- <th>Birth Date</th> -->
+                    <th>Age</th>
                     <th>Email</th>
                     <th>Steps Completed</th>
                     <th>Took Survey?</th>
@@ -46,6 +49,9 @@
                 <tr>
                     <td>{{user.companyCode}}</td>
                     <td>{{user.firstName}} {{user.lastName}}</td>
+                    <td>{{user.gender || 'Unknown'}}</td>
+                   <!--  <td>{{user.birthDate}}</td> -->
+                    <td>{{user.age}}</td>
                     <td>{{user.email}}</td>
                     <td>{{checkSteps(user.steps)}}</td>
                     <td>{{checkSurvey(user.survey) ? 'Yes!' : ''}}</td>

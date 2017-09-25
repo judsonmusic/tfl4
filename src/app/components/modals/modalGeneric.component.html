@@ -6,13 +6,16 @@
         <!--<button type="button" class="close" (click)="lgModal.hide()" aria-label="Close" style="color: white; opacity: 10; text-shadow: none; font-size: 36px; font-weight: normal;">
           <span aria-hidden="true" style="opacity: 10;">&times;</span>
         </button>-->
-        <h4 class="modal-title">Alert</h4>
+        <h4 class="modal-title">Important!</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="lgModal.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
       </div>
 
 
       <div class="modal-body">
 
-       {{message}}
+       <div [innerHTML]="message"></div>
 
         <div class="text-right">
           <button class="btn btn-primary" (click)="hide()">Ok</button>
