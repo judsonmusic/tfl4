@@ -1,3 +1,4 @@
+import { ModalYourResultsComponent } from './../modals/modalYourResultsComponent';
 import { ModalDataJunkieComponent } from './../modals/modalDataJunkieComponent';
 import { ModalGenericComponent } from './../modals/modalGenericComponent';
 import { ModalDirective } from 'ngx-bootstrap';
@@ -18,7 +19,10 @@ export class DashboardComponent implements OnInit {
     @ViewChild('tooltip2') tooltip2;
     @ViewChild('s') public s: ModalDirective;
     @ViewChild('g') public g: ModalGenericComponent;
+    @ViewChild('g2') public g2: ModalGenericComponent;
+    @ViewChild('g3') public g3: ModalGenericComponent;
     @ViewChild('j') public j: ModalDataJunkieComponent;
+    @ViewChild('r') public r: ModalYourResultsComponent;
     
 
 
@@ -38,6 +42,8 @@ export class DashboardComponent implements OnInit {
     public surveyComplete = false;
     public overAllScore;
     public overAllStressScore;
+    public showMotivated: boolean = false;
+    public showGraph: boolean = false;
 
     constructor(public router: Router, public assessmentService: AssessmentService, public userService: UserService) {
 
@@ -225,7 +231,7 @@ export class DashboardComponent implements OnInit {
             
         }
 
-        if(!this.surveyComplete && this.getCurrentStep() > 3){
+        if(!this.surveyComplete && this.getCurrentStep() > 2){
             //this.g.show();
         }
     }
@@ -392,7 +398,7 @@ export class DashboardComponent implements OnInit {
     }
 
     goToDimension(id) {
-        if(!this.surveyComplete){
+        if(!this.surveyComplete && this.getCurrentStep() > 2){
             this.g.onHide.subscribe((hidden) => {
                 this.router.navigate(['/dimensions', id]);
               });
@@ -448,7 +454,9 @@ export class DashboardComponent implements OnInit {
 
             sessionStorage.setItem('steps', this.userData.steps)
         }
-        return sessionStorage.getItem('steps').split(",").map(Boolean)
+        return sessionStorage.getItem('steps').split(",").map((item)=>{
+            return item && item == "true" ? true : false
+        })
     }
 
     //TODO: need to check this algorithm.
@@ -486,15 +494,35 @@ export class DashboardComponent implements OnInit {
 
     }
 
-    showDataJunkie(){
+    showResults(){
+
+        this.showGraph = true;
+        this.showMotivated = true;
+
         if(!this.surveyComplete){
+           
             this.g.onHide.subscribe((hidden) => {
-                this.j.show();
+                this.r.show();
               });
               this.g.show();
            
         }else{
-            this.j.show();
+            this.r.show();
+            
+        }
+        
+    }
+
+    showDataJunkie(){
+        if(!this.surveyComplete){
+            
+            this.g2.onHide.subscribe((hidden) => {
+                this.router.navigate(['data-junkie'])
+              });
+              this.g2.show();
+           
+        }else{
+            this.router.navigate(['data-junkie'])
             
         }
 
@@ -502,10 +530,10 @@ export class DashboardComponent implements OnInit {
 
     showTFLGuide(){
         if(!this.surveyComplete){
-            this.g.onHide.subscribe((hidden) => {
+            this.g3.onHide.subscribe((hidden) => {
                 this.router.navigate(['tfl-guide'])
               });
-            this.g.show();
+            this.g3.show();
         }else{
             this.router.navigate(['tfl-guide'])
             

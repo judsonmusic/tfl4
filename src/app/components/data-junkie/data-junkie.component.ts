@@ -1,4 +1,5 @@
-import{ Component , OnInit} from '@angular/core';
+import { ModalDataJunkieComponent } from './../modals/modalDataJunkieComponent';
+import{ Component , OnInit, ViewChild, AfterViewInit} from '@angular/core';
 import { Router } from '@angular/router';
 import {AssessmentService} from "../assessment/assessment.service";
 import {UserService} from "../user-service/user.service";
@@ -9,7 +10,9 @@ declare var System:any;
   selector: 'dataJunkie',
   templateUrl: 'data-junkie.component.html',
 })
-export class DataJunkieComponent implements OnInit {
+export class DataJunkieComponent implements OnInit, AfterViewInit{
+
+  @ViewChild('j') public j: ModalDataJunkieComponent;
 
   public areas:any;
   public assessmentData: any[];
@@ -73,6 +76,8 @@ export class DataJunkieComponent implements OnInit {
 
   ngOnInit() {
 
+   
+
     this.checkComplete();
 
     //if I already have data from login, simply load it.
@@ -92,6 +97,11 @@ export class DataJunkieComponent implements OnInit {
 
     this.buildSeries();
 
+  }
+
+  ngAfterViewInit(){
+
+    this.j.show();
   }
 
   buildSeries(){

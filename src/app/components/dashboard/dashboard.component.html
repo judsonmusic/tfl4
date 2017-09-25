@@ -5,7 +5,7 @@
     <div class="panel panel-default" *ngIf="motivatedAreas.length > 0 && dataCheckPassed && showMotivated">
         <div class="panel-heading"><h3 class="green" *ngIf="motivatedAreas.length > 0 && showMotivated">{{motivatedAreas.length}} TFL Dimensions: <span style="color:#666666">Motivated to Take Action!</span></h3></div>
         <div class="panel-body">
-            <p style="font-size: 17px; color: #666666;">Congratulations! You have now completed STEP 2. Once you have viewed your TFL Results, return to your TFL Dashboard to complete STEP 3. <a class="blue" (click)="showGraph = !showGraph; showMotivated = !showMotivated">Back to
+           <p style="font-size: 17px; color: #666666;">Congratulations! You have now completed STEP 2. Once you have viewed your TFL Results, return to your TFL Dashboard to complete STEP 3. <a class="blue" (click)="showGraph = !showGraph; showMotivated = !showMotivated">Back to
                 Dashboard</a></p>
 
             <div class="row">
@@ -38,7 +38,7 @@
         <div class="panel-body">
             <div class="row" *ngIf="NONmotivatedAreas.length > 0 && dataCheckPassed && showMotivated">
                 <div class="col-md-12"><h4>You reported neutral or lower satisfaction but are not motivated to take action at this time.</h4>
-                    <hr/>
+                    <hr>
                 </div>
                 <div *ngFor="let item of NONmotivatedAreas" class="col-xs-4 col-sm-2 col-md-2 text-center action-icons" style="padding: 20px;">
                     <i class="fa fa-unlock-alt green" aria-hidden="true" style="font-size: 72px; cursor: pointer" *ngIf="item.subs.indexOf(null) == -1  && item.subs.length === 6" (click)="goToDimension(item.id)"></i>
@@ -60,7 +60,7 @@
                     <p><span style="color: #666666; font-size: 17px; text-align: center" *ngIf="!dataCheckPassed">Your toolkit will become active once you unlock the {{notGood.length}} dimensions selected below.</span></p>
                     <div class="row">
                         <div class="col-xs-4 col-sm-2 col-md-4 text-center action-icons" style="padding: 0;">
-                            <i *ngIf="dataCheckPassed" class="fa fa-star orange" aria-hidden="true" style="font-size: 72px; cursor: pointer;" (click)="updateStep(2); r.show(); showGraph = !showGraph; showMotivated = !showMotivated" tooltip="Reveal where you are motivated to take action." placement="top" #tooltip="bs-tooltip" [isOpen]="getCurrentStep() === 2"></i>
+                            <i *ngIf="dataCheckPassed" class="fa fa-star orange" aria-hidden="true" style="font-size: 72px; cursor: pointer;" (click)="updateStep(2); showResults();" tooltip="Reveal where you are motivated to take action." placement="top" #tooltip="bs-tooltip" [isOpen]="getCurrentStep() === 2"></i>
                             <i *ngIf="!dataCheckPassed" class="fa fa-star" aria-hidden="true" style="color: #efefef; font-size: 72px; cursor: pointer; text-shadow: 0 0 3px #444;" tooltip="Reveal where you are motivated to take action." placement="top"></i><br/> Your Results
                         </div>
                         <div class="col-xs-4 col-sm-2 col-md-4 text-center action-icons" style="padding: 0;">
@@ -80,7 +80,7 @@
                        
                         
                         <div class="col-md-6 text-center" *ngIf="overAllScore">
-                            <button style="font-size: 20px; width: 100%" tooltip="Reflects your overall satisfaction score based on all 15 dimensions" placement="bottom" triggers="hover" [isDisabled]="false" class="btn btn-primary bg-blue">Ideal Being Score is {{overAllScore}}
+                            <button style="font-size: 20px; width: 100%" tooltip="Reflects your overall satisfaction score based on all 15 dimensions. 100 is optimal" placement="bottom" triggers="hover" [isDisabled]="false" class="btn btn-primary bg-blue">Ideal Being Score is {{overAllScore}}
                             </button>
                         </div>
 
@@ -207,3 +207,11 @@
     You will find the Take TFL Survey button on your dashbaord or #5 in the steps box.<br>
 Completing the survey is required if you are taking the assessment in association with a company. <br> 
 Thank you in advance for sharing your thoughts."></modal-generic>
+<modal-generic #g2="child10" message="Please take survey before you leave the assessment site.<br>
+        You will find the Take TFL Survey button on your dashbaord or #5 in the steps box.<br>
+    Completing the survey is required if you are taking the assessment in association with a company. <br> 
+    Thank you in advance for sharing your thoughts."></modal-generic>
+    <modal-generic #g3="child10" message="Please take survey before you leave the assessment site.<br>
+            You will find the Take TFL Survey button on your dashbaord or #5 in the steps box.<br>
+        Completing the survey is required if you are taking the assessment in association with a company. <br> 
+        Thank you in advance for sharing your thoughts."></modal-generic>
