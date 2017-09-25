@@ -5,9 +5,8 @@
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
-          <th>
-            Questions
-          </th>
+          <th>Category</th>
+          <th>Question</th>
           <th>
             Stress Level
           </th>
@@ -15,7 +14,8 @@
       </thead>
       <tbody>
         <tr *ngFor="let q of questions">
-          <td>{{q.id}}. {{q.question}}</td>
+          <td>{{q.id}}. {{q.category}}</td>
+          <td>{{q.question}}</td>
            <td>
             {{stressData[q.id]}}
           </td>

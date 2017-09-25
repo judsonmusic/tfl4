@@ -29,10 +29,10 @@ export class HeaderComponent implements AfterViewInit {
         this.userService.user$.subscribe((user) => {
 
             //console.log('Was a user defined from the user service?', user);
-            if (user && user.admin) {
+            if (user && user.admin === true) {
                 this.isAdmin = user.admin;
             }else{
-
+                this.isAdmin = false;
                 //console.log('THE USER WAS NOT DEFINED IN THE HEADER FUNCTION', user);
             }
         })

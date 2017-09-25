@@ -76,7 +76,7 @@ export class AssessmentComponent implements OnInit {
   }
   //she (terrie) wants to use the data from the satisfied option from the assessment for this..
   updateSubs(ev, value, assessmentIndex) {
-    console.log('THIS IS A TEST: ' , ev,value,assessmentIndex,assessmentIndex.subs)
+    //console.log('THIS IS A TEST: ' , ev,value,assessmentIndex,assessmentIndex.subs)
     //ev.stopPropagation()
     //we are using the 2nd value in the array to store satisfaction.
     assessmentIndex.subs = [null, (value * 20), null, null, null, null];
@@ -142,7 +142,7 @@ export class AssessmentComponent implements OnInit {
 
   checkComplete() {
 
-    console.log('Check completetion!');
+    //console.log('Check completetion!');
     let tempComplete = [];
     this.data.account.assessment.map((item) => {
 
@@ -165,12 +165,12 @@ export class AssessmentComponent implements OnInit {
       this.assessmentComplete = true;
     }
 
-    console.log(tempComplete);
+    //console.log(tempComplete);
   }
 
   doSomething(){
 
-    console.log('Clicked!');
+    //console.log('Clicked!');
   }
 
 

@@ -1,9 +1,18 @@
 <div class="container">
 
   <h2 style="margin:0">
-    <img [src]="'/assets/images/icons/' + dimension.category.toLowerCase().replace(' ', '-') + '.jpg'" style="height:48px;">    {{dimension.category}} - <span *ngIf="score >= 0">Your Ideal Being Score</span>
+    
+    <img [src]="'/assets/images/icons/' + dimension.category.toLowerCase().replace(' ', '-') + '.jpg'" style="height:48px;">    {{dimension.category}} - <span *ngIf="score >= 0">Ideal Being Score</span>
     <span *ngIf="score>=0" class="light-blue-bg" style="color: white; padding: 10px; display: inline-block; border-radius: 32px; min-width: 54px; height: 54px; text-align: center;"
-      tooltip="This score represents how your ranked your level of satisfaction" placement="right" triggers="hover" [isDisabled]="false">{{score}}</span>
+      tooltip="Represents how you ranked your level of satisfaction in this dimension" placement="right" triggers="hover" [isDisabled]="false">{{score}}</span>
+
+      <div *ngIf="seriesdata && data.account.dimensions[dimension.id-1].stressLevel" style="display: inline">
+    <span>Stress Level</span>
+    <span *ngIf="score>=0" class="light-blue-bg" style="color: white; padding: 10px; display: inline-block; border-radius: 32px; min-width: 54px; height: 54px; text-align: center;"
+        tooltip="Represents how your ranked your level of stress in this dimension" placement="right" triggers="hover" [isDisabled]="false">{{data.account.dimensions[dimension.id-1].stressLevel}}</span>
+      </div>
+
+
     <i class="pull-right fa fa-print" *ngIf="answerData && answerData.subs.indexOf(null) < 0 && answerConfirmed && !datamode && !guidemode"
       aria-hidden="true" style="font-size: 48px;
        cursor: pointer" tooltip="Print this page." placement="top" triggers="mouseenter" [isDisabled]="false" onclick="window.print()"></i>
@@ -103,37 +112,20 @@
     <div *ngIf="answerData && answerConfirmed">
 
       <div *ngIf="seriesdata">
+        <div class="col-md-8">
         <bar-chart heading="{{dimension.category}}" selector="{{dimension.category}}_bar_chart" [seriesdata]="seriesdata" [categories]="categories"></bar-chart>
+        </div>
+        <div class="col-md-4" style="text-align: center; padding-top: 33px">     
+        <gauge-chart selector="{{dimension.category}}_2" heading="{{dimension.category}}" [seriesdata]="data.account.dimensions[dimension.id-1].stressLevel"></gauge-chart>   
+        <p><button class="btn btn-primary" (click)="goToStress()" tooltip="Click here for stress management tools." placement="bottom" triggers="hover" [isDisabled]="false">Stress Management Tools</button></p> 
+        </div>
       </div>
       <div *ngIf="!datamode" style="padding-bottom: 10px; clear: both; height: 24px;">
         <a href="javascript:void(0);" style="text-decoration: none;" class="green pull-left" (click)="t.show();"><i class="fa fa-question-circle grey"></i> Understand my TFL chart</a>
         <a href="javascript:void(0);" style="text-decoration: none;" class="red pull-right" routerLink="/dashboard"><i class="fa fa-lock grey"></i> Click here to unlock more dimensions!</a>
       </div>
       <hr>
-      <div *ngIf="seriesdata && data.account.dimensions[dimension.id-1].stressLevel">
-        <div class="panel panel-default">
-          <div class="panel-heading bg-light-blue">
-            <h4><i class="fa fa-tachometer" aria-hidden="true"></i> Stress Gauge</h4>
-            <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span></div>
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-md-8">
-                <p style="font-size: 16px;">The World Health Organization calls stress &quot;the health epidemic of our time&quot;.</p>
-
-                <p style="font-size: 14px;"><strong>Stress Gauge:</strong> Your gauge reflects the level of stress you feel associated with each dimension.
-                  20% reflects low stress and 100% reflects high stress.</p>
-                <p style="font-size: 14px;">You indicated a <strong>{{data.account.dimensions[dimension.id-1].stressLevel}}%</strong> stress level for
-                  this dimension.</p>
-                <p><button class="btn btn-primary" (click)="goToStress()">Stress Management TFL Action Plan</button></p>
-              </div>
-              <div class="col-md-4">
-                <gauge-chart selector="{{dimension.category}}_2" heading="{{dimension.category}}" [seriesdata]="data.account.dimensions[dimension.id-1].stressLevel"></gauge-chart>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
+     
       <hr>
       <h3 *ngIf="!datamode"><img src="assets/images/logo-tfl-mini.jpg" style="float: left; height: 24px; margin-left: -4px;" /> Your TFL Action
         Plan {{datamode}} </h3>
@@ -141,6 +133,32 @@
       <!--THE TEMPLATE URL IS: {{dimension | json}}-->
       <!--<div [whencreateview]="dimension.templateUrl" *ngIf="!datamode">Html will appear here..</div>-->
       <div [innerHTML]="dimension.template"></div>
+
+       <!--stress-->
+       <div *ngIf="seriesdata && data.account.dimensions[dimension.id-1].stressLevel">
+          <div class="panel panel-default">
+            <div class="panel-heading bg-light-blue">
+              <h4><i class="fa fa-tachometer" aria-hidden="true"></i> Universal Stress Management Tools</h4>
+              <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span></div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-8">                  
+                  <p style="font-size: 16px;">The World Health Organization calls stress &quot;the health epidemic of our time&quot;.</p>
+  
+                  <p style="font-size: 14px;"><strong>Stress Gauge:</strong> Your gauge reflects the level of stress you feel associated with each dimension.
+                    20% reflects low stress and 100% reflects high stress.</p>
+                  <p style="font-size: 14px;">You indicated a <strong>{{data.account.dimensions[dimension.id-1].stressLevel}}%</strong> stress level for
+                    this dimension.</p>
+                  <p><button class="btn btn-primary" (click)="goToStress()" tooltip="Click here for stress management tools." placement="right" triggers="hover" [isDisabled]="false">Stress Management Tools</button></p>
+                </div>
+                <div class="col-md-4">
+                    <gauge-chart selector="{{dimension.category}}_3" heading="{{dimension.category}}" [seriesdata]="data.account.dimensions[dimension.id-1].stressLevel"></gauge-chart>   
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+         <!--END stress-->
 
       <!--if on data junkie we need to hide this stuff-->
       <div *ngIf="!datamode">

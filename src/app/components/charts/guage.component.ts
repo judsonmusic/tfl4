@@ -3,7 +3,7 @@ declare var Highcharts: any;
 
 @Component({
     selector: 'gauge-chart',
-    template: `<div id="{{selector}}" style="width: 280px; height: 280px; margin: 10px auto;"></div>`
+    template: `<div id="{{selector}}" style="width: 240px; height: 240px; margin: 10px auto;"></div>`
 })
 export class GaugeComponent implements OnInit {
 

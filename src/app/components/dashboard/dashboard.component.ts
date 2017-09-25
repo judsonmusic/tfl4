@@ -1,3 +1,5 @@
+import { ModalGenericComponent } from './../modals/modalGenericComponent';
+import { ModalDirective } from 'ngx-bootstrap';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AssessmentService } from "../assessment/assessment.service";
@@ -13,6 +15,9 @@ export class DashboardComponent implements OnInit {
 
     @ViewChild('tooltip') tooltip;
     @ViewChild('tooltip2') tooltip2;
+    @ViewChild('s') public s: ModalDirective;
+    @ViewChild('g') public g: ModalGenericComponent;
+    
 
 
     public areas: any;
@@ -50,6 +55,7 @@ export class DashboardComponent implements OnInit {
         this.userService = userService;
         this.allUnlocked = false;
 
+
     }
 
 
@@ -73,6 +79,8 @@ export class DashboardComponent implements OnInit {
             this.buildSeries();
             this.getOverAllScore();
             this.getOverAllStressScore();
+
+
         });
 
 
@@ -86,7 +94,8 @@ export class DashboardComponent implements OnInit {
         }
         if (typeof this.tooltip2 !== "undefined") {
             //this.tooltip2.show();
-        }
+        }          
+      
         // Another way to set attribute value to element
         // this.renderer.setElementAttribute(this.player, 'src', this.src);
     }
@@ -106,12 +115,12 @@ export class DashboardComponent implements OnInit {
         this.overAllScore = avg;
     }
 
-     getOverAllStressScore() {
+    getOverAllStressScore() {
 
         var temp = [];
 
         this.userData.dimensions.map((obj) => {
-         
+
             if (!isNaN(obj.stressLevel)) {
                 temp.push(obj.stressLevel);
             }
@@ -119,8 +128,8 @@ export class DashboardComponent implements OnInit {
         });
         //console.log(temp);
         var sum = parseInt(temp.reduce((pv, cv) => pv + cv, 0).toString());
-        var avg = Math.floor(((sum / temp.length) + 1) / 10) * 10;        
-        this.overAllStressScore =  avg;
+        var avg = Math.floor(((sum / temp.length) + 1) / 10) * 10;
+        this.overAllStressScore = avg;
     }
 
     checkAllUnlocked() {
@@ -176,27 +185,30 @@ export class DashboardComponent implements OnInit {
     public checkComplete() {
 
         let complete = [];
+        if (this.userData.survey.length === 0) {
+            this.surveyComplete = false;
+        } else {
+            this.userData.survey.map((item, index) => {
 
-        this.userData.survey.map((item, index) => {
+                //console.log(item);
 
-            //console.log(item);
+                if (item.id != 101 && item.id != 100 && item.answer == "") {
 
-            if (item.id != 101 && item.id != 100 && item.answer == "") {
+                    complete.push(false);
 
-                complete.push(false);
+                } else {
 
-            } else {
+                    complete.push(true);
 
-                complete.push(true);
-
-            }
+                }
 
 
-        });
+            });
 
-        //console.log('SURVEY: ' , complete);
+            //console.log('SURVEY: ' , complete);
 
-        this.surveyComplete = complete.indexOf(false) == -1;
+            this.surveyComplete = complete.indexOf(false) == -1;
+        }
 
         if (this.surveyComplete) {
 
@@ -204,6 +216,11 @@ export class DashboardComponent implements OnInit {
             //console.log('The survey is complete. Lets update the account', this.userService.userData);
 
             this.updateUser();
+        } else {
+
+            //alert('You havent compelted the survey!');
+            //this.s.show();
+            this.g.show();
         }
     }
 
@@ -448,7 +465,7 @@ export class DashboardComponent implements OnInit {
 
         });
 
-        //console.log(tempSteps);
+        //console.log('Temp Steps', tempSteps);
 
         return tempSteps.indexOf(false) + 1;
 
