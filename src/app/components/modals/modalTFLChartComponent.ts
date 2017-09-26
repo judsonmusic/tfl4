@@ -20,6 +20,7 @@ export class ModalTFLChartComponent implements AfterViewInit {
 
     public show() {
         this.lgModal.show();
+        sessionStorage.setItem('modal-tfl-chart', '1');
     }
 
     public hide() {
@@ -37,6 +38,8 @@ export class ModalTFLChartComponent implements AfterViewInit {
     }
 
     ngAfterViewInit() {
+
+        //sessionStorage.setItem('modal-tfl-chart', '1');
 
         //if(!sessionStorage.getItem('modal-tfl-chart')) {
         //this.lgModal.show();
