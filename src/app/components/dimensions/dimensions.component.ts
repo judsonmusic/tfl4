@@ -148,7 +148,7 @@ export class DimensionsComponent implements OnInit, OnDestroy {
                 if (x.subs.length == 0) {
                     x.subs = [null, null, null, null, null, null]
                 }//fix to ensure subs is pre-populated. 0 means no selection.
-                console.log(x.answer, x.subs);
+                //console.log(x.answer, x.subs);
                 //if they have left an answer blank or a sub is not answered, datacheck has not passed.
                 if (x.answer <= 3 && x.subs.indexOf(null) > -1) {
 
@@ -163,7 +163,7 @@ export class DimensionsComponent implements OnInit, OnDestroy {
 
                 }
 
-                console.log(dataCheckPassed);
+                //console.log(dataCheckPassed);
 
 
 
