@@ -1,6 +1,6 @@
 <div class="container">
 
-  <h2 style="margin:0">
+  <h2 style="margin:0; width: 100%;">
     
     <img [src]="'/assets/images/icons/' + dimension.category.toLowerCase().replace(' ', '-') + '.jpg'" style="height:48px;">    {{dimension.category}} - <span *ngIf="score >= 0">Ideal Being Score</span>
     <span *ngIf="score>=0" class="light-blue-bg" style="color: white; padding: 10px; display: inline-block; border-radius: 32px; min-width: 54px; height: 54px; text-align: center;"
@@ -15,7 +15,7 @@
 
     <i class="pull-right fa fa-print" *ngIf="answerData && answerData.subs.indexOf(null) < 0 && answerConfirmed && !datamode && !guidemode"
       aria-hidden="true" style="font-size: 48px;
-       cursor: pointer" tooltip="Print this page." placement="top" triggers="mouseenter" [isDisabled]="false" onclick="window.print()"></i>
+       cursor: pointer" tooltip="Print TFL action plan." placement="top" triggers="mouseenter" [isDisabled]="false" onclick="window.print()"></i>
   </h2>
   <div *ngIf="!datamode && !answerData || answerData.answer == ''">
     <p>You have not yet answered this question in the assessment.</p>
@@ -128,7 +128,9 @@
      
       <hr>
       <h3 *ngIf="!datamode"><img src="assets/images/logo-tfl-mini.jpg" style="float: left; height: 24px; margin-left: -4px;" /> Your TFL Action
-        Plan {{datamode}} </h3>
+        Plan {{datamode}} <i class="pull-right fa fa-print" *ngIf="answerData && answerData.subs.indexOf(null) < 0 && answerConfirmed && !datamode && !guidemode"
+        aria-hidden="true" style="font-size: 24px;
+         cursor: pointer" tooltip="Print TFL action plan." placement="top" triggers="mouseenter" [isDisabled]="false" onclick="window.print()"></i></h3>
       <hr>
       <!--THE TEMPLATE URL IS: {{dimension | json}}-->
       <!--<div [whencreateview]="dimension.templateUrl" *ngIf="!datamode">Html will appear here..</div>-->

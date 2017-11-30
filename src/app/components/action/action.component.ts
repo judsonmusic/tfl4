@@ -13,6 +13,7 @@ export class ActionComponent implements OnInit {
   public assessmentData: any[];
   public categories: any;
   public seriesdata: any;
+  public h;
 
   constructor(public router: Router, public assessmentService: AssessmentService, public userService: UserService) {
 

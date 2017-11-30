@@ -32,6 +32,7 @@ export class ModalSurveyComponent implements AfterViewInit {
         this.userService = userService;
         this.surveyService = surveyService;
         this.survey_questions = surveyService.questions;
+        console.log(this.survey_questions);
         this.survey_answers = surveyService.answers;
         this.userData = userService.userData;
         this.surveySubmitted = false;

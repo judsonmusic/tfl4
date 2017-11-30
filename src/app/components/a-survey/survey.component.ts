@@ -14,11 +14,11 @@ export class ASurveyComponent implements OnInit {
   constructor(public ss: SurveyService) { 
     this.surveyQuestions = ss.questions.filter((item)=>item.id < 100);
     this.surveyAnswers = ss.answers;
-     console.log('Hello Component!')
+     //console.log('Hello Component!', this.surveyQuestions)
   }
 
   ngOnInit() {
-    console.log('Hello Component!')
+    //console.log('Hello Component!')
     //here we need to get the survey data...
     this.ss.aggregate().subscribe(res=>{
 

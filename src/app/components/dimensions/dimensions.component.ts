@@ -19,14 +19,14 @@ export class DimensionsComponent implements OnInit, OnDestroy {
     @Input() datamode: boolean;
     @Input() guidemode: boolean;
 
-    private sub: Subscription;
-    private dimension: any;
-    private seriesdata: any;
-    private categories: any;
-    private assessmentData: any;
-    private answers: any;
-    private answerData: any;
-    private subquestions: any;
+    public sub: Subscription;
+    public dimension: any;
+    public seriesdata: any;
+    public categories: any;
+    public assessmentData: any;
+    public answers: any;
+    public answerData: any;
+    public subquestions: any;
     public data: any;
     public answerConfirmed: boolean;
     public sessionStorage = sessionStorage;

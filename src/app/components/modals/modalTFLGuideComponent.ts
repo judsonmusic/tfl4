@@ -12,6 +12,7 @@ export class ModalTFLGuideComponent implements AfterViewInit {
 
   @ViewChild('childModal') public childModal:ModalDirective;
   @ViewChild('lgModal') public lgModal:ModalDirective;
+  public updateStorage;
 
   constructor(){
 

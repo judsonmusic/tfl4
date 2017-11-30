@@ -16,6 +16,8 @@ export class TflGuideComponent implements OnInit {
   public categories: any;
   public surveyComplete: any;
   public userData: any;
+  public datamode;
+  public guidemode;
 
   constructor(public router: Router, public assessmentService: AssessmentService, public userService: UserService, public surveyService: SurveyService) {
 

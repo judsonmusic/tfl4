@@ -20,19 +20,22 @@ export class SurveyService {
 
     this.questions = [
 
-      {id: 1, question: "I am glad I took the TFL Assessment and feel it was a valuable exercise. "},
-      {id: 2, question: "The TFL Assessment reflects my life accurately."},
-      {id: 3, question: "I am going to take action in some of the dimensions I explored through this assessment."},
-      {id: 4, question: "I would value “one” TFL Coaching session to design a TFL Action Plan based on the dimensions that interest me."},
-      {id: 5, question: "I would be interested in ongoing TFL Coaching and believe it would help me in certain dimensions of my life."},
-      {id: 6, question: "I would recommend the TFL assessment to others."},
-      {id: 7, question: "The TFL Action Plan information shared under each dimension was helpful."},
-      {id: 8, question: "I would be interested in additional TFL services, assessments, workshops and programs."},
-      {id: 9, question: "I found the TFL assessment and site content thorough, helpful and encouraging."},
-      {id: 10, question: "I found the TFL assessment and site content easy to understand and navigate. "},
-      {id: 11, question: "I liked the TFL reporting and charts and it was easy to understand."},
+      {id: 1, question: "Taking the Train For Life (TFL) assessment was a valuable experience."},
+      {id: 2, question: "The TFL assessment results reflect my life accurately."},
+      {id: 3, question: "I am going to take action in one or more of the dimensions that are important to me. "},
+      {id: 4, question: "My perspective of well-being has broadened because of this assessment."},
+      {id: 5, question: "I believe the 15 dimensions included in the Ideal Being Model are comprehensive."},
+      {id: 6, question: "I am more self-aware of my overall well-being because of this assessment."},
+      {id: 7, question: "I am more self-aware of what is causing me stress because of this assessment."},
+      {id: 8, question: "I would value “one” TFL coaching session to design a TFL Action Plan based on the dimensions that are important to me."},
+      {id: 9, question: "I would be interested in ongoing TFL coaching, to focus on self-awareness and self-care, stress management and resiliency training, and mindfulness practice and goal setting."},
+      {id: 10, question: "I would recommend the TFL assessment to others."},
+      {id: 11, question: "I am going to use the tools and resources provided in the TFL Action Plans, in the dimensions that are important to me."},
       {id: 12, question: "I would like to learn how I can better manage stress."},
-      {id: 13, question: "I would like to receive mindfulness training."},
+      {id: 13, question: "I found the TFL assessment and site content thorough, helpful and encouraging."},
+      {id: 14, question: "I found the TFL assessment and site content easy to understand and navigate."},
+      {id: 15, question: "I liked the TFL reporting and charts."},
+      {id: 16, question: "I would be interested in learning more about additional Train For Life services, assessments, workshops, and programs."},      
       /*{id: 100, question: "I think the assessment is worth:"},*/
       {id: 101, question: "Additional Feedback"}
 
@@ -63,6 +66,9 @@ export class SurveyService {
       {id: 11, answer: ""},
       {id: 12, answer: ""},
       {id: 13, answer: ""},
+      {id: 14, answer: ""},
+      {id: 15, answer: ""},
+      {id: 16, answer: ""},
       /*{id: 100, answer: ""},*/
       {id: 101, answer: ""}
 

@@ -20,6 +20,8 @@ export class DataJunkieComponent implements OnInit, AfterViewInit{
   public userData: any;
   public dataCheckPassed: boolean;
   public seriesdata: any;
+  public guidemode;
+  public datamode;
 
   constructor(public router: Router, public assessmentService: AssessmentService, public userService: UserService, public surveyService: SurveyService) {
 
