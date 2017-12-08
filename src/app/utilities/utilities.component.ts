@@ -19,7 +19,7 @@ export class UtilitiesService implements OnInit {
 
     } else {
 
-      return '//judsondesigns.dyndns.org:3333';
+      return '//www.trainforlifeamerica.com';
     }
 
   }
