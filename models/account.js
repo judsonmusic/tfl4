@@ -9,6 +9,8 @@ var AccountSchema   = new Schema({
     lastName: String,
     phone: String,
     occupation: String,
+    ethnicity: String,
+    income: String,
     education: String,
     hear: String,
     email: String,

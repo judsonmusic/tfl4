@@ -31,7 +31,7 @@ var UserComponent = (function () {
             { id: 1, value: 'Student' },
             { id: 2, value: 'CEO of my household' },
             { id: 3, value: 'Business owner' },
-            { id: 4, value: 'C-suite' },
+            { id: 4, value: 'C-suite executive' },
             { id: 5, value: 'Manager' },
             { id: 6, value: 'Administrative' },
             { id: 7, value: 'Operations' },
@@ -40,27 +40,49 @@ var UserComponent = (function () {
             { id: 10, value: 'Skilled labor' },
             { id: 11, value: 'IT specialist' },
             { id: 12, value: 'Consultant' },
-            { id: 13, value: 'Teacher' },
+            { id: 13, value: 'Education' },
             { id: 14, value: 'Law enforcement' },
             { id: 15, value: 'Fireman' },
             { id: 16, value: 'Counselor or coach' },
-            { id: 17, value: 'Medical professional' },
-            { id: 18, value: 'Lawyer' },
+            { id: 17, value: 'Healthcare professional' },
+            { id: 18, value: 'Lawyer/paralegal' },
             { id: 19, value: 'Athlete' },
-            { id: 20, value: 'Performer' },
+            //{ id: 20, value: 'Performer' },
             { id: 21, value: 'Artist' },
             { id: 22, value: 'Retiree' },
             { id: 23, value: 'Hospitality' },
             { id: 24, value: 'Service position' },
-            { id: 25, value: 'Other' }
+            { id: 25, value: 'Active duty military' },
+            { id: 26, value: 'Veteran' },
+            { id: 27, value: 'Finance' },
+            { id: 28, value: 'Customer service' },
+            { id: 29, value: 'Retail' },
+            { id: 30, value: 'Public service ' },
+            { id: 31, value: 'Marketing' },
+            { id: 32, value: 'Engineer' },
+            { id: 33, value: 'Fitness professional' },
+            { id: 34, value: 'Unemployed' },
+            { id: 99, value: 'Other' }
         ];
+
+        this.blah = 123;
+
         this.education = [
-            { id: 1, value: 'High school' },
-            { id: 2, value: 'Certified in a specific skill' },
-            { id: 3, value: 'Undergraduate' },
-            { id: 4, value: 'Masters or graduate degree' },
-            { id: 5, value: 'Doctorate or Ph.D.' },
-            { id: 6, value: 'Other' }
+           /*  { id: 1, value: 'High school freshman' },
+            { id: 2, value: 'High school sophomore' },
+            { id: 3, value: 'High school junior' },
+            { id: 4, value: 'High school senior' },
+            { id: 5, value: 'High school diploma/GED' },
+            { id: 6, value: 'College freshman' },
+            { id: 7, value: 'College sophomore' },
+            { id: 8, value: 'College junior' },
+            { id: 9, value: 'College senior' },
+            { id: 10, value: 'Certified in a specific skill' },
+            { id: 11, value: 'Undergraduate' },
+            { id: 12, value: 'Masters or graduate degree' },
+            { id: 13, value: 'Doctorate or Ph.D.' },
+            { id: 99, value: 'Other' } */
+            
         ];
         this.hear = [
             { id: 1, value: 'Company' },

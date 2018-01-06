@@ -311,6 +311,8 @@ router.route('/accounts')
                         age: moment.isDate(item.birthDate) && moment.isDate(item.createdAt) ? moment(item.createdAt).diff(item.birthDate, 'years',false) : 'Unknown',
                         occupation: item.occupation,
                         education: item.education,
+                        ethnicity: item.ethnicity,
+                        income: item.income,
                         hear: item.hear,
                         phone: item.phone,
                         assessment: item.assessment,
@@ -341,6 +343,8 @@ router.route('/accounts')
         account.gender = req.body.gender;
         account.occupation = req.body.occupation;
         account.education = req.body.education;
+        account.ethnicity = req.body.ethnicity;
+        account.income = req.body.income;
         account.hear = req.body.hear;
         account.phone = req.body.phone;
         account.username = req.body.username;
