@@ -1,7 +1,7 @@
 <div>
   <h2>Stress Stats</h2>
   <div *ngIf="stressData && questions">
-    <p>The stress level score reflects the average stress level for each dimension from all users.</p>   
+    <p>The stress level score reflects the average stress level for each dimension from all users. {{stressData.count}}</p>   
     <table class="table table-bordered table-striped">
       <thead>
         <tr>

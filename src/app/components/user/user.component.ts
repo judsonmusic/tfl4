@@ -43,7 +43,7 @@ export class UserComponent {
     this.ethnicities = [
 
       { id: 1, value: 'Caucasian' },
-      { id: 2, value: 'Blak or African American' },
+      { id: 2, value: 'Black or African American' },
       { id: 3, value: 'Hispanic' },
       { id: 4, value: 'Native American' },
       { id: 5, value: 'Asian' },

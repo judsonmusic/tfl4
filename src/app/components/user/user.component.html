@@ -35,7 +35,7 @@
   <div class="form-group">
   <select class="form-control" required [(ngModel)]="user.occupation" name="occupation">
     <option value="" selected>Primary Occupation</option>
-    <option *ngFor="let p of occupations" [value]="p.id">{{p.value}}</option>
+    <option *ngFor="let p of occupations | orderBy : 'value'" [value]="p.id">{{p.value}}</option>
   </select>
     </div>
 

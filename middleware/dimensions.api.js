@@ -13,6 +13,8 @@ function getAverage(array) {
 /*TODO: right now we are getting the assessment only here from accounts. Eventually need to move the data to its own collection*/
 router.route('/stress-data')
 
+/*TODO: need to get the actual count of people that took the stress scores or convert to hard numbers
+
     /*
         1 = strongly disagree
         2 = disagree 
@@ -30,23 +32,25 @@ router.route('/stress-data')
             } else {
                 //this will give us dimensions for each account, etc. Each dimension has an ID, for each ID push the score etc.
                 var stressScores = {};
+                var accountTaken = 0;
                 accounts.map(function (account, accountIndex) {
                     if (account.dimensions) {
+                        accountTaken++;
                         account.dimensions.map(function (dimension, dimensionIndex) {
                             //console.log(dimension.id, dimension.stressLevel);
                             if (!stressScores[dimension.id]) stressScores[dimension.id] = [];
-                            if (dimension.stressLevel) stressScores[dimension.id].push(dimension.stressLevel)
+                            if (dimension.stressLevel) stressScores[dimension.id].push(dimension.stressLevel); 
 
                         });
                     }
 
                 });
 
-                //console.log('Stress Scores for each dimension', stressScores);
+                console.log('Stress Scores for each dimension', stressScores);
                 var result = {
 
                     stats: {},
-                    count: 15 //number of dimensions
+                    count: 100 //? people that actually took this?//15 //number of dimensions
                 };
 
                 for (var key in stressScores) {
