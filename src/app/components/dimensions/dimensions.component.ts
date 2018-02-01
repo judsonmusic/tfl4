@@ -1,11 +1,12 @@
-import {Component, OnInit, OnDestroy, Input} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {AssessmentService} from "../assessment/assessment.service";
-import {Subscription} from 'rxjs/Subscription';
-import {UserService} from "../user-service/user.service";
-import {DimensionService} from "../dimension-service/dimension.service";
-declare var System:any;
-declare var $:any;
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AssessmentService } from "../assessment/assessment.service";
+import { Subscription } from 'rxjs/Subscription';
+import { UserService } from "../user-service/user.service";
+import { DimensionService } from "../dimension-service/dimension.service";
+declare var System: any;
+declare var $: any;
+declare var jQuery: any;
 
 @Component({
     selector: 'c-dimension',
@@ -34,10 +35,10 @@ export class DimensionsComponent implements OnInit, OnDestroy {
 
 
     constructor(private route: ActivatedRoute,
-                private userService: UserService,
-                private assessmentService: AssessmentService,
-                private router: Router,
-    private dimensionService: DimensionService) {
+        private userService: UserService,
+        private assessmentService: AssessmentService,
+        private router: Router,
+        private dimensionService: DimensionService) {
         this.answerData = [];
         this.subquestions = this.assessmentService.subquestions;
         this.data = {};
@@ -53,7 +54,7 @@ export class DimensionsComponent implements OnInit, OnDestroy {
     ngOnInit() {
 
         this.data.account = this.userService.userData || this.data.account;
-        if(typeof this.data.account.dimensions === "undefined"){
+        if (typeof this.data.account.dimensions === "undefined") {
 
             this.data.account.dimensions = this.dimensionService.dimensions;
         }
@@ -93,13 +94,13 @@ export class DimensionsComponent implements OnInit, OnDestroy {
 
         this.answerData = this.assessmentService.getAnswerForQuestion(this.assessmentData, this.dimension.id)[0] || [];
 
-           this.answerData.subs.map((o) => {
+        this.answerData.subs.map((o) => {
 
-                this.score += o;
+            this.score += o;
 
-             });
+        });
 
-        this.score =  this.answerData.subs[1];
+        this.score = this.answerData.subs[1];
         //this.score = Math.round( this.score * 1) / 1;
 
 
@@ -108,15 +109,15 @@ export class DimensionsComponent implements OnInit, OnDestroy {
         //console.log('THE SERIES DATA 1', this.seriesdata);
 
         //console.log('THE DIMENSION IS: ' , this.dimension.category);
-        this.categories.push({id: this.dimension.id, category: this.dimension.category});
+        this.categories.push({ id: this.dimension.id, category: this.dimension.category });
 
 
         let temp2 = [];
         //loop through sub questions and then get each map data to what they chose for each area.
-        this.assessmentService.subquestions.map((x, i)=> {
+        this.assessmentService.subquestions.map((x, i) => {
             //console.log('Row:', i, x);
             let visible = i == 0;
-            temp2.push({name: x.category, data: [this.assessmentData[this.dimension.id - 1].subs[i]], visible: true, color: x.color});
+            temp2.push({ name: x.category, data: [this.assessmentData[this.dimension.id - 1].subs[i]], visible: true, color: x.color });
 
         });
 
@@ -142,7 +143,7 @@ export class DimensionsComponent implements OnInit, OnDestroy {
 
 
             //check if step 1 is complete.
-            let duplicateObject = <any[]> JSON.parse(JSON.stringify(this.assessmentData));
+            let duplicateObject = <any[]>JSON.parse(JSON.stringify(this.assessmentData));
             duplicateObject.forEach((x) => {
 
                 if (x.subs.length == 0) {
@@ -156,7 +157,7 @@ export class DimensionsComponent implements OnInit, OnDestroy {
                     console.log('Data Check Failed...');
                     dataCheckPassed.push(false);
 
-                }else if(x.answer <= 3 && x.subs.indexOf(null) === -1){
+                } else if (x.answer <= 3 && x.subs.indexOf(null) === -1) {
 
                     console.log('Data Check Passed...');
                     dataCheckPassed.push(true);
@@ -171,7 +172,7 @@ export class DimensionsComponent implements OnInit, OnDestroy {
             });
 
             //if all the data passed for step 1, update the database as such..
-            if(dataCheckPassed.indexOf(false) === -1){
+            if (dataCheckPassed.indexOf(false) === -1) {
                 this.data.account.steps[1] = true;
                 this.userService.updateAccount(this.data.account).subscribe((res) => {
 
@@ -196,7 +197,7 @@ export class DimensionsComponent implements OnInit, OnDestroy {
 
             //if (self.answerData.subs.length == self.subquestions.length) {
 
-            $('body').animate({scrollTop: $('body').scrollTop() + 50});
+            $('body').animate({ scrollTop: $('body').scrollTop() + 50 });
             //}
 
         }, 1);
@@ -211,20 +212,20 @@ export class DimensionsComponent implements OnInit, OnDestroy {
 
     checkReveal() {
 
-        if((this.answerData.subs.length == this.subquestions.length && this.answerData.subs.indexOf(null) < 0) || (this.answerData.subs.length > 0 && this.answerData.subs.indexOf(null) < 0)){
+        if ((this.answerData.subs.length == this.subquestions.length && this.answerData.subs.indexOf(null) < 0) || (this.answerData.subs.length > 0 && this.answerData.subs.indexOf(null) < 0)) {
 
             return true;
         }
 
     }
 
-    goToDimension(id){
+    goToDimension(id) {
 
         this.router.navigate(['/dimensions', id]);
 
     }
 
-    goToStress(){
+    goToStress() {
 
         this.router.navigate(['/stress']);
 
@@ -232,9 +233,64 @@ export class DimensionsComponent implements OnInit, OnDestroy {
 
 
 
+    printPage() {
+        var self = this;
+
+        if (window.matchMedia) {
+            var mediaQueryList = window.matchMedia('print');
+            mediaQueryList.addListener(function (mql) {
+                if (mql.matches) {
+                    //beforePrint();
+                    console.log('Before Print...');
+                } else {
+                    console.log('After Print...')
+                    self.closeAllPanels();
+                }
+            });
+        } else {
+
+            window.onafterprint = function () {
+                console.log("*******Printing completed...");
+                self.closeAllPanels();
+            }
+        }
+
+        this.openAllPanels().then(() => {
+
+            console.log('Promise resolved!');
+            window.print();
+
+        })
+
+    }
+
+    openAllPanels() {
+
+        return new Promise((resolve, reject) => {
+
+            jQuery('.dimension .panel').find('.panel-body').show(1, () => {
+                resolve("Success!"); // Yay! Everything went well!
+            });
+
+        });
 
 
+    }
+
+    closeAllPanels() {
+
+        return new Promise(() => {
+
+            jQuery('.dimension .panel').find('.panel-body').hide(1, ()=>{
+
+                jQuery('.dimension .panel.default-show').find('.panel-body').show();
+
+            });
+        
+
+        });
 
 
+    }
 }
 

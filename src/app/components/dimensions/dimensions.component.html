@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container dimension">
 
   <h2 style="margin:0; width: 100%;">
     
@@ -15,7 +15,7 @@
 
     <i class="pull-right fa fa-print" *ngIf="answerData && answerData.subs.indexOf(null) < 0 && answerConfirmed && !datamode && !guidemode"
       aria-hidden="true" style="font-size: 48px;
-       cursor: pointer" tooltip="Print TFL action plan." placement="top" triggers="mouseenter" [isDisabled]="false" onclick="window.print()"></i>
+       cursor: pointer" tooltip="Print TFL action plan." placement="top" triggers="mouseenter" [isDisabled]="false" (click)="printPage();"></i>
   </h2>
   <div *ngIf="!datamode && !answerData || answerData.answer == ''">
     <p>You have not yet answered this question in the assessment.</p>
@@ -138,7 +138,7 @@
 
        <!--stress-->
        <div *ngIf="seriesdata && data.account.dimensions[dimension.id-1].stressLevel">
-          <div class="panel panel-default">
+          <div class="panel panel-default default-show">
             <div class="panel-heading bg-light-blue">
               <h4><i class="fa fa-tachometer" aria-hidden="true"></i> Universal Stress Management Tools</h4>
               <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span></div>
@@ -172,7 +172,7 @@
                  <hr>-->
 
 
-        <div class="panel panel-default">
+        <div class="panel panel-default default-show">
           <div class="panel-heading bg-light-blue">
             <h4><i class="fa fa-question-circle-o blue" aria-hidden="true"></i> Tell us your Barriers and what Tools and Support
               you need:</h4>
