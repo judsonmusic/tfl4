@@ -49,6 +49,8 @@ export class LoginComponent {
 
   forgotPassword(){
 
-    alert('coming soon!');
+    this.router.navigate(['/forgot-password']);
+
+    //alert('coming soon!');
   }
 }

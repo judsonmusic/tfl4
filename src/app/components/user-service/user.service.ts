@@ -177,4 +177,28 @@ export class UserService{
       });
   }
 
+
+  sendPassword(email){
+
+    return this.http.post(this.us.apiUrl() +  "/api/forgot-password/" + email + "/" + Math.random(), email)
+    .map(res => res.json())
+    .map(res => {      
+      return res;
+    })
+    .catch((error: any) => Observable.throw(error.json().error || 'Server error'));    
+
+  }
+
+  changePassword(payload){
+    
+        return this.http.post(this.us.apiUrl() +  "/api/change-password", payload)
+        .map(res => res.json())
+        .map(res => {   
+          console.log('Hello');   
+          return res;
+        })
+        .catch((error: any) => Observable.throw(error.json().error || 'Server error'));    
+    
+      }
+
 }

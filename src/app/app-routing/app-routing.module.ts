@@ -18,10 +18,13 @@ import {DataJunkieComponent} from "./../components/data-junkie/data-junkie.compo
 import {AdminComponent} from "./../components/admin/admin.component";
 import {StressPage} from "./../components/pages/stress";
 import {ContractComponent} from "./../components/contract/contract.component";
+import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
 
 var routes:Routes = [
   { path: '', component: HomeComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'forgot-password/:email/:code', component: ForgotPasswordComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'action', component: ActionComponent, canActivate: [AuthGuard]},
   { path: 'logout', component: LogoutComponent },
   { path: 'resources', component: ResourcesComponent},

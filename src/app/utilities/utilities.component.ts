@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Http } from '@angular/http';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from "rxjs/Rx";
 
 @Component({
   selector: 'app-utilities',
@@ -7,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UtilitiesService implements OnInit {
 
-  constructor() { }
+  constructor(public http: Http) { }
 
   ngOnInit() {
   }
@@ -20,6 +23,30 @@ export class UtilitiesService implements OnInit {
     } else {
 
       return '//www.trainforlifeamerica.com';
+    }
+
+  }
+
+  validateEmail(email) {
+    let message = null;
+    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    //console.log('Email validation check: ', re.test(email));
+    if (!re.test(email)) {
+      message = "Email Invalid";
+      return Observable.of(message).map(message => { return message });
+
+    } else {
+
+      return this.http.post(this.apiUrl() + '/api/validate/email', { email: email })
+        .map(res => res.json())
+        .map(res => {
+          console.log('Here is the result from validation email address: ' , res);
+          if (res) {
+            message = "Email already registered."
+          }
+          return message;
+
+        })
     }
 
   }

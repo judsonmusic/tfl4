@@ -55,7 +55,8 @@ import {TextMaskModule} from 'angular2-text-mask';
 import { ASurveyComponent } from './components/a-survey/survey.component';
 import { ADimensionsComponent } from './components/a-dimensions/a-dimensions.component';
 import { AAssessmentComponent } from './components/a-assessment/a-assessment.component';
-import { AStressComponent } from './components/a-stress/a-stress.component'
+import { AStressComponent } from './components/a-stress/a-stress.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component'
 
 
 
@@ -100,7 +101,8 @@ import { AStressComponent } from './components/a-stress/a-stress.component'
     ASurveyComponent,
     ADimensionsComponent,
     AAssessmentComponent,
-    AStressComponent
+    AStressComponent,
+    ForgotPasswordComponent
   ],
   entryComponents: [],
   imports: [
