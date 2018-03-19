@@ -62,7 +62,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   ngOnInit(){
 
-
+      //console.log(this.utils_service.loaderVisible);
   }
 
 
@@ -125,24 +125,24 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   sendPassword() {
-    //this.utils_service.showLoading();
-    this.as.sendPassword(this.registerData.email).subscribe(res => {
-      //this.utils_service.hideLoading();
-      alert('Success! Password instructions have been sent to your email address.');
-
-      //window.location.href = "";
+    this.utils_service.showLoading();
+    this.as.sendPassword(this.registerData.email).subscribe(res => {     
+      alert('Success! Password instructions have been sent to your email address. Please click ok to be redirected to the home page.');
+      window.location.href = "";
+      this.utils_service.hideLoading();
 
     })
   }
 
   changePassword() {
-
+    this.utils_service.showLoading();
     if (this.validate()) {
 
       this.as.changePassword(this.registerData).subscribe(res => {
-
-        alert('Success : Your password was successfully changed, Please login with your new password.');
+        
+        alert('Success : Your password was successfully changed, please click ok to be redirected to the home page and login with your new password.');
         window.location.href = "";
+        this.utils_service.hideLoading();
 
       })
     }

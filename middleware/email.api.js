@@ -19,7 +19,9 @@ var nodemailer = require('nodemailer');
 //     //pass: 'hmcd-zdvw-tqzn-ykcf'
 //   }
 // };
-if (process.env.NODE_ENV == "development") {
+console.log('The env is: ', process.env.NODE_ENV);
+if (process.env.NODE_ENV == "development" || 1==1) {
+ 
   var smtpConfig = {
     host: 'smtp.gmail.com',
     port: 587,

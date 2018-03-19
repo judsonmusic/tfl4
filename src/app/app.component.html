@@ -1,9 +1,14 @@
 <!--The whole content below can be removed with the new code.-->
+<div *ngIf="us.loaderVisible" class="col-md-12 text-center" style="position: absolute; left: 0; right: 0; bottom :0; top: 0;background-color: white; padding-top: 100px; z-index: 999;"><img src="assets/images/logo-tfl-small.jpg" /><span style="font-size: 24px;"> Loading...</span>
+</div>
+
 <div class="container">
   <div class="row">
     <c-header></c-header>
   </div>
   <div class="row content">
+     
+
     <router-outlet></router-outlet>
   </div>
 </div>

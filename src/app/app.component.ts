@@ -1,3 +1,4 @@
+import { UtilitiesService } from './utilities/utilities.component';
 import { Component, ViewContainerRef, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Location } from '@angular/common';
@@ -18,15 +19,17 @@ export class AppComponent implements OnInit {
   public viewContainerRef;
   public userService;
   public authService;
+  public us;
   public router;
   public location;
   public renderView;
 
-  public constructor(viewContainerRef: ViewContainerRef, userService: UserService, authService: AuthService, router: Router, location: Location) {
+  public constructor(viewContainerRef: ViewContainerRef, userService: UserService, authService: AuthService, router: Router, location: Location, us: UtilitiesService) {
 
     this.viewContainerRef = viewContainerRef;
     this.userService = userService;
     this.authService = authService;
+    this.us = us;
     this.router = router;
     this.location = location;
     this.renderView = false;
@@ -57,14 +60,22 @@ export class AppComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngAfterViewInit(){
 
+   
+
+  }
+
+  ngOnInit() {
+  this.us.hideLoading();
+   console.log(this.us.loaderVisible);
     this.router.events.subscribe((val) => {
       // see also
       window.scrollTo(0, 0);
     });
    if (this.location.path() != '/' && this.location.path() != '') {
-    this.userService.getUser().subscribe((user) => {      
+    this.userService.getUser().subscribe((user) => { 
+      
 
       if (!user) {
         if (this.location.path() != '/' && this.location.path() != '') {

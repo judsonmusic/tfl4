@@ -50,15 +50,15 @@ app.use('/api/validate', validations);
 app.use('/api/forgot-password', forgotPassword);
 app.use('/api/change-password', changePassword);
 
-app.use(function (req, res) {
-  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-  res.header('Expires', '-1');
-  res.header('Pragma', 'no-cache');
-});
+// app.use(function (req, res) {
+//   res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+//   res.header('Expires', '-1');
+//   res.header('Pragma', 'no-cache');
+// });
 
 
 
-router.get('/', function (req, res) {
+router.get('/', function (req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,contenttype'); // If needed
@@ -66,6 +66,7 @@ router.get('/', function (req, res) {
   res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
   res.header('Expires', '-1');
   res.header('Pragma', 'no-cache');
+  next();
 });
 
 

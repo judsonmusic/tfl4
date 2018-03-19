@@ -10,7 +10,13 @@ import { Observable } from "rxjs/Rx";
 })
 export class UtilitiesService implements OnInit {
 
-  constructor(public http: Http) { }
+  public loaderVisible: boolean = false;
+
+  constructor(public http: Http) {
+
+    this.loaderVisible = true;
+    
+   }
 
   ngOnInit() {
   }
@@ -48,6 +54,18 @@ export class UtilitiesService implements OnInit {
 
         })
     }
+
+  }
+
+  showLoading(){
+
+    this.loaderVisible = true;
+
+  }
+
+  hideLoading(){
+
+    this.loaderVisible = false;
 
   }
 
