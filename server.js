@@ -1,10 +1,19 @@
 "use strict";
-var dotenv = require('dotenv').config();
+var path = require('path');
+var dotenv = require('dotenv').config({path: '/var/www/tfl/.env'});
+//console.log(process.env);
+// const result = dotenv.config({path: '/var/www/tfl/.env'});
+
+// if (result.error) {
+//   throw result.error;
+// }
+
+// console.log(result.parsed);
 var express = require('express');
 var http = require('http');
 var moment = require('moment');
 var open = require('open');
-var path = require('path');
+
 //var morgan = require('morgan'); // formerly express.logger
 var errorhandler = require('errorhandler');
 var bodyParser = require('body-parser');

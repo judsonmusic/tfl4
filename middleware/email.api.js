@@ -19,9 +19,7 @@ var nodemailer = require('nodemailer');
 //     //pass: 'hmcd-zdvw-tqzn-ykcf'
 //   }
 // };
-console.log('The env is: ', process.env.NODE_ENV);
-if (process.env.NODE_ENV == "development" || 1==1) {
- 
+if (process.env.NODE_ENV == "development") {
   var smtpConfig = {
     host: 'smtp.gmail.com',
     port: 587,
@@ -36,6 +34,8 @@ if (process.env.NODE_ENV == "development" || 1==1) {
 
   var smtpConfig = {
     name: 'localhost',
+    host: 'localhost',
+    port: 25,
     tls: {
       rejectUnauthorized: false
     }
@@ -48,7 +48,7 @@ var transporter = nodemailer.createTransport(smtpConfig);
 
 //send email.
 router.post('/', function (req, res) {
-  console.log('***Attempting to send email: ', req.body);
+  console.log('***Attempting to send email: ', req.body, smtpConfig, process.env.NODE_ENV);
 
   var processCount = 1;
   //console.log('Posting to send mail', req.body.emails);
@@ -110,7 +110,7 @@ router.post('/', function (req, res) {
     //console.log('Sending the email');
     transporter.sendMail(mailOptions, function (err, res2) {
       if (err) {
-        //console.log('There was an error sending the email: ', err);
+        console.log('There was an error sending the email: ', err);
         res.send(err);
         process.exit(0);
       } else {

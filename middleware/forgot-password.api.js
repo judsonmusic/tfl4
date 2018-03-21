@@ -20,7 +20,7 @@ router.route('/:email/:access_id')
       body: {
         "emails": [email],
         "title": "Password reset request.",
-        "message": 'Please <a href="https://www.trainforlifeamerica.com/forgot-password/' + email + '/' + Date.now() + '">click here to reset your password</a>, if you did not inititate this request. Please contact info@skoolaide.com'
+        "message": 'Please <a href="https://www.trainforlifeamerica.com/forgot-password/' + email + '/' + Date.now() + '">click here to reset your password</a>, if you did not inititate this request. Please contact info@trainforlifeamerica.com'
       }
     }, function (code, data) {
         //console.log(code, data);
