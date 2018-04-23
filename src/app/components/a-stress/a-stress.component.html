@@ -14,7 +14,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let q of questions">
-          <td>{{q.id}}. {{q.category}}</td>
+          <td>{{q.category}}</td>
           <td>{{q.question}}</td>
           <td *ngFor="let a of answers"> 
             {{stressData.stats && stressData.stats[q.id] && stressData.stats[q.id][a.id * 20] ? ((stressData.stats[q.id][a.id * 20]/stressData.count) * 100).toFixed(2)+'%' : ''}}

@@ -28,7 +28,7 @@ export class AStressComponent implements OnInit {
 
     this.ds.getStressData().subscribe(res=>{
         this.stressData = res;
-        console.log(this.stressData);
+        //console.log(this.stressData);
     })
   }
 }

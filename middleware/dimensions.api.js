@@ -46,7 +46,7 @@ router.route('/stress-data')
 
                 });
 
-                console.log('Stress Scores for each dimension', stressScores);
+                //console.log('Stress Scores for each dimension', stressScores);
                 var result = {
 
                     stats: {},

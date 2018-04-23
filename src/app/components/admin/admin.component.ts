@@ -1,3 +1,4 @@
+import { CompaniesService } from './../services/companies.service';
 import { SurveyService } from './../a-survey/survey.service';
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from "./admin.service";
@@ -13,24 +14,36 @@ export class AdminComponent implements OnInit {
 
     public users: any[];
     public currentUser: any[];
+    public companies;
+    public userFilterParams;
+    public filterCount: number = 0;
 
-    constructor(private adminService: AdminService, private assessmentService: AssessmentService, private surveyService: SurveyService, public router: Router) {
+    constructor(private adminService: AdminService, private assessmentService: AssessmentService, private surveyService: SurveyService, public router: Router, public cs: CompaniesService) {
 
         this.adminService = adminService;
         this.assessmentService = assessmentService;
         this.surveyService = surveyService;
         this.router = router;
+        this.userFilterParams = {};
 
         this.adminService.getUser().subscribe((user) => {
 
+            //console.log(user);
+
             if (user['admin']) {
 
-                console.log(user['admin']);
+                //console.log(user['admin']);
+
+                this.cs.getCompanies().subscribe((companies)=>{
+
+                    //console.log('The companies: ' , companies);
+                    this.companies = companies;
+                })
                 this.adminService.getUsers().subscribe((users) => {
 
 
                     this.users = users;
-                    console.log(this.users);
+                    //console.log(this.users);
 
                 });
 
@@ -125,10 +138,39 @@ export class AdminComponent implements OnInit {
             this.adminService.deleteUser(user).subscribe((res) => {
                 this.users.splice(index, 1);
                 console.log('Account Deleted!');
-
-
             })
         }
+    }
+
+
+    filterChange(){
+    
+        this.filterCount++;
+
+    }
+
+    clearSearch(){
+
+        this.userFilterParams = {};
+    }
+
+    getDimension(id){
+
+        return this.assessmentService.questions.filter(
+          (item:any) => item.id === id)[0];
+  
+    }
+
+    getMotivated(user, dimensionId){
+
+        let motivated = false;
+        //console.log(dimensionId, user.assessment);
+        var subs = user.assessment.filter(item => item.id == dimensionId)[0].subs;
+         if(subs[1] < 80 && subs[5] > 60){
+            motivated = true;
+        }
+        //console.log('Motivated To Take Action? ' , subs, motivated);
+        return motivated; 
     }
 
 

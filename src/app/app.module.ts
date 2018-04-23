@@ -1,3 +1,4 @@
+import { CompaniesService } from './components/services/companies.service';
 import { AuthGuard } from './components/auth/auth-guard.service';
 import { AuthService } from './components/auth/auth.service';
 import { AppRoutingModule } from './app-routing/app-routing.module';
@@ -56,7 +57,8 @@ import { ASurveyComponent } from './components/a-survey/survey.component';
 import { ADimensionsComponent } from './components/a-dimensions/a-dimensions.component';
 import { AAssessmentComponent } from './components/a-assessment/a-assessment.component';
 import { AStressComponent } from './components/a-stress/a-stress.component';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component'
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { UserFilterPipe } from './pipes/user-filter.pipe'
 
 
 
@@ -102,7 +104,8 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     ADimensionsComponent,
     AAssessmentComponent,
     AStressComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    UserFilterPipe
   ],
   entryComponents: [],
   imports: [
@@ -128,7 +131,8 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     AssessmentService,
     DimensionService,
     SurveyService,
-    AdminService
+    AdminService,
+    CompaniesService
   ],
   bootstrap: [AppComponent]
 })

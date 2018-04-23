@@ -33,6 +33,7 @@ var email = require("./middleware/email.api");
 var validations = require("./middleware/validations.api");
 var forgotPassword = require("./middleware/forgot-password.api");
 var changePassword = require("./middleware/change-password.api");
+var companies = require("./middleware/companies.api");
 
 mongoose.connect(config.database, function (err, res) {
 
@@ -58,6 +59,7 @@ app.use('/api/email', email);
 app.use('/api/validate', validations);
 app.use('/api/forgot-password', forgotPassword);
 app.use('/api/change-password', changePassword);
+app.use('/api/companies', companies);
 
 // app.use(function (req, res) {
 //   res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
