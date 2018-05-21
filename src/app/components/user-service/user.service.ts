@@ -43,8 +43,9 @@ export class UserService{
         .map(res => res.json())
         .map((res) => {
 
-          if(!res._id){
+          if(!res){
             //console.log('***THERE WAS AN ERROR!');
+            sessionStorage.clear();
             this.authService.isLoggedIn = false;
             this.loggedIn.next(false);
             this.userData = null;
@@ -54,12 +55,13 @@ export class UserService{
             this.authService.isLoggedIn = true;            
             this.loggedIn.next(true);
             this.userData = res;
-            this.user.next(res);
-            if(typeof this.userData.dimensions.length === "undefined" || this.userData.dimensions.length < 15){
+            //this.user.next(res);
+            //TODO: move this to assessment service.
+            /* if(typeof this.userData.dimensions.length === "undefined" || this.userData.dimensions.length < 15){
               this.userData.dimensions = this.dimensionService.dimensions;
-            }
-            this.surveyService.checkComplete(this.userData);
-            this.user.next(res);
+            } */
+            //this.surveyService.checkComplete(this.userData);
+            //this.user.next(res);
             return res;
           }
         }, (error) => console.log('There was an error', error));
@@ -67,9 +69,9 @@ export class UserService{
   }
 
   createAccount(user) {
-    user.assessment = this.assessmentService.assessment;
-    user.survey = this.surveyService.survey;
-    user.dimensions = this.dimensionService.dimensions;
+    //user.assessment = this.assessmentService.assessment;
+    //user.survey = this.surveyService.survey;
+    //user.dimensions = this.dimensionService.dimensions;
     //console.log('Build empty assessment: ' , user.assessment);
     //console.log('Attempting to create an account with', user);
     let headers = new Headers();
@@ -87,9 +89,9 @@ export class UserService{
             console.log('Account created!', res["account"]);
             //this.authService.isLoggedIn = true;
             //this.loggedIn.next(true);
-            this.userData = res["account"];
+            //this.userData = res["account"];
             //this.user$ = this.userData;
-            this.user.next(this.userData);
+            //this.user.next(this.userData);
             return res;
           }else{
 
@@ -122,13 +124,13 @@ export class UserService{
             sessionStorage.setItem('_id', res.user[0]._id);
             //set user service info...
             this.loggedIn.next(true);
-            this.userData = res.user[0];
-            this.surveyService.checkComplete(this.userData);
-            if(typeof this.userData.dimensions.length === "undefined" || this.userData.dimensions.length < 15){
+            //this.userData = res.user[0];
+            //this.surveyService.checkComplete(this.userData);
+            /* if(typeof this.userData.dimensions.length === "undefined" || this.userData.dimensions.length < 15){
 
               this.userData.dimensions = this.dimensionService.dimensions;
-            }
-            this.user.next(res.user[0]);
+            } */
+            //this.user.next(res.user[0]);
 
             return res;
 
@@ -166,12 +168,12 @@ export class UserService{
       .map((res) => {
       //console.log('**********', res['account']);
         if(typeof res["account"] !== "undefined") {
-          this.userData = res["account"];
-          this.user.next(res['account']);
+          //this.userData = res["account"];
+          //this.user.next(res['account']);
           return res['account'];
         }else{
 
-          return this.userData;
+          //return this.userData;
         }
 
       });

@@ -27,7 +27,7 @@ export class AuthGuard implements CanActivate {
           return true;
 
         }else{
-          console.log('Validation Failed.');
+          //console.log('Validation Failed.');
           sessionStorage.clear();
           this.router.navigate(['/']);
           return false;
@@ -35,7 +35,7 @@ export class AuthGuard implements CanActivate {
 
 
       }, (error) => {
-        console.log('There was an error.');
+        //console.log('There was an error.');
         this.router.navigate(['/']);
         return false
 

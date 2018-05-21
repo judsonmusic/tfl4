@@ -1,11 +1,76 @@
 var express = require('express');
 var router = express.Router();
 var Account = require('../models/account');
+var Assessments = require('../models/assessments');
+var moment = require('moment');
+
+router.route('/updateAssessment/:assessmentId')
+    // update the account with this id (accessed at PUT http://localhost:8080/api/accounts/:account_id)
+    .put(function (req, res) {
+        //console.log('Attempting Put', req.body);
+        // use our account model to find the account we want
+        Assessments.findById(req.params.assessmentId, function (err, assessment) {
+
+            if (err)
+                return res.send(err);
+
+            assessment.updatedAt = moment();
+            if (req.body.assessment) assessment.assessment = req.body.assessment;
+            if (req.body.survey) assessment.survey = req.body.survey;
+            if (req.body.dimensions) assessment.dimensions = req.body.dimensions;
+            if (req.body.otherElements) assessment.otherElements = req.body.otherElements;
+            assessment.steps = req.body.steps || [];
+
+
+            // save the account
+            assessment.save(function (err, saved) {
+                if (err)
+                    return res.send(err);
+
+                res.json({
+                    message: 'Assessment updated!',
+                    assessment: saved
+                }).end();
+
+            });
+
+        });
+    });
+
+
+router.route('/createAssessment')
+    // update the account with this id (accessed at PUT http://localhost:8080/api/accounts/:account_id)
+    .post(function (req, res) {
+        //console.log('Attempting Put', req.body);
+
+        var assessment = new Assessments();
+        assessment.assessment = req.body.assessment;
+        assessment.survey = req.body.survey;
+        assessment.dimensions = req.body.dimensions;
+        assessment.otherElements = req.body.otherElements;
+        assessment.steps = new Array(7);
+        assessment.user_id = req.body.user_id;
+
+
+        // save the account
+        assessment.save(function (err, saved) {
+            if (err)
+                return res.send(err);
+
+            res.json({
+                message: 'Assessment created!',
+                assessment: saved
+            }).end();
+
+        });
+
+
+    });
 
 /*TODO: right now we are getting the assessment only here from accounts. Eventually need to move the data to its own collection*/
- router.route('/')
+router.route('/')
 
-     .get(function (req, res) {
+    .get(function (req, res) {
         Account.find(function (err, accounts) {
             if (err) {
                 res.send(err);
@@ -24,7 +89,6 @@ var Account = require('../models/account');
                         hear: item.hear,
                         phone: item.phone,
                         assessment: item.assessment,
-                        assessment: item.assessment,
                         dimensions: item.dimensions,
                         otherElements: item.otherElements,
                         steps: item.steps || []
@@ -35,13 +99,50 @@ var Account = require('../models/account');
                 res.json(temp);
             }
         });
-    })
+    });
 
-     router.route('/aggregate')
+/*TODO: right now we are getting the assessment only here from accounts. Eventually need to move the data to its own collection*/
+router.route('/getByUserId/:user_id')
 
-     .get(function (req, res) {
+    .get(function (req, res) {
+        Assessments.find({ user_id: req.params.user_id }).sort({ "createdAt": -1 }).exec(function (err, assessments) {
+            if (err) {
+                res.send(err);
+            } else {
 
-       var checkAssessment = function(assessment, length) {
+                res.status(200).send(assessments);
+
+                /* var temp = [];
+
+                assessment.map(function (item) {
+
+                    temp.push({
+                        firstName: item.firstName,
+                        lastName: item.lastName,
+                        email: item.email,
+                        occupation: item.occupation,
+                        education: item.education,
+                        hear: item.hear,
+                        phone: item.phone,
+                        assessment: item.assessment,
+                        dimensions: item.dimensions,
+                        otherElements: item.otherElements,
+                        steps: item.steps || []
+                    });
+
+
+                });
+                res.json(temp); */
+
+            }
+        });
+    });
+
+router.route('/aggregate')
+
+    .get(function (req, res) {
+
+        var checkAssessment = function (assessment, length) {
             //console.log('Checking the assessment..', assessment);
             //loop trough the length of the assessment to deteminted if completed.
             var assessmentComplete = [];
@@ -51,7 +152,7 @@ var Account = require('../models/account');
             return assessmentComplete.indexOf(false);
         }
 
-        var fixAnswer = function(a) {
+        var fixAnswer = function (a) {
             var b = a;
             if (a.toString().toLowerCase() == "on") {
                 //console.log('Had to fix the answer...', a);
@@ -64,60 +165,60 @@ var Account = require('../models/account');
                 res.send(err);
             } else {
 
-                var assessments = [];            
+                var assessments = [];
 
-                accounts.map(function (item) {                  
+                accounts.map(function (item) {
 
-                    if(checkAssessment(item.assessment)){
-                        assessments.push({                   
-                            assessment: item.assessment                 
+                    if (checkAssessment(item.assessment)) {
+                        assessments.push({
+                            assessment: item.assessment
                         })
                     }
 
                 });
 
-                var answersArray = [] 
-                
+                var answersArray = []
+
                 //var answersArray = [{qa: []}]               
 
-                assessments.map(function(item, index){        
-                    item.assessment.map(function(item2, index2){
-                       if(item2.id < 100) answersArray.push({questionId: item2.id, answer: fixAnswer(item2.answer)});
-                    });                    
-                });  
+                assessments.map(function (item, index) {
+                    item.assessment.map(function (item2, index2) {
+                        if (item2.id < 100) answersArray.push({ questionId: item2.id, answer: fixAnswer(item2.answer) });
+                    });
+                });
 
                 //console.log(assessments);
 
                 var somObj = {};
-            
-                answersArray.map(function(item,index){
-                       
-                        if(typeof somObj['question' + item.questionId] == "undefined" ){
-                            somObj['question' + item.questionId] = [];
-                        }
-                        //console.log(somObj['question' + item.questionId]);
-                        somObj['question' + item.questionId].push(item.answer);
-                       
+
+                answersArray.map(function (item, index) {
+
+                    if (typeof somObj['question' + item.questionId] == "undefined") {
+                        somObj['question' + item.questionId] = [];
+                    }
+                    //console.log(somObj['question' + item.questionId]);
+                    somObj['question' + item.questionId].push(item.answer);
+
                 });
 
-            var result = {
+                var result = {
 
-                stats: {},
-                count: assessments.length
-            };
+                    stats: {},
+                    count: assessments.length
+                };
 
-               for (var key in somObj) {
-                    if (somObj.hasOwnProperty(key)) {                 
-                          
-                         result.stats[key.replace('question', '')] = somObj[key].reduce((r,k)=>{
-                             r[k]=1+r[k]||1;     
-                             return r
-                            },{})
-                           
+                for (var key in somObj) {
+                    if (somObj.hasOwnProperty(key)) {
+
+                        result.stats[key.replace('question', '')] = somObj[key].reduce((r, k) => {
+                            r[k] = 1 + r[k] || 1;
+                            return r
+                        }, {})
+
                     }
                 }
 
-                
+
 
                 res.json(result);
             }

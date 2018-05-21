@@ -22,7 +22,7 @@ export class ModalGenericComponent {
 
     //console.log('Modal DataJunkie Loaded');
     this.message = this.message || "No message was provided!";
-    console.log(this.message);
+    //console.log(this.message);
 
   }
 

@@ -48,7 +48,7 @@ export class ActionComponent implements OnInit {
     let temp2 = [];
     //loop through sub questions and then get each map data to what they chose for each area.
     this.assessmentService.subquestions.map((x, i)=> {
-      console.log('Row:', i, x);
+      //console.log('Row:', i, x);
       let visible = i == 0;
       temp2.push({name: x.category, data:[], visible: visible, color: x.color});
 

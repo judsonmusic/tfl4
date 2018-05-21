@@ -127,7 +127,7 @@ export class ForgotPasswordComponent implements OnInit {
   sendPassword() {
     this.utils_service.showLoading();
     this.as.sendPassword(this.registerData.email).subscribe(res => {     
-      alert('Success! Password instructions have been sent to your email address. Please click ok to be redirected to the home page.');
+      alert('Success! Password instructions have been sent to your email address. If you do not receive an email, please check your junk or spam folder. \n \n Please click ok to be redirected to the home page.');
       window.location.href = "";
       this.utils_service.hideLoading();
 

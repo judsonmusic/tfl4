@@ -1,29 +1,26 @@
-<h1>Data-Junkie</h1>
-<i class="pull-right fa fa-print"
-   aria-hidden="true"
-   style="font-size: 48px;
-       cursor: pointer"
-   tooltip="Print this page."
-   placement="top"
-   triggers="mouseenter"
-   [isDisabled]="false"
-   onclick="document.title='TFL Data Junkie Sheet'; window.print()"></i>
-<hr>
-<p style="font-size: 17px; color: #999999;">Congratulations! You have now completed STEP 3. Once you have finished reviewing your Data Junkie results, return to your TFL Dashboard to complete STEP 4. <a class="blue" (click)="goToDashboard()" *ngIf="!datamode && !guidemode">Back to Dashboard</a></p>
-<hr>
-<div class="pagebreak" style="height: 448px;">
+<div *ngIf="assessmentData">
+
+  <h1>Data-Junkie</h1>
+  <i class="pull-right fa fa-print" aria-hidden="true" style="font-size: 48px;
+       cursor: pointer" tooltip="Print this page." placement="top" triggers="mouseenter" [isDisabled]="false" onclick="document.title='TFL Data Junkie Sheet'; window.print()"></i>
+  <hr>
+  <p style="font-size: 17px; color: #999999;">Congratulations! You have now completed STEP 3. Once you have finished reviewing your Data Junkie results, return to your
+    TFL Dashboard to complete STEP 4.
+    <a class="blue" (click)="goToDashboard()" *ngIf="!datamode && !guidemode">Back to Dashboard</a>
+  </p>
+  <hr>
+  <div class="pagebreak" style="height: 448px;" *ngIf="seriesdata && categories">
     <bar-chart selector="chart_dashboard" heading="Your 15 TFL Dimensions" [seriesdata]="seriesdata" [categories]="categories"></bar-chart>
-</div>
-<div *ngFor="let item of userData.assessment" class="pagebreak">
-    <c-dimension [dimensionid]="item.id" [datamode]="true"></c-dimension>
-</div>
-<div class="row">
+  </div>
+  <div *ngFor="let item of assessmentData.assessment" class="pagebreak">
+      <div style="clear:both"></div>
+    <c-dimension [dimensionid]="item.id" [datamode]="true" [assessmentData]="assessmentData"></c-dimension>
+  </div>
+  <div class="row">
     <div class="col-md-12 text-center">
-        <button class="btn btn-primary" (click)="goToDashboard()" *ngIf="!datamode && !guidemode">Back to Dashboard</button>
+      <button class="btn btn-primary" (click)="goToDashboard()" *ngIf="!datamode && !guidemode">Back to Dashboard</button>
     </div>
+  </div>
 </div>
 
 <modal-data-junkie #j="child4"></modal-data-junkie>
-
-
-

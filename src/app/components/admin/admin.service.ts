@@ -40,7 +40,7 @@ export class AdminService{
         .map(res => res.json())
         .map((res) => {
 
-          if(!res._id){
+          if(!res){
             //console.log('***THERE WAS AN ERROR!');
             this.authService.isLoggedIn = false;
 
@@ -48,9 +48,9 @@ export class AdminService{
             //console.log('USER FOUND!', res);
             this.authService.isLoggedIn = true;
             this.loggedIn.next(true);
-            this.userData = res;
-            this.user.next(res);
-            this.surveyService.checkComplete(this.userData);
+            //this.userData = res;
+            //this.user.next(res);
+            //this.surveyService.checkComplete(this.userData);
             return res;
           }
         }, (error) => console.log('There was an error', error));

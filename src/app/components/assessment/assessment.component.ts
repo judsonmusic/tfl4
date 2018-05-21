@@ -1,9 +1,13 @@
+import { ModalGenericComponent } from './../modals/modalGenericComponent';
+import { UtilitiesService } from './../../utilities/utilities.component';
+import { DimensionService } from './../dimension-service/dimension.service';
 import { Component, OnInit, ViewChild, Renderer } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from "../user-service/user.service";
 import { AuthService } from "../auth/auth.service";
 import { AssessmentService } from "../assessment/assessment.service";
 import { ModalDirective } from 'ngx-bootstrap';
+import { SurveyService } from '../a-survey/survey.service';
 declare var System: any;
 @Component({
   templateUrl: 'assessment.component.html',
@@ -12,6 +16,7 @@ export class AssessmentComponent implements OnInit {
 
 
   @ViewChild('g') public g: ModalDirective;
+  @ViewChild('g2') public g2: ModalDirective;
 
   public data: any;
   public count = 0;
@@ -21,24 +26,13 @@ export class AssessmentComponent implements OnInit {
   public user: any[];
   public Math: any;
   public assessmentComplete: boolean;
-
-  ngOnInit() {
-    //console.log(this.userService.userData, this.data.account);
-    this.data.account = this.userService.userData || this.data.account;
-    //console.log('@@@@@SURVEY INIT!', this.data.account);
-    this.userService.user$.subscribe((userData) => {
-      this.data.account = userData;
-      //console.log('ACCOUNT INFORMATION ADDED!', this.data.account);
-      this.checkComplete();
-
-    });
-
-    this.checkComplete();
+  public assessmentData: any;
+  public userData: any;
+  public dataLoaded: boolean = false;
 
 
-  }
 
-  constructor(private router: Router, public userService: UserService, public authService: AuthService, public assessmentService: AssessmentService, private renderer: Renderer) {
+  constructor(private router: Router, public userService: UserService, public authService: AuthService, public assessmentService: AssessmentService, private renderer: Renderer, public ss: SurveyService, public ds: DimensionService, public utils: UtilitiesService) {
 
 
     this.authService.redirectUrl = '/assessment';
@@ -49,13 +43,73 @@ export class AssessmentComponent implements OnInit {
     //console.log('the assessment componet loaded.');
     //array of answers they can select for main question.
 
-    this.data = {};
+    /* this.data = {};
     this.data.account = {};
-    this.data.account.assessment = this.assessmentService.assessment;
+    this.data.account.assessment = this.assessmentService.assessment; */
+    //this.userData = {};
     this.questions = this.assessmentService.questions;
     this.subquestions = this.assessmentService.subquestions;
     this.answers = this.assessmentService.answers;
     this.assessmentComplete = false;
+
+  }
+
+  ngOnInit() {
+    //this.utils.showLoading();
+      //console.log('The session storage on assessment load: ' , sessionStorage);
+     if (sessionStorage.getItem('jwt')) {
+      //console.log('User is logged in. Lets check for any previous assessments...');
+      //we added this to make sure we have data on page reload!
+      this.userService.getUser().subscribe((user) => {
+        //console.log('user data retrieved...', user);
+        this.userData = user;
+
+        this.assessmentService.getByUserId(this.userData._id).subscribe(res => {
+          //console.log('Did we find an existing assessment?', res);
+          if(!res || res.length == 0){
+            //console.log('No assessment found, lets begin one!')
+
+            let assessmentData = {
+              dimensions: this.ds.dimensions,
+              survey: this.ss.survey,
+              assessment: this.assessmentService.assessment,
+              otherElements: [],
+              user_id: this.userData._id
+  
+            }
+        
+
+            this.assessmentService.createAssessment(assessmentData).subscribe(res=>{
+
+                this.assessmentData = res.assessment;
+                this.utils.hideLoading();
+                this.dataLoaded = true;
+                //console.log('The assessment data coming back after creating a new one is: ', this.assessmentData);
+                //this.checkComplete();
+            });
+
+          
+             
+          }else{
+            this.utils.hideLoading();
+            this.assessmentData = res[0];
+            this.checkComplete();
+            this.dataLoaded = true;
+
+          }
+          
+        });
+      });
+    }else{
+      //no session info do nothing?
+      this.dataLoaded = true;
+
+    }
+ 
+
+
+
+
 
   }
 
@@ -65,13 +119,12 @@ export class AssessmentComponent implements OnInit {
   }
   save() {
 
-    //console.log('Saving Your Data!');
-    //we need to add the assessment data to the account so it will get stored in use data;
-    this.userService.updateAccount(this.data.account).subscribe((res) => {
-      //console.log('Data saved. Going to next slide.');
+    this.assessmentService.updateAssessment(this.assessmentData).subscribe(res=>{
+
       this.counterUp();
 
-    }, (err) => console.log('There was an error!'));
+    })
+
 
   }
   //she (terrie) wants to use the data from the satisfied option from the assessment for this..
@@ -100,16 +153,28 @@ export class AssessmentComponent implements OnInit {
 
   counterDown() {
 
-    this.assessmentComplete = false;
+    this.g2.show();
 
-    if (this.count > 1 && this.count <= this.questions.length) {
+    this.g2.onHide.subscribe((data) => {
 
-      this.count--;
+      //console.log(data);
 
-    } else {
+      this.assessmentComplete = false;
 
-      this.count = 1;
-    }
+      if (this.count > 1 && this.count <= this.questions.length) {
+
+        this.count--;
+
+      } else {
+
+        this.count = 1;
+      }    
+      
+    });
+
+
+
+    
 
   }//end counter
 
@@ -117,7 +182,7 @@ export class AssessmentComponent implements OnInit {
     ev.preventDefault();
     ev.stopPropagation();
     this.assessmentComplete = true;
-    this.userService.updateAccount(this.data.account).subscribe((res) => {
+    this.assessmentService.updateAssessment(this.assessmentData).subscribe((res) => {
 
       this.g.onShow.subscribe((hidden) => {
         //console.log('The modal us showig!');
@@ -144,7 +209,7 @@ export class AssessmentComponent implements OnInit {
 
     //console.log('Check completetion!');
     let tempComplete = [];
-    this.data.account.assessment.map((item) => {
+    this.assessmentData.assessment.map((item) => {
 
       if (item.answer != "") {
         tempComplete.push(true);
@@ -163,12 +228,14 @@ export class AssessmentComponent implements OnInit {
     } else {
 
       this.assessmentComplete = true;
+      this.router.navigate(['/dashboard'])
     }
+    
 
     //console.log(tempComplete);
   }
 
-  doSomething(){
+  doSomething() {
 
     //console.log('Clicked!');
   }

@@ -131,13 +131,13 @@ export class AdminComponent implements OnInit {
         var result = window.confirm("Are you sure you want to delete this user?");
         if (result) {
 
-            console.log(result);
+            //console.log(result);
 
             let index = this.users.indexOf(user);
 
             this.adminService.deleteUser(user).subscribe((res) => {
                 this.users.splice(index, 1);
-                console.log('Account Deleted!');
+                //console.log('Account Deleted!');
             })
         }
     }

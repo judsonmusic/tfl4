@@ -46,7 +46,7 @@ export class UtilitiesService implements OnInit {
       return this.http.post(this.apiUrl() + '/api/validate/email', { email: email })
         .map(res => res.json())
         .map(res => {
-          console.log('Here is the result from validation email address: ' , res);
+          //console.log('Here is the result from validation email address: ' , res);
           if (res) {
             message = "Email already registered."
           }
@@ -59,13 +59,13 @@ export class UtilitiesService implements OnInit {
 
   showLoading(){
 
-    this.loaderVisible = true;
+    if(!this.loaderVisible) this.loaderVisible = true;
 
   }
 
   hideLoading(){
 
-    this.loaderVisible = false;
+    if(this.loaderVisible) this.loaderVisible = false;
 
   }
 

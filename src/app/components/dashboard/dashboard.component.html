@@ -1,184 +1,265 @@
-<div *ngIf="userData">
-<div [class.dashboard-bg]="!showMotivated">
-    <h1>Welcome to Your TFL Dashboard!<i class="fa fa-question-circle-o blue" (click)="m.show()" style="cursor: pointer;" *ngIf="!showMotivated"></i> <i class="fa fa-question-circle-o blue" (click)="r.show()" style="cursor: pointer;" *ngIf="showMotivated"></i></h1>
+<div *ngIf="assessmentData">
+  <div [class.dashboard-bg]="!showMotivated">
+    <h1>Welcome to Your TFL Dashboard!
+      <i class="fa fa-question-circle-o blue" (click)="m.show()" style="cursor: pointer;" *ngIf="!showMotivated"></i>
+      <i class="fa fa-question-circle-o blue" (click)="r.show()" style="cursor: pointer;" *ngIf="showMotivated"></i>
+    </h1>
 
     <div class="panel panel-default" *ngIf="motivatedAreas.length > 0 && dataCheckPassed && showMotivated">
-        <div class="panel-heading"><h3 class="green" *ngIf="motivatedAreas.length > 0 && showMotivated">{{motivatedAreas.length}} TFL Dimensions: <span style="color:#666666">Motivated to Take Action!</span></h3></div>
-        <div class="panel-body">
-           <p style="font-size: 17px; color: #666666;">Congratulations! You have now completed STEP 2. Once you have viewed your TFL Results, return to your TFL Dashboard to complete STEP 3. <a class="blue" (click)="showGraph = !showGraph; showMotivated = !showMotivated">Back to
-                Dashboard</a></p>
+      <div class="panel-heading">
+        <h3 class="green" *ngIf="motivatedAreas.length > 0 && showMotivated">{{motivatedAreas.length}} TFL Dimensions:
+          <span style="color:#666666">Motivated to Take Action!</span>
+        </h3>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="showMotivated = false;">
+          <span aria-hidden="true" style="font-size: 35px">&times;</span>
+        </button>
+      </div>
+      <div class="panel-body">
+        <p style="font-size: 17px; color: #666666;">Congratulations! You have now completed STEP 2. Once you have viewed your TFL Results, return to your TFL Dashboard
+          to complete STEP 3.
+          <a class="blue" (click)="showGraph = !showGraph; showMotivated = !showMotivated">Back to Dashboard</a>
+        </p>
 
-            <div class="row">
-                <div class="col-md-12"><h4>You reported neutral or lower satisfaction and the greatest motivation to take action in these dimensions.</h4>
-                    <hr/>
-                </div>
-                <div *ngFor="let item of motivatedAreas" class="col-xs-4 col-sm-2 col-md-2 text-center action-icons" style="padding: 0;">
-                    <!--<div class="lock-score">{{item.answer * 20}}</div>-->
-                    <i class="fa fa-unlock-alt green" aria-hidden="true" style="font-size: 72px; cursor: pointer" *ngIf="item.subs.indexOf(null) == -1  && item.subs.length === 6" (click)="goToDimension(item.id)"></i>
-                    <i class="fa fa-lock" aria-hidden="true" style="font-size: 72px; color: #efefef; cursor: pointer; text-shadow: 0 0 3px #444;" *ngIf="item.subs.indexOf(null) > -1  || item.subs.length === 0" (click)="goToDimension(item.id)"></i><br> {{(categories | myfilter:
-                    item.id)[0].category}}
-                </div>
-                <div class="col-md-12">
-                    <hr style="margin-top:10px;"/>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <bar-chart selector="chart_dashboard" heading="Your 15 TFL Dimensions" [seriesdata]="seriesdata" [categories]="categories"></bar-chart>
-                </div>
-            </div>
-
+        <div class="row">
+          <div class="col-md-12">
+            <h4>You reported neutral or lower satisfaction and the greatest motivation to take action in these dimensions.</h4>
+            <hr/>
+          </div>
+          <div *ngFor="let item of motivatedAreas" class="col-xs-4 col-sm-2 col-md-2 text-center action-icons" style="padding: 0;">
+            <!--<div class="lock-score">{{item.answer * 20}}</div>-->
+            <i class="fa fa-unlock-alt green" aria-hidden="true" style="font-size: 72px; cursor: pointer" *ngIf="item.subs.indexOf(null) == -1  && item.subs.length === 6"
+              (click)="goToDimension(item.id)"></i>
+            <i class="fa fa-lock" aria-hidden="true" style="font-size: 72px; color: #efefef; cursor: pointer; text-shadow: 0 0 3px #444;"
+              *ngIf="item.subs.indexOf(null) > -1  || item.subs.length === 0" (click)="goToDimension(item.id)"></i>
+            <br> {{(categories | myfilter: item.id)[0].category}}
+          </div>
+          <div class="col-md-12">
+            <hr style="margin-top:10px;" />
+          </div>
         </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <bar-chart selector="chart_dashboard" heading="Your 15 TFL Dimensions" [seriesdata]="seriesdata" [categories]="categories"></bar-chart>
+          </div>
+        </div>
+
+      </div>
     </div>
 
     <!--TODO: THis area shows places they are not motivated to take action at this time..-->
     <div class="panel panel-default" *ngIf="NONmotivatedAreas.length > 0 && showMotivated">
-        <div class="panel-heading"><h3 class="green">{{NONmotivatedAreas.length}} TFL Dimensions: <span style="color:#666666">NOT Motivated to Take Action!</span></h3></div>
-        <div class="panel-body">
-            <div class="row" *ngIf="NONmotivatedAreas.length > 0 && dataCheckPassed && showMotivated">
-                <div class="col-md-12"><h4>You reported neutral or lower satisfaction but are not motivated to take action at this time.</h4>
-                    <hr>
-                </div>
-                <div *ngFor="let item of NONmotivatedAreas" class="col-xs-4 col-sm-2 col-md-2 text-center action-icons" style="padding: 20px;">
-                    <i class="fa fa-unlock-alt green" aria-hidden="true" style="font-size: 72px; cursor: pointer" *ngIf="item.subs.indexOf(null) == -1  && item.subs.length === 6" (click)="goToDimension(item.id)"></i>
-                    <i class="fa fa-lock" aria-hidden="true" style="font-size: 72px; color: #efefef; cursor: pointer; text-shadow: 0 0 3px #444;" *ngIf="item.subs.indexOf(null) > -1 || item.subs.length === 0" (click)="goToDimension(item.id)"></i><br> {{(categories | myfilter:
-                    item.id)[0].category}}
-                </div>
-                <div class="col-md-12">
-                    <hr style="margin-top:10px;"/>
-                </div>
-            </div>
+      <div class="panel-heading">
+        <h3 class="green">{{NONmotivatedAreas.length}} TFL Dimensions:
+          <span style="color:#666666">NOT Motivated to Take Action!</span>
+        </h3>
+      </div>
+      <div class="panel-body">
+        <div class="row" *ngIf="NONmotivatedAreas.length > 0 && dataCheckPassed && showMotivated">
+          <div class="col-md-12">
+            <h4>You reported neutral or lower satisfaction but are not motivated to take action at this time.</h4>
+            <hr>
+          </div>
+          <div *ngFor="let item of NONmotivatedAreas" class="col-xs-4 col-sm-2 col-md-2 text-center action-icons" style="padding: 20px;">
+            <i class="fa fa-unlock-alt green" aria-hidden="true" style="font-size: 72px; cursor: pointer" *ngIf="item.subs.indexOf(null) == -1  && item.subs.length === 6"
+              (click)="goToDimension(item.id)"></i>
+            <i class="fa fa-lock" aria-hidden="true" style="font-size: 72px; color: #efefef; cursor: pointer; text-shadow: 0 0 3px #444;"
+              *ngIf="item.subs.indexOf(null) > -1 || item.subs.length === 0" (click)="goToDimension(item.id)"></i>
+            <br> {{(categories | myfilter: item.id)[0].category}}
+          </div>
+          <div class="col-md-12">
+            <hr style="margin-top:10px;" />
+          </div>
         </div>
+      </div>
     </div>
 
     <div class="row">
-        <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading"><h3 class="green">Your TFL Toolkit</h3></div>
-                <div class="panel-body">
-                    <p><span style="color: #666666; font-size: 17px; text-align: center" *ngIf="!dataCheckPassed">Your toolkit will become active once you unlock the {{notGood.length}} dimensions selected below.</span></p>
-                    <div class="row">
-                        <div class="col-xs-4 col-sm-2 col-md-4 text-center action-icons" style="padding: 0;">
-                            <i *ngIf="dataCheckPassed" class="fa fa-star orange" aria-hidden="true" style="font-size: 72px; cursor: pointer;" (click)="updateStep(2); showResults();" tooltip="Reveal where you are motivated to take action." placement="top" #tooltip="bs-tooltip" [isOpen]="getCurrentStep() === 2"></i>
-                            <i *ngIf="!dataCheckPassed" class="fa fa-star" aria-hidden="true" style="color: #efefef; font-size: 72px; cursor: pointer; text-shadow: 0 0 3px #444;" tooltip="Reveal where you are motivated to take action." placement="top"></i><br/> Your Results
-                        </div>
-                        <div class="col-xs-4 col-sm-2 col-md-4 text-center action-icons" style="padding: 0;">
-                            <i *ngIf="dataCheckPassed" class="fa fa-bar-chart blue" aria-hidden="true" style="font-size: 72px; cursor: pointer" (click)="updateStep(3); showDataJunkie();" tooltip="View the dimensions that you have unlocked." placement="top" triggers="hover" [isDisabled]="false" [isOpen]="getCurrentStep() === 3"></i>
-                            <i *ngIf="!dataCheckPassed" class="fa fa-bar-chart" aria-hidden="true" style="color: #efefef; font-size: 72px; cursor: pointer; text-shadow: 0 0 3px #444;" tooltip="View your 15 dimensions at a glance." placement="top" triggers="hover" [isDisabled]="false"></i><br/>
-                            Data Junkie
-                        </div>
-                        <div class="col-xs-4 col-sm-2 col-md-4 text-center action-icons" style="padding: 0;">
-                            <i *ngIf="dataCheckPassed" class="fa fa-file-pdf-o red" aria-hidden="true" style="font-size: 72px; cursor: pointer" (click)="updateStep(4); showTFLGuide()" tooltip="Access your TFL Empowerment Guide." placement="top" triggers="hover" [isDisabled]="false" [isOpen]="getCurrentStep() === 4"></i>
-                            <i *ngIf="!dataCheckPassed" class="fa fa-file-pdf-o" aria-hidden="true" style="color: #efefef; font-size: 72px; cursor: pointer; text-shadow: 0 0 3px #444;" tooltip="Access your TFL Empowerment Guide." placement="top" triggers="hover" [isDisabled]="false"></i><br/>
-                            TFL Guide
-                        </div>
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="green">Your TFL Toolkit</h3>
+          </div>
+          <div class="panel-body">
+            <p>
+              <span style="color: #666666; font-size: 17px; text-align: center" *ngIf="!dataCheckPassed">Your toolkit will become active once you unlock the {{notGood.length}} dimensions selected below.</span>
+            </p>
+            <div class="row">
+              <div class="col-xs-4 col-sm-2 col-md-4 text-center action-icons" style="padding: 0;">
+                <i *ngIf="dataCheckPassed" class="fa fa-star orange" aria-hidden="true" style="font-size: 72px; cursor: pointer;" (click)="updateStep(2); showResults();"
+                  tooltip="Reveal where you are motivated to take action." placement="top" #tooltip="bs-tooltip" [isOpen]="getCurrentStep() === 2"></i>
+                <i *ngIf="!dataCheckPassed" class="fa fa-star" aria-hidden="true" style="color: #efefef; font-size: 72px; cursor: pointer; text-shadow: 0 0 3px #444;"
+                  tooltip="Reveal where you are motivated to take action." placement="top"></i>
+                <br/> Your Results
+              </div>
+              <div class="col-xs-4 col-sm-2 col-md-4 text-center action-icons" style="padding: 0;">
+                <i *ngIf="dataCheckPassed" class="fa fa-bar-chart blue" aria-hidden="true" style="font-size: 72px; cursor: pointer" (click)="updateStep(3); showDataJunkie();"
+                  tooltip="View the dimensions that you have unlocked." placement="top" triggers="hover" [isDisabled]="false"
+                  [isOpen]="getCurrentStep() === 3"></i>
+                <i *ngIf="!dataCheckPassed" class="fa fa-bar-chart" aria-hidden="true" style="color: #efefef; font-size: 72px; cursor: pointer; text-shadow: 0 0 3px #444;"
+                  tooltip="View your 15 dimensions at a glance." placement="top" triggers="hover" [isDisabled]="false"></i>
+                <br/> Data Junkie
+              </div>
+              <div class="col-xs-4 col-sm-2 col-md-4 text-center action-icons" style="padding: 0;">
+                <i *ngIf="dataCheckPassed" class="fa fa-file-pdf-o red" aria-hidden="true" style="font-size: 72px; cursor: pointer" (click)="updateStep(4); showTFLGuide()"
+                  tooltip="Access your TFL Empowerment Guide." placement="top" triggers="hover" [isDisabled]="false" [isOpen]="getCurrentStep() === 4"></i>
+                <i *ngIf="!dataCheckPassed" class="fa fa-file-pdf-o" aria-hidden="true" style="color: #efefef; font-size: 72px; cursor: pointer; text-shadow: 0 0 3px #444;"
+                  tooltip="Access your TFL Empowerment Guide." placement="top" triggers="hover" [isDisabled]="false"></i>
+                <br/> TFL Guide
+              </div>
 
-                    </div>
-                    <div class="row">
-                        <!--TODO: generate score based on assessment average.-->
-                       
-                        
-                        <div class="col-md-6 text-center" *ngIf="overAllScore">
-                            <button style="font-size: 20px; width: 100%" tooltip="Reflects your overall satisfaction score based on all 15 dimensions. 100 is optimal" placement="bottom" triggers="hover" [isDisabled]="false" class="btn btn-primary bg-blue">Ideal Being Score is {{overAllScore}}
-                            </button>
-                        </div>
+            </div>
+            <div class="row">
+              <!--TODO: generate score based on assessment average.-->
 
-                        <div class="col-md-6 text-center" *ngIf="!surveyComplete && getCurrentStep() > 3">                       
-                                <button style="font-size: 20px;  width: 100%" tooltip="Please take the TFL Survey" placement="bottom" triggers="hover" [isDisabled]="false" class="btn btn-primary orange-bg" (click)="s.show()">Take TFL Survey</button>
-                                </div>
-                       <!--<div class="col-md-6 text-center"  *ngIf="overAllStressScore">
+
+              <div class="col-md-6 text-center" *ngIf="overAllScore && overAllScore > 0">
+                <button style="font-size: 20px; width: 100%" tooltip="Reflects your overall satisfaction score based on all 15 dimensions. 100 is optimal"
+                  placement="bottom" triggers="hover" [isDisabled]="false" class="btn btn-primary bg-blue">Ideal Being Score is {{overAllScore}}
+                </button>
+              </div>
+
+              <div class="col-md-6 text-center" *ngIf="!surveyComplete && getCurrentStep() > 3">
+                <button style="font-size: 20px;  width: 100%" tooltip="Please take the TFL Survey" placement="bottom" triggers="hover" [isDisabled]="false"
+                  class="btn btn-primary orange-bg" (click)="s.show()">Take TFL Survey</button>
+              </div>
+              <!--<div class="col-md-6 text-center"  *ngIf="overAllStressScore">
                             <button style="font-size: 20px;" tooltip="Reflects your overall stress level score based on all 15 dimensions" placement="bottom" triggers="hover" [isDisabled]="false" class="btn btn-primary bg-blue">Stress Score is {{overAllStressScore}}
                             </button>
 
                         </div>-->
-                    </div>
-                </div>
             </div>
+          </div>
         </div>
-        <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading"><h3 class="green">TFL Assessment Steps</h3></div>
-                <div class="panel-body">
-                    <p style="color: #666666; font-size: 17px;">You must complete each of the below 5 steps in order to complete your assessment.</p>
-                    <ul style="color: #666666; font-size: 14px; list-style: none; margin: 0" *ngIf="userData && userData.steps">
-                        <li [ngClass]="{'current-step': getCurrentStep() === 1}"><i *ngIf="userData.steps[1]" class="fa fa-check-circle green" aria-hidden="true"></i><i *ngIf="!userData.steps[1]" class="fa fa-question-circle" aria-hidden="true"></i> 1. Unlock the dimensions where
-                            you reported neutral or not satisfied
-                        </li>
-                        <li [ngClass]="{'current-step': getCurrentStep() === 2}"><i *ngIf="userData.steps[2]" class="fa fa-check-circle green" aria-hidden="true"></i><i *ngIf="!userData.steps[2]" class="fa fa-question-circle" aria-hidden="true"></i> 2. Once unlocked, click the
-                            star icon to see your results
-                        </li>
-                        <li [ngClass]="{'current-step': getCurrentStep() === 3}"><i *ngIf="userData.steps[3]" class="fa fa-check-circle green" aria-hidden="true"></i><i *ngIf="!userData.steps[3]" class="fa fa-question-circle" aria-hidden="true"></i> 3. Click the data junkie icon
-                            to see all of your data
-                        </li>
-                        <li [ngClass]="{'current-step': getCurrentStep() === 4}"><i *ngIf="userData.steps[4]" class="fa fa-check-circle green" aria-hidden="true"></i><i *ngIf="!userData.steps[4]" class="fa fa-question-circle" aria-hidden="true"></i> 4. Click the TFL guide icon to
-                            view/print your TFL Empowerment Guide
-                        </li>
-                        <li [ngClass]="{'current-step': getCurrentStep() === 5}"><i *ngIf="userData.steps[5]" class="fa fa-check-circle green" aria-hidden="true"></i><i *ngIf="!userData.steps[5]" class="fa fa-question-circle" aria-hidden="true"></i> 5. <a (click)="takeSurvey()">Click
-                            Here</a> Provide TFL feedback to complete assessment
-                        </li>
-                        <li [ngClass]="{'current-step': getCurrentStep() === 6}"><i *ngIf="userData.steps[6]" class="fa fa-check-circle green" aria-hidden="true"></i><i *ngIf="!userData.steps[6]" class="fa fa-question-circle" aria-hidden="true"></i> 6. Unlock all dimensions
-                            <i>(optional but encouraged)</i>
-                        </li>
-                    </ul>
+      </div>
 
-                </div>
-            </div>
+      <div class="col-md-6" *ngIf="assessmentData.steps">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="green">TFL Assessment Steps</h3>
+          </div>
+          <div class="panel-body">
+
+            <p style="color: #666666; font-size: 17px;">You must complete each of the below 5 steps in order to complete your assessment.</p>
+            <ul style="color: #666666; font-size: 14px; list-style: none; margin: 0">
+              <li [ngClass]="{'current-step': getCurrentStep() === 1}">
+                <i *ngIf="assessmentData.steps[1]" class="fa fa-check-circle green" aria-hidden="true"></i>
+                <i *ngIf="!assessmentData.steps[1]" class="fa fa-question-circle" aria-hidden="true"></i> 1. Unlock the dimensions where you reported neutral or not satisfied
+              </li>
+              <li [ngClass]="{'current-step': getCurrentStep() === 2}">
+                <i *ngIf="assessmentData.steps[2]" class="fa fa-check-circle green" aria-hidden="true"></i>
+                <i *ngIf="!assessmentData.steps[2]" class="fa fa-question-circle" aria-hidden="true"></i> 2. Once unlocked, click the star icon to see your results
+              </li>
+              <li [ngClass]="{'current-step': getCurrentStep() === 3}">
+                <i *ngIf="assessmentData.steps[3]" class="fa fa-check-circle green" aria-hidden="true"></i>
+                <i *ngIf="!assessmentData.steps[3]" class="fa fa-question-circle" aria-hidden="true"></i> 3. Click the data junkie icon to see all of your data
+              </li>
+              <li [ngClass]="{'current-step': getCurrentStep() === 4}">
+                <i *ngIf="assessmentData.steps[4]" class="fa fa-check-circle green" aria-hidden="true"></i>
+                <i *ngIf="!assessmentData.steps[4]" class="fa fa-question-circle" aria-hidden="true"></i> 4. Click the TFL guide icon to view/print your TFL Empowerment Guide
+              </li>
+              <li [ngClass]="{'current-step': getCurrentStep() === 5 && !surveyComplete}">
+                <i *ngIf="assessmentData.steps[5]" class="fa fa-check-circle green" aria-hidden="true"></i>
+                <i *ngIf="!assessmentData.steps[5]" class="fa fa-question-circle" aria-hidden="true"></i> 5.
+                <a (click)="takeSurvey()">Click Here </a> Provide TFL feedback to complete assessment
+              </li>
+              <li [ngClass]="{'current-step': getCurrentStep() === 6}">
+                <i *ngIf="assessmentData.steps[6]" class="fa fa-check-circle green" aria-hidden="true"></i>
+                <i *ngIf="!assessmentData.steps[6]" class="fa fa-question-circle" aria-hidden="true"></i> 6. Unlock all dimensions
+                <i>(optional but encouraged)</i>
+              </li>
+            </ul>
+
+          </div>
         </div>
+      </div>
 
     </div>
 
 
     <div class="panel panel-default" *ngIf="!showMotivated">
-        <div class="panel-heading"><h3 class="green">{{notGood.length}} TFL Dimensions:
-            <span style="color:#666666">You reported neutral or not satisfied.<span *ngIf="!dataCheckPassed"> Unlock your dimensions now!</span><span *ngIf="dataCheckPassed"> Click <i class="fa fa-star orange"></i> to reveal your results!</span></span></h3></div>
-        <div class="panel-body">
-            <!---THESE AREAS WERE REPORTED NOT GOOD-->
+      <div class="panel-heading">
+        <h3 class="green">{{notGood.length}} TFL Dimensions:
+          <span style="color:#666666">You reported neutral or not satisfied.
+            <span *ngIf="!dataCheckPassed"> Unlock your dimensions now!</span>
+            <span *ngIf="dataCheckPassed"> Click
+              <i class="fa fa-star orange"></i> to reveal your results!</span>
+          </span>
+        </h3>
+      </div>
+      <div class="panel-body">
+        <!---THESE AREAS WERE REPORTED NOT GOOD-->
 
-            <div class="row">
-                <div *ngIf="notGood.length === 0">
-                    <p>
-                        <strong>Congratulations!!! </strong>You reported that you were satisfied in all dimensions of your life but we want to ensure you are thriving. We encourage you to take a deeper dive by <strong>unlocking the dimensions that interest you.</strong> You will be invited to answer additional questions and once you unlock each dimension you will be given immediate access to a TFL Action Plan which contains self-guided questions and exercises, tools and resources, TFL tips and more. Start unlocking now so you can stay empowered to reach your state of Ideal Being.</p>
-                </div>
-                <!--<div class="col-md-12" *ngIf="motivatedAreasNon.length > 0"><h4>All TFL Dimensions</h4><hr/></div>-->
-                <div *ngIf="notGood.length > 0">
-                    <div *ngFor="let item of notGood" class="col-xs-4 col-sm-2 col-md-2 text-center action-icons" style="padding: 0;">
-                        <!--<div class="lock-score">{{item.answer * 20}}</div>-->
-                        <i class="fa fa-unlock-alt green" aria-hidden="true" style="font-size: 72px; cursor: pointer" *ngIf="item.subs.indexOf(null) === -1 && item.subs.length === 6" (click)="goToDimension(item.id)"></i>
-                        <i class="fa fa-lock" aria-hidden="true" style="font-size: 72px; color: #efefef; cursor: pointer; text-shadow: 0 0 3px #444;" *ngIf="item.subs.indexOf(null) > -1 || item.subs.length === 0" (click)="goToDimension(item.id)" tooltip="Click to unlock this dimension" #tooltip2="bs-tooltip" placement="top" popover-enable="true" [isDisabled]="false"></i><br>
-                        {{(categories | myfilter: item.id)[0].category}}
-                    </div>
-                </div>
+        <div class="row">
+          <div *ngIf="notGood.length === 0">
+            <p>
+              <strong>Congratulations!!! </strong>You reported that you were satisfied in all dimensions of your life but we want
+              to ensure you are thriving. We encourage you to take a deeper dive by
+              <strong>unlocking the dimensions that interest you.</strong> You will be invited to answer additional questions and
+              once you unlock each dimension you will be given immediate access to a TFL Action Plan which contains self-guided
+              questions and exercises, tools and resources, TFL tips and more. Start unlocking now so you can stay empowered
+              to reach your state of Ideal Being.</p>
+          </div>
+          <!--<div class="col-md-12" *ngIf="motivatedAreasNon.length > 0"><h4>All TFL Dimensions</h4><hr/></div>-->
+          <div *ngIf="notGood.length > 0">
+            <div *ngFor="let item of notGood" class="col-xs-4 col-sm-2 col-md-2 text-center action-icons" style="padding: 0;">
+              <!--<div class="lock-score">{{item.answer * 20}}</div>-->
+              <i class="fa fa-unlock-alt green" aria-hidden="true" style="font-size: 72px; cursor: pointer" *ngIf="item.subs.indexOf(null) === -1 && item.subs.length === 6"
+                (click)="goToDimension(item.id)"></i>
+              <i class="fa fa-lock" aria-hidden="true" style="font-size: 72px; color: #efefef; cursor: pointer; text-shadow: 0 0 3px #444;"
+                *ngIf="item.subs.indexOf(null) > -1 || item.subs.length === 0" (click)="goToDimension(item.id)" tooltip="Click to unlock this dimension"
+                #tooltip2="bs-tooltip" placement="top" popover-enable="true" [isDisabled]="false"></i>
+              <br> {{(categories | myfilter: item.id)[0].category}}
             </div>
+          </div>
         </div>
+      </div>
     </div>
 
 
     <div class="panel panel-default">
-        <div class="panel-heading"><h3 class="green">{{allGood.length}} TFL Dimensions: <span style="color:#666666">You are satisfied. Unlock your dimensions now!</span></h3></div>
-        <div class="panel-body">
-            <!---THESE AREAS WERE REPORTED GOOD-->
-            <div class="row">
-                <div class="col-md-12">
-                    <p> Although you reported satisfaction in the below dimensions we encourage you to unlock the one’s that interest you. You will be invited to answer additional questions and you will have immediate access to a TFL Action Plan which contains self-guided
-                        questions and exercises, tools and resources, TFL tips and more.</p>
-                </div>
-            </div>
-
-            <div class="row">
-                <!--<div class="col-md-12" *ngIf="motivatedAreasNon.length > 0"><h4>All TFL Dimensions</h4><hr/></div>-->
-                <div *ngFor="let item of allGood" class="col-xs-4 col-sm-2 col-md-2 text-center action-icons" style="padding: 0;">
-                    <!--<div class="lock-score">{{item.answer * 20}}</div>-->
-                    <i class="fa fa-unlock-alt green" aria-hidden="true" style="font-size: 72px; cursor: pointer" *ngIf="item.subs.indexOf(null) === -1 && item.subs.length === 6" (click)="goToDimension(item.id)"></i>
-                    <i class="fa fa-lock" aria-hidden="true" style="font-size: 72px; color: #efefef; cursor: pointer; text-shadow: 0 0 3px #444;" *ngIf="item.subs.indexOf(null) > -1 || item.subs.length === 0" (click)="goToDimension(item.id)" tooltip="Click to unlock this dimension" #tooltip2="bs-tooltip" placement="top" popover-enable="true" container="action-icons" triggers="hover" [isDisabled]="false"></i><br>
-                    {{(categories | myfilter: item.id)[0].category}}
-                </div>
-            </div>
+      <div class="panel-heading">
+        <h3 class="green">{{allGood.length}} TFL Dimensions:
+          <span style="color:#666666">You are satisfied. Unlock your dimensions now!</span>
+        </h3>
+      </div>
+      <div class="panel-body">
+        <!---THESE AREAS WERE REPORTED GOOD-->
+        <div class="row">
+          <div class="col-md-12">
+            <p> Although you reported satisfaction in the below dimensions we encourage you to unlock the one’s that interest
+              you. You will be invited to answer additional questions and you will have immediate access to a TFL Action
+              Plan which contains self-guided questions and exercises, tools and resources, TFL tips and more.</p>
+          </div>
         </div>
+
+        <div class="row">
+          <!--<div class="col-md-12" *ngIf="motivatedAreasNon.length > 0"><h4>All TFL Dimensions</h4><hr/></div>-->
+          <div *ngFor="let item of allGood" class="col-xs-4 col-sm-2 col-md-2 text-center action-icons" style="padding: 0;">
+            <!--<div class="lock-score">{{item.answer * 20}}</div>-->
+            <i class="fa fa-unlock-alt green" aria-hidden="true" style="font-size: 72px; cursor: pointer" *ngIf="item.subs.indexOf(null) === -1 && item.subs.length === 6"
+              (click)="goToDimension(item.id)"></i>
+            <i class="fa fa-lock" aria-hidden="true" style="font-size: 72px; color: #efefef; cursor: pointer; text-shadow: 0 0 3px #444;"
+              *ngIf="item.subs.indexOf(null) > -1 || item.subs.length === 0" (click)="goToDimension(item.id)" tooltip="Click to unlock this dimension"
+              #tooltip2="bs-tooltip" placement="top" popover-enable="true" container="action-icons" triggers="hover" [isDisabled]="false"></i>
+            <br> {{(categories | myfilter: item.id)[0].category}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="green">TFL Action Plans</h3>
+      </div>
+      <div class="panel-body">
+        <h4>Access your TFL Action Plans by unlocking each dimension.</h4>
+            <p>TFL Action plans are designed to empower you to reach your state of Ideal Being&reg;. Our intention is to help you maintain and/or gain greater satisfaction in the dimensions that are important to you.</p>
+      </div>
     </div>
 
 
-    <!--<div *ngIf="!showMotivated">
+  <!--<div *ngIf="!showMotivated">
         <h3 class="green">{{motivatedAreas2.length}} TFL Dimensions: you reported neutral or negative impact <br> <span style="color:#666666" *ngIf="!dataCheckPassed">Unlock your dimensions now!</span></h3>
         <div class="row">
             &lt;!&ndash;<div class="col-md-12" *ngIf="motivatedAreas2.length > 0 && dataCheckPassed"><h4>All TFL Dimensions</h4><hr/></div>&ndash;&gt;
@@ -197,21 +278,34 @@
 </div>
 
 </div>
+<div *ngIf="assessmentData">
+  <modal-survey #s="child6" [assessmentData]="assessmentData"></modal-survey>
+</div>
 
 
 <modal-dashboard #m="child"></modal-dashboard>
 <modal-results #r="child3"></modal-results>
 <modal-data-junkie #j="child4"></modal-data-junkie>
-<modal-survey #s="child6"></modal-survey>
-<modal-generic #g="child10" message="Please take survey before you leave the assessment site.<br>
-    You will find the Take TFL Survey button on your dashbaord or #5 in the steps box.<br>
+
+
+
+
+<modal-generic #g="child10" message="<h3 text-red class='red'>Chance to win a $200 gift card by completing our 1 minute survey!</h3><br>
+    You will find the Take TFL Survey button in your toolkit on your dashboard or #5 in the steps box.<br>
 Completing the survey is required if you are taking the assessment in association with a company. <br> 
 Thank you in advance for sharing your thoughts."></modal-generic>
-<modal-generic #g2="child10" message="Please take survey before you leave the assessment site.<br>
-        You will find the Take TFL Survey button on your dashbaord or #5 in the steps box.<br>
+
+
+<modal-generic #g2="child10" message="<h3 text-red class='red'>Chance to win a $200 gift card by completing our 1 minute survey!</h3><br>
+        You will find the Take TFL Survey button in your toolkit on your dashboard or #5 in the steps box.<br>
     Completing the survey is required if you are taking the assessment in association with a company. <br> 
     Thank you in advance for sharing your thoughts."></modal-generic>
-    <modal-generic #g3="child10" message="Please take survey before you leave the assessment site.<br>
-            You will find the Take TFL Survey button on your dashbaord or #5 in the steps box.<br>
-        Completing the survey is required if you are taking the assessment in association with a company. <br> 
-        Thank you in advance for sharing your thoughts."></modal-generic>
+
+
+<modal-generic #g3="child10" message="<h3 text-red class='red'>Chance to win a $200 gift card by completing our 1 minute survey!</h3><br>
+        You will find the Take TFL Survey button in your toolkit on your dashboard or #5 in the steps box.<br>
+    Completing the survey is required if you are taking the assessment in association with a company. <br> 
+    Thank you in advance for sharing your thoughts."></modal-generic>
+
+
+<modal-generic #g4="child10" message="You must complete the initial assessment before you can view the dashboard. Please click ok to complete the initial assessment."></modal-generic>

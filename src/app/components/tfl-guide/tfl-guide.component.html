@@ -4,6 +4,7 @@
   }
 
 </style>
+<div *ngIf="assessmentData">
 <div class="pagebreak">
   <h1>TFL Empowerment Guide</h1><i class="pull-right fa fa-print" aria-hidden="true" style="font-size: 48px;
        cursor: pointer" tooltip="Print this page." placement="top" triggers="mouseenter" [isDisabled]="false" onclick="document.title='TFL Guide'; window.print()"></i>
@@ -107,11 +108,12 @@
 </div>
 
 
-<div *ngFor="let item of userData.assessment" class="pagebreak" style="clear:both;">
-  <c-dimension [dimensionid]="item.id" [guidemode]="true"></c-dimension>
+<div *ngFor="let item of assessmentData.assessment" class="pagebreak" style="clear:both;">
+    <div style="clear:both"></div>
+  <c-dimension [dimensionid]="item.id" [guidemode]="true" [assessmentData]="assessmentData"></c-dimension>
 </div>
 
-<modal-tfl-guide #t="child5"></modal-tfl-guide>
+
 
 
   <p>Lasting change requires you to believe in yourself and to know you deserve to thrive in all dimensions of your life. Now that you are more <strong class="blue">aware</strong>, stay <strong class="blue">awake</strong> to the things that are important to you and <strong class="blue">empowered</strong> to take action. Be <strong class="blue">transformed</strong> as you integrate new behaviors and lifestyle choices into your life. Final destination…<strong class="blue">Ideal Being!</strong>  Become your greatest advocate by taking charge of your life.</p>
@@ -126,3 +128,7 @@
 <div calss="clear-fix">
   <button class="btn btn-primary pull-right" (click)="goToDashboard()" *ngIf="!datamode && !guidemode">Back to dashboard</button>
 </div>
+
+</div>
+
+<modal-tfl-guide #t="child5"></modal-tfl-guide>

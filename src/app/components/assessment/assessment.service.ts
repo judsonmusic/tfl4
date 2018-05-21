@@ -179,4 +179,42 @@ export class AssessmentService{
 
   }
 
+  getByUserId(userId){
+    let headers = new Headers();   
+      headers.append('x-access-token', sessionStorage['jwt']);
+      return this.http
+        .get(this.us.apiUrl() + '/api/assessment/getByUserId/' + userId, {headers : headers} )
+        .map(res => res.json())
+        .map((res) => {         
+            return res;          
+        }, (error) => console.log('There was an error', error));
+
+  }
+
+  updateAssessment(assessment){
+    let headers = new Headers();   
+      headers.append('x-access-token', sessionStorage['jwt']);
+      return this.http
+        .put(this.us.apiUrl() + '/api/assessment/updateAssessment/' + assessment._id, assessment, {headers : headers} )
+        .map(res => res.json())
+        .map((res) => {      
+          //console.log('Assessment Updated:', res);   
+            return res;          
+        }, (error) => console.log('There was an error', error));
+
+  }
+
+  createAssessment(assessment){
+    let headers = new Headers();   
+      headers.append('x-access-token', sessionStorage['jwt']);
+      return this.http
+        .post(this.us.apiUrl() + '/api/assessment/createAssessment', assessment, {headers : headers} )
+        .map(res => res.json())
+        .map((res) => {      
+          //console.log('Assessment Updated:', res);   
+            return res;          
+        }, (error) => console.log('There was an error', error));
+
+  }
+
 }

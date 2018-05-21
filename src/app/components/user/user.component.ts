@@ -1,3 +1,4 @@
+import { UtilitiesService } from './../../utilities/utilities.component';
 import { TextMaskModule } from 'angular2-text-mask';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
@@ -23,7 +24,7 @@ export class UserComponent {
   public hear: any[];
   public message: string;
 
-  constructor(private userService: UserService, public authService: AuthService, public router: Router) {
+  constructor(private userService: UserService, public authService: AuthService, public router: Router, public utils_service: UtilitiesService) {
 
     this.user = {
 
@@ -172,27 +173,30 @@ export class UserComponent {
   addAccount(user) {
 
     this.userService.createAccount(user).subscribe((result) => {
-      console.log('The result from creating account: ', result);
+      //console.log('The result from creating account: ', result);
       if (!result.account) {
 
         this.message = result.message;
 
       } else {
 
-        console.log('Account Created Succesfully!', result.account);
+        //console.log('Account Created Succesfully!', result.account);
         var payload = {
           email: result.account.email,
           password: user.password
         }
         this.userService.login(payload).subscribe((res) => {
-          console.log('You are now logged in as well...', res);
+          //console.log('You are now logged in as well...', res);
           this.authService.login();
-          console.log(this.authService.isLoggedIn);
+          //console.log(this.authService.isLoggedIn);
           // Get the redirect URL from our auth service
           // If no redirect has been set, use the default
           let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/assessment';
           // Redirect the user
-          this.router.navigate([redirect]);
+          //console.log('Redirecting to...', redirect);  
+          this.utils_service.showLoading();
+          window.parent.location.href='/assessment';        
+          //this.router.navigate([redirect]);
         });
 
 

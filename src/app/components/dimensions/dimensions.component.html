@@ -1,4 +1,4 @@
-<div class="container dimension">
+<div class="container dimension" *ngIf="dataBuilt">
 
   <h2 style="margin:0; width: 100%;">
     
@@ -6,10 +6,10 @@
     <span *ngIf="score>=0" class="light-blue-bg" style="color: white; padding: 10px; display: inline-block; border-radius: 32px; min-width: 54px; height: 54px; text-align: center;"
       tooltip="Represents how you ranked your level of satisfaction in this dimension.  100 is optimal" placement="right" triggers="hover" [isDisabled]="false">{{score}}</span>
 
-      <div *ngIf="seriesdata && data.account.dimensions[dimension.id-1].stressLevel" style="display: inline">
+      <div *ngIf="seriesdata && assessmentData.dimensions[dimension.id-1].stressLevel" style="display: inline">
     <span>Stress Level</span>
     <span *ngIf="score>=0" class="light-blue-bg" style="color: white; padding: 10px; display: inline-block; border-radius: 32px; min-width: 54px; height: 54px; text-align: center;"
-        tooltip="Represents how your ranked your level of stress in this dimension.  20 is optimal" placement="right" triggers="hover" [isDisabled]="false">{{data.account.dimensions[dimension.id-1].stressLevel}}</span>
+        tooltip="Represents how your ranked your level of stress in this dimension.  20 is optimal" placement="right" triggers="hover" [isDisabled]="false">{{assessmentData.dimensions[dimension.id-1].stressLevel}}</span>
       </div>
 
 
@@ -77,19 +77,19 @@
                 <!--this one does not affect subs at all..-->
               <p class="sub-question">This dimension is causing stress in my life. {{answerData.stressLevel}}</p>
               <div class="assessment-radio-wrapper-subs">
-                <input type="radio" id="stressLevel_{{dimension.category}}_0" name="stressLevel_{{dimension.category}}" [value]="20" [(ngModel)]="data.account.dimensions[dimension.id-1].stressLevel"
+                <input type="radio" id="stressLevel_{{dimension.category}}_0" name="stressLevel_{{dimension.category}}" [value]="20" [(ngModel)]="assessmentData.dimensions[dimension.id-1].stressLevel"
                 />
                 <label [attr.for]="'stressLevel_'+dimension.category+'_0'"><span></span>1</label>
-                <input type="radio" id="stressLevel_{{dimension.category}}_1" name="stressLevel_{{dimension.category}}" [value]="40" [(ngModel)]="data.account.dimensions[dimension.id-1].stressLevel"
+                <input type="radio" id="stressLevel_{{dimension.category}}_1" name="stressLevel_{{dimension.category}}" [value]="40" [(ngModel)]="assessmentData.dimensions[dimension.id-1].stressLevel"
                 />
                 <label [attr.for]="'stressLevel_'+dimension.category+'_1'"><span></span>2</label>
-                <input type="radio" id="stressLevel_{{dimension.category}}_2" name="stressLevel_{{dimension.category}}" [value]="60" [(ngModel)]="data.account.dimensions[dimension.id-1].stressLevel"
+                <input type="radio" id="stressLevel_{{dimension.category}}_2" name="stressLevel_{{dimension.category}}" [value]="60" [(ngModel)]="assessmentData.dimensions[dimension.id-1].stressLevel"
                 />
                 <label [attr.for]="'stressLevel_'+dimension.category+'_2'"><span></span>3</label>
-                <input type="radio" id="stressLevel_{{dimension.category}}_3" name="stressLevel_{{dimension.category}}" [value]="80" [(ngModel)]="data.account.dimensions[dimension.id-1].stressLevel"
+                <input type="radio" id="stressLevel_{{dimension.category}}_3" name="stressLevel_{{dimension.category}}" [value]="80" [(ngModel)]="assessmentData.dimensions[dimension.id-1].stressLevel"
                 />
                 <label [attr.for]="'stressLevel_'+dimension.category+'_3'"><span></span>4</label>
-                <input type="radio" id="stressLevel_{{dimension.category}}_4" name="stressLevel_{{dimension.category}}" [value]="100" [(ngModel)]="data.account.dimensions[dimension.id-1].stressLevel"
+                <input type="radio" id="stressLevel_{{dimension.category}}_4" name="stressLevel_{{dimension.category}}" [value]="100" [(ngModel)]="assessmentData.dimensions[dimension.id-1].stressLevel"
                 />
                 <label [attr.for]="'stressLevel_'+dimension.category+'_4'"><span></span>5</label>
               </div>
@@ -100,11 +100,11 @@
         </div>
         <div class="col-md-4">
          
-          <gauge-chart selector="{{dimension.category}}_2" heading="{{dimension.category}}" [seriesdata]="data.account.dimensions[dimension.id-1].stressLevel"></gauge-chart>
+          <gauge-chart selector="{{dimension.category}}_2" heading="{{dimension.category}}" [seriesdata]="assessmentData.dimensions[dimension.id-1].stressLevel"></gauge-chart>
         </div>
       </div>
       <div class="row" class="text-right">
-        <button class="btn btn-primary" *ngIf="data.account.dimensions[dimension.id-1].stressLevel > 0 && checkReveal()" (click)="save(); !sessionStorage.getItem('modal-tfl-chart') && t.show();">Reveal Your Results!</button>
+        <button class="btn btn-primary" *ngIf="assessmentData.dimensions[dimension.id-1].stressLevel > 0 && checkReveal()" (click)="save(); !sessionStorage.getItem('modal-tfl-chart') && t.show();">Reveal Your Results!</button>
       </div>
     </div>
 
@@ -116,7 +116,7 @@
         <bar-chart heading="{{dimension.category}}" selector="{{dimension.category}}_bar_chart" [seriesdata]="seriesdata" [categories]="categories"></bar-chart>
         </div>
         <div class="col-md-4" style="text-align: center; padding-top: 33px">     
-        <gauge-chart selector="{{dimension.category}}_2" heading="{{dimension.category}}" [seriesdata]="data.account.dimensions[dimension.id-1].stressLevel"></gauge-chart>   
+        <gauge-chart selector="{{dimension.category}}_2" heading="{{dimension.category}}" [seriesdata]="assessmentData.dimensions[dimension.id-1].stressLevel"></gauge-chart>   
         <p><button class="btn btn-primary" (click)="goToStress()" tooltip="Click here for stress management tools." placement="bottom" triggers="hover" [isDisabled]="false">Stress Management Tools</button></p> 
         </div>
       </div>
@@ -132,12 +132,12 @@
         aria-hidden="true" style="font-size: 24px;
          cursor: pointer" tooltip="Print TFL action plan." placement="top" triggers="mouseenter" [isDisabled]="false" onclick="window.print()"></i></h3>
       <hr>
-      <!--THE TEMPLATE URL IS: {{dimension | json}}-->
+      <div style="clear:both"></div>
       <!--<div [whencreateview]="dimension.templateUrl" *ngIf="!datamode">Html will appear here..</div>-->
-      <div [innerHTML]="dimension.template"></div>
+      <div [innerHTML]="dimension.trustedTemplate"></div>
 
        <!--stress-->
-       <div *ngIf="seriesdata && data.account.dimensions[dimension.id-1].stressLevel">
+       <div *ngIf="seriesdata && assessmentData.dimensions[dimension.id-1].stressLevel">
           <div class="panel panel-default default-show">
             <div class="panel-heading bg-light-blue">
               <h4><i class="fa fa-tachometer" aria-hidden="true"></i> Universal Stress Management Tools</h4>
@@ -149,12 +149,12 @@
   
                   <p style="font-size: 14px;"><strong>Stress Gauge:</strong> Your gauge reflects the level of stress you feel associated with each dimension.
                     20% reflects low stress and 100% reflects high stress.</p>
-                  <p style="font-size: 14px;">You indicated a <strong>{{data.account.dimensions[dimension.id-1].stressLevel}}%</strong> stress level for
+                  <p style="font-size: 14px;">You indicated a <strong>{{assessmentData.dimensions[dimension.id-1].stressLevel}}%</strong> stress level for
                     this dimension.</p>
                   <p><button class="btn btn-primary" (click)="goToStress()" tooltip="Click here for stress management tools." placement="right" triggers="hover" [isDisabled]="false">Stress Management Tools</button></p>
                 </div>
                 <div class="col-md-4">
-                    <gauge-chart selector="{{dimension.category}}_3" heading="{{dimension.category}}" [seriesdata]="data.account.dimensions[dimension.id-1].stressLevel"></gauge-chart>   
+                    <gauge-chart selector="{{dimension.category}}_3" heading="{{dimension.category}}" [seriesdata]="assessmentData.dimensions[dimension.id-1].stressLevel"></gauge-chart>   
                 </div>
               </div>
             </div>
@@ -182,44 +182,40 @@
               <div class="form-group">
                 <p>What are the barriers that are keeping you from improving this dimension of your life? Click all that apply</p>
                 <div style="margin-left: 40px;">
-                  <label><input type="checkbox" name="barrier_1" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[0]" (ngModelChange)="save()">This dimension is NOT important to me</label><br>
-                  <label><input type="checkbox" name="barrier_2" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[1]" (ngModelChange)="save()">Lack of motivation</label><br>
-                  <label><input type="checkbox" name="barrier_3" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[2]" (ngModelChange)="save()">Don’t know where to start</label><br>
-                  <label><input type="checkbox" name="barrier_4" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[3]" (ngModelChange)="save()">Lack of support</label><br>
-                  <label><input type="checkbox" name="barrier_5" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[4]" (ngModelChange)="save()">Self-doubt</label><br>
-                  <label><input type="checkbox" name="barrier_6" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[5]" (ngModelChange)="save()">Lack of money or resources</label><br>
-                  <label><input type="checkbox" name="barrier_7" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[6]" (ngModelChange)="save()">Lack of discipline and/or self-control</label><br>
-                  <label><input type="checkbox" name="barrier_8" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[7]" (ngModelChange)="save()">Fear of outcome</label><br>
-                  <label><input type="checkbox" name="barrier_9" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[8]" (ngModelChange)="save()">Lack of knowledge</label><br>
-                  <label><input type="checkbox" name="barrier_10" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[9]" (ngModelChange)="save()">Overwhelmed</label><br>
-                  <label><input type="checkbox" name="barrier_11" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[10]" (ngModelChange)="save()">Lack of time</label><br>
-                  <label><input type="checkbox" name="barrier_12" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[11]" (ngModelChange)="save()">Fear of change or trying something new</label><br>
-                  <label><input type="checkbox" name="barrier_13" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[12]" (ngModelChange)="save()">Depression and/or anxiety</label><br>
-                  <label><input type="checkbox" name="barrier_14" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[13]" (ngModelChange)="save()">Other (Please provide your comments below)</label><br>                  <label>Comments</label>
-                  <textarea class="form-control" name="barrier_15" [(ngModel)]="data.account.dimensions[dimension.id-1].barriers[14]" (ngModelChange)="save()"></textarea>
+                  <label><input type="checkbox" name="barrier_1" [(ngModel)]="assessmentData.dimensions[dimension.id-1].barriers[0]" (ngModelChange)="save()">This dimension is NOT important to me</label><br>
+                  <label><input type="checkbox" name="barrier_2" [(ngModel)]="assessmentData.dimensions[dimension.id-1].barriers[1]" (ngModelChange)="save()">Lack of motivation</label><br>
+                  <label><input type="checkbox" name="barrier_3" [(ngModel)]="assessmentData.dimensions[dimension.id-1].barriers[2]" (ngModelChange)="save()">Don’t know where to start</label><br>
+                  <label><input type="checkbox" name="barrier_4" [(ngModel)]="assessmentData.dimensions[dimension.id-1].barriers[3]" (ngModelChange)="save()">Lack of support</label><br>
+                  <label><input type="checkbox" name="barrier_5" [(ngModel)]="assessmentData.dimensions[dimension.id-1].barriers[4]" (ngModelChange)="save()">Self-doubt</label><br>
+                  <label><input type="checkbox" name="barrier_6" [(ngModel)]="assessmentData.dimensions[dimension.id-1].barriers[5]" (ngModelChange)="save()">Lack of money or resources</label><br>
+                  <label><input type="checkbox" name="barrier_7" [(ngModel)]="assessmentData.dimensions[dimension.id-1].barriers[6]" (ngModelChange)="save()">Lack of discipline and/or self-control</label><br>
+                  <label><input type="checkbox" name="barrier_8" [(ngModel)]="assessmentData.dimensions[dimension.id-1].barriers[7]" (ngModelChange)="save()">Fear of outcome</label><br>
+                  <label><input type="checkbox" name="barrier_9" [(ngModel)]="assessmentData.dimensions[dimension.id-1].barriers[8]" (ngModelChange)="save()">Lack of knowledge</label><br>
+                  <label><input type="checkbox" name="barrier_10" [(ngModel)]="assessmentData.dimensions[dimension.id-1].barriers[9]" (ngModelChange)="save()">Overwhelmed</label><br>
+                  <label><input type="checkbox" name="barrier_11" [(ngModel)]="assessmentData.dimensions[dimension.id-1].barriers[10]" (ngModelChange)="save()">Lack of time</label><br>
+                  <label><input type="checkbox" name="barrier_12" [(ngModel)]="assessmentData.dimensions[dimension.id-1].barriers[11]" (ngModelChange)="save()">Fear of change or trying something new</label><br>
+                  <label><input type="checkbox" name="barrier_13" [(ngModel)]="assessmentData.dimensions[dimension.id-1].barriers[12]" (ngModelChange)="save()">Depression and/or anxiety</label><br>
+                  <label><input type="checkbox" name="barrier_14" [(ngModel)]="assessmentData.dimensions[dimension.id-1].barriers[13]" (ngModelChange)="save()">Other (Please provide your comments below)</label><br>                  <label>Comments</label>
+                  <textarea class="form-control" name="barrier_15" [(ngModel)]="assessmentData.dimensions[dimension.id-1].barriers[14]" (ngModelChange)="save()"></textarea>
                 </div>
               </div>
               <div class="form-group">
                 <p>What tools and support do you need to be successful? Click all that apply</p>
                 <div style="margin-left: 40px;">
-                  <label><input type="checkbox" name="tool_1" [(ngModel)]="data.account.dimensions[dimension.id-1].tools[0]" (ngModelChange)="save()">Education</label><br>
-                  <label><input type="checkbox" name="tool_2" [(ngModel)]="data.account.dimensions[dimension.id-1].tools[1]" (ngModelChange)="save()">Encouragement</label><br>
-                  <label><input type="checkbox" name="tool_3" [(ngModel)]="data.account.dimensions[dimension.id-1].tools[2]" (ngModelChange)="save()">Support</label><br>
-                  <label><input type="checkbox" name="tool_4" [(ngModel)]="data.account.dimensions[dimension.id-1].tools[3]" (ngModelChange)="save()">Money</label><br>
-                  <label><input type="checkbox" name="tool_5" [(ngModel)]="data.account.dimensions[dimension.id-1].tools[4]" (ngModelChange)="save()">Tools and resources</label><br>
-                  <label><input type="checkbox" name="tool_6" [(ngModel)]="data.account.dimensions[dimension.id-1].tools[5]" (ngModelChange)="save()">Professional counseling/therapy</label><br>
-                  <label><input type="checkbox" name="tool_7" [(ngModel)]="data.account.dimensions[dimension.id-1].tools[6]" (ngModelChange)="save()">Specific coaching to help me with this dimension</label><br>
-                  <label><input type="checkbox" name="tool_8" [(ngModel)]="data.account.dimensions[dimension.id-1].tools[7]" (ngModelChange)="save()">Coaching to learn techniques to manage stress and to develop healthier coping skills</label><br>
-                  <label><input type="checkbox" name="tool_9" [(ngModel)]="data.account.dimensions[dimension.id-1].tools[8]" (ngModelChange)="save()">Coaching on mindfulness and intentional living</label><br>
-                  <label><input type="checkbox" name="tool_10" [(ngModel)]="data.account.dimensions[dimension.id-1].tools[9]" (ngModelChange)="save()">Coaching on personal empowerment and goal-setting</label><br>
-                  <label><input type="checkbox" name="tool_11" [(ngModel)]="data.account.dimensions[dimension.id-1].tools[10]" (ngModelChange)="save()">Other (Please provide your comments below)</label><br>                  <label>Comments</label>
-                  <textarea class="form-control" name="tool_12" [(ngModel)]="data.account.dimensions[dimension.id-1].tools[11]" (ngModelChange)="save()"></textarea>
+                  <label><input type="checkbox" name="tool_1" [(ngModel)]="assessmentData.dimensions[dimension.id-1].tools[0]" (ngModelChange)="save()">Education</label><br>
+                  <label><input type="checkbox" name="tool_2" [(ngModel)]="assessmentData.dimensions[dimension.id-1].tools[1]" (ngModelChange)="save()">Encouragement</label><br>
+                  <label><input type="checkbox" name="tool_3" [(ngModel)]="assessmentData.dimensions[dimension.id-1].tools[2]" (ngModelChange)="save()">Support</label><br>
+                  <label><input type="checkbox" name="tool_4" [(ngModel)]="assessmentData.dimensions[dimension.id-1].tools[3]" (ngModelChange)="save()">Money</label><br>
+                  <label><input type="checkbox" name="tool_5" [(ngModel)]="assessmentData.dimensions[dimension.id-1].tools[4]" (ngModelChange)="save()">Tools and resources</label><br>
+                  <label><input type="checkbox" name="tool_6" [(ngModel)]="assessmentData.dimensions[dimension.id-1].tools[5]" (ngModelChange)="save()">Professional counseling/therapy</label><br>
+                  <label><input type="checkbox" name="tool_7" [(ngModel)]="assessmentData.dimensions[dimension.id-1].tools[6]" (ngModelChange)="save()">Specific coaching to help me with this dimension</label><br>
+                  <label><input type="checkbox" name="tool_8" [(ngModel)]="assessmentData.dimensions[dimension.id-1].tools[7]" (ngModelChange)="save()">Coaching to learn techniques to manage stress and to develop healthier coping skills</label><br>
+                  <label><input type="checkbox" name="tool_9" [(ngModel)]="assessmentData.dimensions[dimension.id-1].tools[8]" (ngModelChange)="save()">Coaching on mindfulness and intentional living</label><br>
+                  <label><input type="checkbox" name="tool_10" [(ngModel)]="assessmentData.dimensions[dimension.id-1].tools[9]" (ngModelChange)="save()">Coaching on personal empowerment and goal-setting</label><br>
+                  <label><input type="checkbox" name="tool_11" [(ngModel)]="assessmentData.dimensions[dimension.id-1].tools[10]" (ngModelChange)="save()">Other (Please provide your comments below)</label><br>                  <label>Comments</label>
+                  <textarea class="form-control" name="tool_12" [(ngModel)]="assessmentData.dimensions[dimension.id-1].tools[11]" (ngModelChange)="save()"></textarea>
                 </div>
-              </div>
-              <!-- <div class="form-group">
-                                 <label>What other elements would you like to see added to your TFL Action Plan? (optional)</label>
-                                 <textarea class="form-control" name="otherElements" [(ngModel)]="data.account.otherElements[dimension.id-1]" (ngModelChange)="save()"></textarea>
-                             </div>-->
+              </div>  
             </form>
           </div>
         </div>

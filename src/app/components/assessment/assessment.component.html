@@ -1,5 +1,5 @@
 <div class="container">
-    <div *ngIf="assessmentComplete">
+    <div *ngIf="assessmentComplete && dataLoaded">
         <div class="row">
             <div class="col-xs-4 col-sm-4 col-md-4">
                 <img src="/assets/images/tfl-color-wheel.jpg" style="float: left; width: 100%;"/>
@@ -11,13 +11,13 @@
         </div>
     </div>
 
-    <div *ngIf="!assessmentComplete">
-        <!--<h1>Train For Life Assessment <span *ngIf="data.account.firstName">for {{data.account.firstName}}</span></h1>-->
+    <div *ngIf="!assessmentComplete && dataLoaded">
+        <!--<h1>Train For Life Assessment <span *ngIf="userData.firstName">for {{userData.firstName}}</span></h1>-->
         <h1>Welcome to your Train for Life (TFL) assessment!</h1>
         <!--<h4>Please answer the following questions to create your profile. <a href="javascript:void(0)" (click)="finish($event)">Go to dashboard!</a></h4>-->
         <hr>
 
-        <div *ngIf="!data.account.createdAt">
+        <div *ngIf="!userData">
             <div class="row">
                 <div class="col-md-12"><p>Before you begin, we just need to know a little bit about you.</p></div>
             </div>
@@ -32,7 +32,7 @@
         </div>
 
         <!--show the instructions if count is 0 and account has been created-->
-        <div class="instructions" *ngIf="count==0 && data.account.createdAt">
+        <div class="instructions" *ngIf="count==0 && userData && userData.createdAt">
             <div class="row">
                 <div class="col-xs-4 col-sm-4 col-md-4">
                     <img src="/assets/images/tfl-color-wheel.jpg" style="float: left; width: 100%;"/>
@@ -40,8 +40,7 @@
                         <div class="panel panel-default" *ngIf="!showMotivated" style="margin-top: 20px;">
                             <div class="panel-heading blue-bg text-center" style="color: white; font-weight: bold;">Aware &nbsp;&bull;&nbsp; Awake &nbsp;&bull;&nbsp; Empowered &nbsp;&bull;&nbsp; Transformed</div>
                             <div class="panel-body">
-                                <p><strong><i class="blue">Ideal Being:</i></strong> You will notice throughout the TFL assessment that we refer to well-being as Ideal Being. Webster defines well-being as the state of being comfortable,
-                                    healthy, or happy. Ideal Being represents these elements but invites you to conceptualize your ideal state of being based on what is important to you. The TFL assessment will invite you to reflect on 15 dimensions of your life. Therefore, helping you conceptualize your Ideal Being.</p>
+                                <p><strong><i class="blue">Ideal Being:</i></strong> You will notice throughout the TFL Assessment that we refer to well-being as Ideal Being®. Ideal Being is defined as reaching a deep state of happiness and satisfaction in your life by feeling emotionally, physically and spiritually healthy, happy and whole based on what is important to you. The TFL Assessment will invite you to reflect on 15 dimensions of your life with the intention of helping you conceptualize your state of Ideal Being.</p>
                             </div>
                         </div>
 
@@ -80,7 +79,7 @@
 
     </div>
 
-    <div class="instructions" *ngIf="count>0">
+    <div class="instructions" *ngIf="count>0 && assessmentData && assessmentData.assessment">
         <p>
             Please rate the below statements using the rating scale which best reflects how you view your life in each TFL dimension.
         </p>
@@ -99,29 +98,29 @@
                                 </div>
                                 <div style="float: left;">{{questions.length}}</div>
                             </div>
-                            <hr/>
+                            <hr>
                             <p class="assessment-question">
                                 {{q.question}}
                                 <br/>
 
-                                <span style="color:#089b6f" *ngIf="data.account.assessment[q.id-1].answer">You: {{(answers | myfilter: data.account.assessment[q.id-1].answer)[0].value }}
-                  <button (click)="data.account.assessment[q.id-1].answer = ''" type="button" class="btn btn-default btn-sm">
+                                <span style="color:#089b6f" *ngIf="assessmentData.assessment[q.id-1].answer">You: {{(answers | myfilter: assessmentData.assessment[q.id-1].answer)[0].value }}
+                  <button (click)="assessmentData.assessment[q.id-1].answer = ''" type="button" class="btn btn-default btn-sm">
                     <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Change my Answer </button>
                   </span>
                             </p>
                         </div>
                         <!--answers-->
-                        <div class="answers" *ngIf="!data.account.assessment[q.id-1].answer">
+                        <div class="answers" *ngIf="!assessmentData.assessment[q.id-1].answer">
                             <div class="assessment-radio-wrapper" *ngFor="let a of answers">
-                                <input type="radio" id="{{q.id}}_{{a.id}}" name="assessment_{{q.category}}" [value]="a.id" [(ngModel)]="data.account.assessment[q.id-1].answer" (change)="updateSubs($event, a.id, data.account.assessment[q.id-1])"/> {{a.id}}
+                                <input type="radio" id="{{q.id}}_{{a.id}}" name="assessment_{{q.category}}" [value]="a.id" [(ngModel)]="assessmentData.assessment[q.id-1].answer" (change)="updateSubs($event, a.id, assessmentData.assessment[q.id-1])"/> {{a.id}}
                                 <label [attr.for]="q.id + '_' + a.id"><span></span>{{a.value}}</label>
                             </div>
                         </div>
 
                         <div class="text-right assessment-nav">
                             <button class="btn btn-primary" *ngIf="count <= questions.length && count > 1" (click)="counterDown()">Back</button>
-                            <button class="btn btn-primary" *ngIf="data.account.assessment[q.id-1].answer && count != questions.length" (click)="save();">Next</button>
-                            <button class="btn btn-primary" *ngIf="count == questions.length && data.account.assessment[q.id-1].answer" (click)="finish($event)">Finish</button>
+                            <button class="btn btn-primary" *ngIf="assessmentData.assessment[q.id-1].answer && count != questions.length" (click)="save();">Next</button>
+                            <button class="btn btn-primary" *ngIf="count == questions.length && assessmentData.assessment[q.id-1].answer" (click)="finish($event)">Finish</button>
                         </div>
 
                         <div class="assessment-image">
@@ -137,4 +136,5 @@
 </div>
 
 <modal-generic #g="child10" message="Want to change any of your answers? Do it now! Once you hit the Ok button all of your answers will be final."></modal-generic>
+<modal-generic #g2="child10" message="Are you sure you want to go back?"></modal-generic>
 </div>

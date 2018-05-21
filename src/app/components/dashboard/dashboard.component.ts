@@ -1,9 +1,10 @@
+import { SurveyService } from './../a-survey/survey.service';
 import { ModalYourResultsComponent } from './../modals/modalYourResultsComponent';
 import { ModalDataJunkieComponent } from './../modals/modalDataJunkieComponent';
 import { ModalGenericComponent } from './../modals/modalGenericComponent';
 import { ModalDirective } from 'ngx-bootstrap';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AssessmentService } from "../assessment/assessment.service";
 import { UserService } from "../user-service/user.service";
 declare var System: any;
@@ -21,13 +22,14 @@ export class DashboardComponent implements OnInit {
     @ViewChild('g') public g: ModalGenericComponent;
     @ViewChild('g2') public g2: ModalGenericComponent;
     @ViewChild('g3') public g3: ModalGenericComponent;
+    @ViewChild('g4') public g4: ModalGenericComponent;
     @ViewChild('j') public j: ModalDataJunkieComponent;
     @ViewChild('r') public r: ModalYourResultsComponent;
-    
+
 
 
     public areas: any;
-    public assessmentData: any[];
+    public assessmentData;
     public categories: any;
     public seriesdata: any;
     public dataCheckPassed: boolean;
@@ -44,13 +46,13 @@ export class DashboardComponent implements OnInit {
     public overAllStressScore;
     public showMotivated: boolean = false;
     public showGraph: boolean = false;
+    public assessmentDataLoaded: boolean = false;
 
-    constructor(public router: Router, public assessmentService: AssessmentService, public userService: UserService) {
+    constructor(public route: ActivatedRoute, public router: Router, public assessmentService: AssessmentService, public userService: UserService, public ss: SurveyService) {
 
         this.router = router;
         this.assessmentService = assessmentService;
-        this.areas = this.assessmentService.questions;
-        this.assessmentData = [];
+        this.areas = this.assessmentService.questions;  
         this.userService = userService;
         this.dataCheckPassed = false;
         this.motivatedAreas = [];
@@ -62,33 +64,45 @@ export class DashboardComponent implements OnInit {
         this.seriesdata = [];
         this.userService = userService;
         this.allUnlocked = false;
-
+        this.assessmentDataLoaded = false;    
+        
+        if(!sessionStorage.getItem('surveyReminderShown')) sessionStorage.setItem('surveyReminderShown', "0")
 
     }
 
 
 
     ngOnInit() {
-
+        //console.log('Dashboard init...');
         //we added this to make sure we have data on page reload!
         this.userService.getUser().subscribe((user) => {
             //console.log('user data retrieved...');
             this.userData = user;
-            this.assessmentData = this.userData.assessment;
-            let temp = [];
-            this.assessmentService.questions.map((x) => {
 
-                temp.push({ id: x.id, category: x.category });
+            this.assessmentService.getByUserId(this.userData._id).subscribe(res => {
+                //console.log('The result from getting the assessment is: ', res.length, res);
+                this.assessmentData = res[0]; //stores all of the assessment data.      
+                if(!this.assessmentData.survey || this.assessmentData.survey.length == 0){
+                    this.assessmentData.survey = this.ss.survey;
+                    //console.log('!!!! we had to default the survey data!')
+                }                      
+
+                let temp = [];
+                this.assessmentService.questions.map((x) => {
+
+                    temp.push({ id: x.id, category: x.category });
+
+                });
+
+                this.checkAssessmentComplete();
+                this.categories = temp;
+                this.checkAllUnlocked();
+                this.checkComplete();
+                this.buildSeries();
+                this.getOverAllScore();
+                this.getOverAllStressScore();
 
             });
-            this.categories = temp;
-            this.checkAllUnlocked();
-            this.checkComplete();
-            this.buildSeries();
-            this.getOverAllScore();
-            this.getOverAllStressScore();
-
-
         });
 
 
@@ -96,14 +110,16 @@ export class DashboardComponent implements OnInit {
 
 
     ngAfterViewInit() {
+       
+        this.showMotivated = false;
 
         if (typeof this.tooltip !== "undefined") {
             //this.tooltip.show();
         }
         if (typeof this.tooltip2 !== "undefined") {
             //this.tooltip2.show();
-        }          
-      
+        }
+
         // Another way to set attribute value to element
         // this.renderer.setElementAttribute(this.player, 'src', this.src);
     }
@@ -112,7 +128,7 @@ export class DashboardComponent implements OnInit {
 
         var temp = [];
 
-        this.userData.assessment.map((obj) => {
+        this.assessmentData.assessment.map((obj) => {
             if (!isNaN(obj.answer)) {
                 temp.push(obj.answer * 20);
             }
@@ -127,7 +143,7 @@ export class DashboardComponent implements OnInit {
 
         var temp = [];
 
-        this.userData.dimensions.map((obj) => {
+        this.assessmentData.dimensions.map((obj) => {
 
             if (!isNaN(obj.stressLevel)) {
                 temp.push(obj.stressLevel);
@@ -140,19 +156,49 @@ export class DashboardComponent implements OnInit {
         this.overAllStressScore = avg;
     }
 
+    checkAssessmentComplete(){
+
+
+        var temp = [];
+     
+
+        this.assessmentData.assessment.map((obj) => {
+         
+            temp.push(obj.answer != "");
+
+        });
+
+        //console.log('First 15 questions: ', temp);
+
+        if(temp.indexOf(false) > -1){
+            //this.g4.show();
+            this.router.navigate(['/assessment']);
+
+        }
+
+
+        //this.allUnlocked = temp.indexOf(false) === -1;
+        //this.assessmentData.steps[6] = this.allUnlocked;
+
+
+    }
+
     checkAllUnlocked() {
 
         var temp = [];
+     
 
-        this.userData.assessment.map((obj) => {
-
+        this.assessmentData.assessment.map((obj) => {
+         
             temp.push(obj.subs.indexOf(null) === -1);
 
         });
 
+        //console.log(temp);
+
 
         this.allUnlocked = temp.indexOf(false) === -1;
-        this.userData.steps[6] = this.allUnlocked;
+        this.assessmentData.steps[6] = this.allUnlocked;
 
 
     }
@@ -173,30 +219,30 @@ export class DashboardComponent implements OnInit {
                 break;
 
         }
-        this.userData.steps[0] = null;
-        this.userData.steps[x] = true;
-        sessionStorage.setItem('steps', this.userData.steps.toString());
-        this.updateUser();
+        this.assessmentData.steps[0] = null;
+        this.assessmentData.steps[x] = true;
+        sessionStorage.setItem('steps', this.assessmentData.steps.toString());
+        this.updateAssessment();
 
     }
 
-    public updateUser() {
 
-        this.userService.updateAccount(this.userData).subscribe((user) => {
+    //TODO: we need to update the assessment, not the account.
+    public updateAssessment() {
 
-            this.userData = user;
+        this.assessmentService.updateAssessment(this.assessmentData).subscribe((res) => {
+
+            //this.assessmentData = res.assessment;       
 
         })
 
     }
 
-    public checkComplete(surveyComplete?) {
+    public checkComplete() {
 
         let complete = [];
-        if (!surveyComplete && this.userData.survey.length === 0) {
-            this.surveyComplete = false;
-        } else {
-            this.userData.survey.map((item, index) => {
+       
+            this.assessmentData.survey.map((item, index) => {
 
                 //console.log(item);
 
@@ -211,27 +257,28 @@ export class DashboardComponent implements OnInit {
                 }
 
 
-            });
+            });//end map....
 
             //console.log('SURVEY: ' , complete);
 
             this.surveyComplete = complete.indexOf(false) == -1;
-        }
+
+            //console.log('After Check!', this.surveyComplete);
+        
 
         if (this.surveyComplete) {
 
-            this.userData.steps[5] = true;
+            this.assessmentData.steps[5] = true;
             //console.log('The survey is complete. Lets update the account', this.userService.userData);
 
-            this.updateUser();
-        } else {
+            this.updateAssessment();
+        } else{
 
-            //alert('You havent compelted the survey!');
-            //this.s.show();
-            
+            this.assessmentData.steps[5] = false;
+            this.updateAssessment();
         }
 
-        if(!this.surveyComplete && this.getCurrentStep() > 2){
+        if (!this.surveyComplete && this.getCurrentStep() > 2) {
             //this.g.show();
         }
     }
@@ -258,14 +305,14 @@ export class DashboardComponent implements OnInit {
         //console.log(temp2);
 
         this.dataCheckPassed = true;
-        //this.userData.steps[1] = true;//why am I doing this?
-        this.updateUser();
+        //this.assessmentData.steps[1] = true;//why am I doing this?
+        this.updateAssessment();
         //console.log('TEMP 2 is: ', temp2);
 
         /*
          This is the original way...
          //for each of the items in assessment data...
-         this.assessmentData.map((x) =>{
+         this.assessmentData.assessment.map((x) =>{
 
          if(x.subs.length == 0){ x.subs = [0,0,0,0,0,0]}//fix to ensure subs is pre-populated. 0 means no selection.
 
@@ -291,7 +338,7 @@ export class DashboardComponent implements OnInit {
 
         //for each of the items in assessment data...
         //can we make this a temp array just for the charts?
-        let duplicateObject = <any[]>JSON.parse(JSON.stringify(this.assessmentData));
+        let duplicateObject = <any[]>JSON.parse(JSON.stringify(this.assessmentData.assessment));
         duplicateObject.forEach((x) => {
 
             if (x.subs.length == 0) {
@@ -334,7 +381,7 @@ export class DashboardComponent implements OnInit {
         //2. do need help.
 
         //AREAS THAT DO NOT NEED ATTENTION
-        this.assessmentData.map((x) => {
+        this.assessmentData.assessment.map((x) => {
             //the answer is greater than 3 and subs are null
             if (x.answer > 3) {
                 //this needs to be determined also by sub data. check to see if they have already answered and are not satisfied but motivated to take action.
@@ -387,9 +434,9 @@ export class DashboardComponent implements OnInit {
         if (this.dataCheckPassed) {
             //they have completed everything...
             //console.log('The data check passed!');
-            this.userData.steps[1] = true;
-            sessionStorage.setItem('steps', this.userData.steps);
-            this.updateUser();
+            this.assessmentData.steps[1] = true;
+            sessionStorage.setItem('steps', this.assessmentData.steps);
+            this.updateAssessment();
 
 
         }
@@ -398,17 +445,17 @@ export class DashboardComponent implements OnInit {
     }
 
     goToDimension(id) {
-        if(!this.surveyComplete && this.getCurrentStep() > 2){
+        if (!this.surveyComplete && this.getCurrentStep() > 2) {
             this.g.onHide.subscribe((hidden) => {
                 this.router.navigate(['/dimensions', id]);
-              });
+            });
             this.g.show();
-        }else{
+        } else {
             this.router.navigate(['/dimensions', id]);
-            
+
         }
 
-       
+
 
     }
 
@@ -452,9 +499,9 @@ export class DashboardComponent implements OnInit {
     getStepsFromStorage() {
         if (!sessionStorage.getItem('steps')) {
 
-            sessionStorage.setItem('steps', this.userData.steps)
+            sessionStorage.setItem('steps', this.assessmentData.steps)
         }
-        return sessionStorage.getItem('steps').split(",").map((item)=>{
+        return sessionStorage.getItem('steps').split(",").map((item) => {
             return item && item == "true" ? true : false
         })
     }
@@ -494,64 +541,82 @@ export class DashboardComponent implements OnInit {
 
     }
 
-    showResults(){
+    showResults() {
 
         this.showGraph = true;
         this.showMotivated = true;
+        //console.log(this.surveyComplete, parseInt(sessionStorage.getItem('surveyReminderShown')));
 
-        if(!this.surveyComplete){
-           
+        if (!this.surveyComplete && parseInt(sessionStorage.getItem('surveyReminderShown')) < 3) { 
+            //console.log('We need to show the survey reminder...')
             this.g.onHide.subscribe((hidden) => {
+                sessionStorage.setItem("surveyReminderShown", (parseInt(sessionStorage.getItem("surveyReminderShown")) + 1).toString());
                 this.r.show();
-              });
-              this.g.show();
-           
-        }else{
+               
+            });
+
+            this.g.show();
+
+    
+
+        } else {
+            //console.log('We DON\'T need to show the survey reminder...')
             this.r.show();
-            
+
         }
-        
+
     }
 
-    showDataJunkie(){
-        if(!this.surveyComplete){
+    showDataJunkie() {
+       
+        //console.log(parseInt(sessionStorage.getItem('surveyReminderShown')));
+        if (!this.surveyComplete && parseInt(sessionStorage.getItem('surveyReminderShown')) < 3) { 
+            //console.log('Need to show survey...')
             
+
             this.g2.onHide.subscribe((hidden) => {
-                this.router.navigate(['data-junkie'])
-              });
-              this.g2.show();
-           
-        }else{
-            this.router.navigate(['data-junkie'])
+
+                sessionStorage.setItem("surveyReminderShown", (parseInt(sessionStorage.getItem("surveyReminderShown")) + 1).toString());
+                this.router.navigate(['data-junkie']);
+            });
+
+            this.g2.show();
+
             
+        } else {
+            this.g2.hide();
+            this.router.navigate(['data-junkie']);
+
         }
 
     }
 
-    showTFLGuide(){
-        if(!this.surveyComplete){
+    showTFLGuide() {
+        if (!this.surveyComplete && parseInt(sessionStorage.getItem('surveyReminderShown')) < 3) { 
             this.g3.onHide.subscribe((hidden) => {
-                this.router.navigate(['tfl-guide'])
-              });
+
+                sessionStorage.setItem("surveyReminderShown", (parseInt(sessionStorage.getItem("surveyReminderShown")) + 1).toString());
+                this.router.navigate(['tfl-guide']);
+            });
             this.g3.show();
-        }else{
-            this.router.navigate(['tfl-guide'])
-            
+        } else {
+            this.router.navigate(['tfl-guide']);
+
         }
 
-                
-        
+
+
     }
 
-    takeSurvey(){
+    takeSurvey() {
 
-        this.s.onHide.subscribe((complete) => { 
-            if(complete){
+        this.s.onHide.subscribe((complete) => {
+            if (complete) {
                 this.surveyComplete = true;
-                this.userData.steps[5] = true;
-            }          
-  
-        });
+                this.assessmentData.steps[5] = true;
+            }
+
+        });       
         this.s.show();
     }
 

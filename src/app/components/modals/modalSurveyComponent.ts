@@ -1,5 +1,6 @@
+import { AssessmentService } from './../assessment/assessment.service';
 import { SurveyService } from './../a-survey/survey.service';
-import { Component, ViewChild, AfterViewInit, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef, Output, EventEmitter, Input } from '@angular/core';
 import { Router } from "@angular/router";
 import { ModalDirective } from 'ngx-bootstrap';
 import { UserService } from "../user-service/user.service";
@@ -13,41 +14,37 @@ declare var System: any;
     exportAs: 'child6'
 })
 export class ModalSurveyComponent implements AfterViewInit {
-
+    @Input() assessmentData: any;
     @ViewChild('lgModal') public lgModal: ModalDirective;
-    @Output() public onShow:EventEmitter<any> = new EventEmitter();
-    @Output() public onShown:EventEmitter<any> = new EventEmitter();
-    @Output() public onHide:EventEmitter<any> = new EventEmitter();
-    @Output() public onHidden:EventEmitter<any> = new EventEmitter();
+    @Output() public onShow: EventEmitter<any> = new EventEmitter();
+    @Output() public onShown: EventEmitter<any> = new EventEmitter();
+    @Output() public onHide: EventEmitter<any> = new EventEmitter();
+    @Output() public onHidden: EventEmitter<any> = new EventEmitter();
 
     public survey_questions;
     public survey_answers;
-    public userData;
     public surveyComplete: boolean;
     public surveySubmitted;
 
-    constructor(public userService: UserService, public surveyService: SurveyService, private router: Router, public changeRef: ChangeDetectorRef) {
-
+    constructor(public userService: UserService, public surveyService: SurveyService, private router: Router, public changeRef: ChangeDetectorRef, public assessmentService: AssessmentService) {
+        //we need to take the assessment data into this function then udpate it when they complete the survey...
 
         this.userService = userService;
         this.surveyService = surveyService;
         this.survey_questions = surveyService.questions;
-        console.log(this.survey_questions);
         this.survey_answers = surveyService.answers;
-        this.userData = userService.userData;
         this.surveySubmitted = false;
-        //this.surveyComplete = false;
-        if (this.userData.survey.length <= 0) {
-            this.userData.survey = this.surveyService.survey;
-        }
-
-        this.checkComplete();
     }
+   
 
     checkComplete() {
+
         this.surveyComplete = false;
+        //first check to see if we have valid survey data. If not, fix it!
+
+        //do nothing, we have data...  
         let complete = [];
-        this.userData.survey.map((item, index) => {
+        this.assessmentData.survey.map((item, index) => {
             //console.log(item, index);
             if ((item.id < 100 && item.answer != '') || item.id == 101) {
 
@@ -61,21 +58,25 @@ export class ModalSurveyComponent implements AfterViewInit {
 
         });
 
-        //console.log(complete, complete.length);
-        //console.log(complete);
+        //console.log('Complete array: ', complete);
+
         this.surveyComplete = complete.indexOf(false) == -1;
+        //console.log('Is the survey completed?', this.surveyComplete);
         //this.changeRef.detectChanges(); //this is necessary to fix issue with change ref..
 
         if (this.surveyComplete && this.surveySubmitted) {
-            //console.log('The survey is complete. Lets update the account', this.userData);
-            this.userData.steps[5] = true;
-            this.userService.updateAccount(this.userData).subscribe((user) => {
-                this.surveyService.surveyComplete = true;
-                sessionStorage.setItem('steps', this.userData.steps);
-                //console.log('Account updated with survey data!', user);
+            //console.log('The survey is complete. Lets update the account', this.assessmentData);
+             this.assessmentData.steps[5] = true;
+
+            this.assessmentService.updateAssessment(this.assessmentData).subscribe((res) => {
+
+                this.assessmentData = res.assessment;
 
             })
+
+
         }
+
     }
 
     public updateSurvey(ev, id, value) {
@@ -84,13 +85,13 @@ export class ModalSurveyComponent implements AfterViewInit {
 
         let itemExists = false;
 
-        this.userData.survey.map((item, index) => {
-            
-            if (item.id == id) {                
+        this.assessmentData.survey.map((item, index) => {
+
+            if (item.id == id) {
                 itemExists = true;
-                item.answer = value;        
+                item.answer = value;
             }
-        }); 
+        });
 
         itemExists = false;
         if (id != 101) {
@@ -99,33 +100,38 @@ export class ModalSurveyComponent implements AfterViewInit {
     }
 
     getSurveyAnswer(id: number): string {
-        return this.userData.survey.find(s => s.id == id).answer || '';
+        return this.assessmentData.survey.find(s => s.id == id).answer || '';
     }
 
-    public show(){
-        this.lgModal.show();    
-        this.onShow.next(true);
-      }
+    public show() {
     
-    public hide(){
+        this.checkComplete();
+        this.lgModal.show();
+        this.onShow.next(true);
+    }
+
+    public hide() {
         this.checkComplete();
         this.lgModal.hide();
         this.onHide.next(this.surveyComplete);
-    }    
+    }
 
-    public completeSurvey() {        
+    public completeSurvey() {
         this.surveySubmitted = true;
         this.hide();
 
     }
 
-    ngAfterViewInit(){
-        //this.checkComplete();
+    ngAfterViewInit() {
+
+        //console.log('AssessmentData for survey: ' , this.assessmentData);
+
+
     }
 
     public handler(type: string, $event: ModalDirective) {
         this.onHide.next(true);
-      }
+    }
 
 
 }

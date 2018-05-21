@@ -15,7 +15,7 @@ export class DataJunkieComponent implements OnInit, AfterViewInit{
   @ViewChild('j') public j: ModalDataJunkieComponent;
 
   public areas:any;
-  public assessmentData: any[];
+  public assessmentData;
   public categories: any;
   public userData: any;
   public dataCheckPassed: boolean;
@@ -47,7 +47,7 @@ export class DataJunkieComponent implements OnInit, AfterViewInit{
 
     let complete = [];
 
-    this.userService.userData.survey.map((item, index)=> {
+    this.assessmentData.survey.map((item, index)=> {
 
       if (item.id != 101 && item.id != 100 && item.answer == "") {
 
@@ -66,43 +66,47 @@ export class DataJunkieComponent implements OnInit, AfterViewInit{
 
     if(this.surveyComplete){
 
-      //console.log('The survey is complete. Lets update the account', this.userService.userData);
+      this.assessmentService.updateAssessment(this.assessmentData).subscribe((user)=>{
 
-      this.userService.updateAccount(this.userService.userData).subscribe((user)=>{
-
-        //console.log('Account updated with survey data!', user);
 
       })
     }
   }
 
-  ngOnInit() {
+  ngOnInit() {  
+   
+
+    //TODO: get assessment data:
+    //this.assessmentData = this.userService.userData.assessment || [];
+    this.userService.getUser().subscribe((user) => {
+      //console.log('user data retrieved...');
+      this.userData = user;
+
+      this.assessmentService.getByUserId(this.userData._id).subscribe(res => {
+          //console.log('The result from getting the assessment is: ', res.length, res);
+          this.assessmentData = res[0]; //stores all of the assessment data.     
+          //do everything else...
+
+          let temp = [];
+          this.assessmentService.questions.map((x)=> {
+      
+            temp.push({id: x.id, category: x.category});
+      
+          });
+      
+          this.categories = temp;    
+          this.checkComplete();
+          this.buildSeries();
+
+      });
+    });
+
 
    
 
-    this.checkComplete();
-
-    //if I already have data from login, simply load it.
-    this.assessmentData = this.userService.userData.assessment || [];
-
-
-    let temp = [];
-    this.assessmentService.questions.map((x)=> {
-
-      temp.push({id: x.id, category: x.category});
-
-    });
-
-    this.categories = temp;
-
-    //console.log('Categories: ', temp);
-
-    this.buildSeries();
-
   }
 
-  ngAfterViewInit(){
-
+  ngAfterViewInit(){    
     this.j.show();
   }
 
@@ -121,7 +125,8 @@ export class DataJunkieComponent implements OnInit, AfterViewInit{
     this.dataCheckPassed = true;
     //console.log('TEMP 2 is: ', temp2);
 
-    let duplicateObject = <any[]> JSON.parse(JSON.stringify(this.assessmentData));
+    let duplicateObject = <any[]> JSON.parse(JSON.stringify(this.assessmentData.assessment));
+    //console.log(duplicateObject);
     duplicateObject.forEach((x) =>{
 
       if(x.subs.length == 0){ x.subs = [null, null, null, null, null, null]}//fix to ensure subs is pre-populated. 0 means no selection.

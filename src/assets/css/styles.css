@@ -2,6 +2,9 @@
   font-family: Arial, Helvetica, sans-serif;
   outline: none;
 }
+[text-red]{
+  color: #d10016
+}
 
 [padding]{
   padding: 16px;

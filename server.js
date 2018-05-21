@@ -19,6 +19,7 @@ var errorhandler = require('errorhandler');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var Account = require('./models/account');
+var Assessments = require('./models/assessments');
 var router = express.Router();
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('./config/config'); // get our config file
@@ -401,11 +402,11 @@ router.route('/accounts')
     account.phone = req.body.phone;
     account.username = req.body.username;
     account.password = req.body.password;
-    account.assessment = req.body.assessment;
-    account.survey = req.body.survey;
-    account.dimensions = req.body.dimensions;
-    account.otherElements = req.body.otherElements;
-    account.steps = new Array(7);
+    //account.assessment = req.body.assessment;
+    //account.survey = req.body.survey;
+    //account.dimensions = req.body.dimensions;
+    //account.otherElements = req.body.otherElements;
+    //account.steps = new Array(7);
     //console.log('SENDING: ', account);
 
     //before we proceed do we have an account?
@@ -427,7 +428,7 @@ router.route('/accounts')
           //console.log('WE FOUND AN EMAIL!!');
 
           res.json({
-            message: 'Account already exists.',
+            message: 'Account already exists. To log back in using this account please go to the home page.',
             success: false
           });
           res.end();
@@ -444,6 +445,8 @@ router.route('/accounts')
             account.save(function (err) {
               if (err)
                 res.send(err);
+
+              //once the account has been created, we need to create the inital assessment.
 
               res.json({
                 message: 'Account created!',
@@ -464,36 +467,17 @@ router.route('/accounts')
   }); //end accounts
 
 
-// on routes that end in /accounts/:account_id
-// ----------------------------------------------------
+/**this is what gets the assessment information. as per the conversion, demographics will come from account. Assesments will come from assessments table.*/
 router.route('/accounts/:account_id')
 
   // get the account with that id (accessed at GET http://localhost:8080/api/accounts/:account_id)
   .get(function (req, res) {
     //console.log('ATTEMPTING TO FIND BY ID!', req);
-    Account.findById(req.params.account_id, function (err, account) {
-
-      //console.log(account);
-
-      if (typeof account !== "undefined" && (typeof account.steps === "undefined" || account.steps.length === 0 || account.steps.length < 7)) {
-
-        //console.log('Adding steps array to account.');
-
-        account.steps = new Array(7);
-        account.save(function (err, account) {
-          if (err)
-            return res.send(err);
-          res.json(account).end;
-
-        });
-
-      } else {
+    Account.findById(req.params.account_id, function (err, account) {      
 
         if (err)
           return res.send(err);
-        res.json(account).end;
-      }
-
+        res.json(account);   
 
     });
   })
@@ -516,13 +500,6 @@ router.route('/accounts/:account_id')
       account.phone = req.body.phone;
       account.username = req.body.username;
       account.password = req.body.password;
-      account.monthlyExpenses = req.body.monthlyExpenses;
-      account.date = req.body.date;
-      account.assessment = req.body.assessment;
-      account.survey = req.body.survey;
-      account.dimensions = req.body.dimensions;
-      account.otherElements = req.body.otherElements;
-      account.steps = req.body.steps || [];
 
 
       // save the account

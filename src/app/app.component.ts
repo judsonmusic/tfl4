@@ -67,8 +67,9 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+  sessionStorage.setItem("surveyReminderShown", "0")
   this.us.hideLoading();
-   console.log(this.us.loaderVisible);
+   //console.log(this.us.loaderVisible);
     this.router.events.subscribe((val) => {
       // see also
       window.scrollTo(0, 0);
