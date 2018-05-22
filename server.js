@@ -428,7 +428,7 @@ router.route('/accounts')
           //console.log('WE FOUND AN EMAIL!!');
 
           res.json({
-            message: 'Account already exists. To log back in using this account please go to the home page.',
+            message: 'Account already exists. If this email address belongs to you, please click the home link and try logging in. If you have forgotten your password, please click the forgot password link on the home page.',
             success: false
           });
           res.end();
