@@ -269,6 +269,7 @@ export class DashboardComponent implements OnInit {
         if (this.surveyComplete) {
 
             this.assessmentData.steps[5] = true;
+            sessionStorage.setItem("surveyReminderShown", "3");
             //console.log('The survey is complete. Lets update the account', this.userService.userData);
 
             this.updateAssessment();

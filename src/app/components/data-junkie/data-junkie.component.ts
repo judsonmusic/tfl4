@@ -66,6 +66,8 @@ export class DataJunkieComponent implements OnInit, AfterViewInit{
 
     if(this.surveyComplete){
 
+      sessionStorage.setItem("surveyReminderShown", "3");
+
       this.assessmentService.updateAssessment(this.assessmentData).subscribe((user)=>{
 
 
