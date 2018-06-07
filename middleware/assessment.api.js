@@ -102,10 +102,15 @@ router.route('/')
     });
 
 /*TODO: right now we are getting the assessment only here from accounts. Eventually need to move the data to its own collection*/
-router.route('/getByUserId/:user_id')
+router.route('/getByUserId/:user_id/:assessment_id?')
 
     .get(function (req, res) {
-        Assessments.find({ user_id: req.params.user_id }).sort({ "createdAt": -1 }).exec(function (err, assessments) {
+
+        var query = { user_id: req.params.user_id };
+        if (req.params.assessment_id){
+            query = { user_id: req.params.user_id, _id: req.params.assessment_id };
+        }
+        Assessments.find(query).sort({ "createdAt": -1 }).exec(function (err, assessments) {
             if (err) {
                 res.send(err);
             } else {

@@ -29,6 +29,8 @@ export class AssessmentComponent implements OnInit {
   public assessmentData: any;
   public userData: any;
   public dataLoaded: boolean = false;
+  public assessments: Array<any> = [];
+  public startAssessment: boolean = false;
 
 
 
@@ -69,31 +71,14 @@ export class AssessmentComponent implements OnInit {
           if(!res || res.length == 0){
             //console.log('No assessment found, lets begin one!')
 
-            let assessmentData = {
-              dimensions: this.ds.dimensions,
-              survey: this.ss.survey,
-              assessment: this.assessmentService.assessment,
-              otherElements: [],
-              user_id: this.userData._id
-  
-            }
-        
-
-            this.assessmentService.createAssessment(assessmentData).subscribe(res=>{
-
-                this.assessmentData = res.assessment;
-                this.utils.hideLoading();
-                this.dataLoaded = true;
-                //console.log('The assessment data coming back after creating a new one is: ', this.assessmentData);
-                //this.checkComplete();
-            });
-
-          
+            this.initNewAssessment();          
              
           }else{
+
             this.utils.hideLoading();
+            this.assessments = res;
             this.assessmentData = res[0];
-            this.checkComplete();
+            //this.checkComplete();
             this.dataLoaded = true;
 
           }
@@ -105,12 +90,46 @@ export class AssessmentComponent implements OnInit {
       this.dataLoaded = true;
 
     }
- 
+
+  }
+
+  addNewAssessment(){
+
+    let assessmentData = {
+      dimensions: this.ds.dimensions,
+      survey: this.ss.survey,
+      assessment: this.assessmentService.assessment,
+      otherElements: [],
+      user_id: this.userData._id
+
+    };
+
+    this.assessmentService.createAssessment(assessmentData).subscribe(res=>{
+        this.assessmentData = res.assessment;
+        this.utils.hideLoading();
+        this.dataLoaded = true;
+        this.startAssessment = true;
+    });
+  }
+
+  initNewAssessment(){
+
+    let assessmentData = {
+      dimensions: this.ds.dimensions,
+      survey: this.ss.survey,
+      assessment: this.assessmentService.assessment,
+      otherElements: [],
+      user_id: this.userData._id
+
+    };
 
 
+    this.assessmentService.createAssessment(assessmentData).subscribe(res=>{
 
-
-
+        this.assessmentData = res.assessment;
+        this.utils.hideLoading();
+        this.dataLoaded = true;
+    });
   }
 
   start() {
@@ -194,7 +213,7 @@ export class AssessmentComponent implements OnInit {
       this.g.onHide.subscribe((hidden) => {
         //console.log('The modal us hidden!');
         //this.save();      
-        this.router.navigate(['dashboard']);
+        this.router.navigate(['/dashboard/' + this.assessmentData._id]);
       });
 
 
@@ -205,11 +224,11 @@ export class AssessmentComponent implements OnInit {
 
   }
 
-  checkComplete() {
+  checkComplete(assessmentData) {
 
     //console.log('Check completetion!');
     let tempComplete = [];
-    this.assessmentData.assessment.map((item) => {
+    assessmentData.assessment.map((item) => {
 
       if (item.answer != "") {
         tempComplete.push(true);
@@ -228,7 +247,8 @@ export class AssessmentComponent implements OnInit {
     } else {
 
       this.assessmentComplete = true;
-      this.router.navigate(['/dashboard'])
+      //if the assessment is complete....
+      //this.router.navigate(['/dashboard']) //removed because of the new ability to retake the assessment.
     }
     
 
@@ -238,6 +258,20 @@ export class AssessmentComponent implements OnInit {
   doSomething() {
 
     //console.log('Clicked!');
+  }
+
+  loadAssessment(assessmentData){
+    console.log(assessmentData);
+    //before we can navigate we need to check to see if the need to do the inital steps...
+    this.checkComplete(assessmentData)
+    this.assessmentData = assessmentData;
+    if(!this.assessmentComplete) {
+      this.startAssessment = true;
+    }else{
+      this.router.navigate(['/dashboard/' + assessmentData._id]);
+    }
+    console.log('Is the assessment complete?', this.assessmentComplete);
+    //
   }
 
 

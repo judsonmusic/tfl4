@@ -179,11 +179,13 @@ export class AssessmentService{
 
   }
 
-  getByUserId(userId){
+  getByUserId(userId, assessmentId?){
+    let assessment_id = '';
+    if(assessmentId) assessment_id = assessmentId;
     let headers = new Headers();   
       headers.append('x-access-token', sessionStorage['jwt']);
       return this.http
-        .get(this.us.apiUrl() + '/api/assessment/getByUserId/' + userId, {headers : headers} )
+        .get(this.us.apiUrl() + '/api/assessment/getByUserId/' + userId + '/' + assessment_id, {headers : headers} )
         .map(res => res.json())
         .map((res) => {         
             return res;          

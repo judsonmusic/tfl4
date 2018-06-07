@@ -55,6 +55,14 @@ export class DimensionsComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
 
+        if(!this.route.snapshot.params['assessment_id']){
+            this.router.navigate(['/assessment']);
+        }
+
+        if(!this.route.snapshot.params['dimension_id']){
+            this.router.navigate(['/assessment']);
+        }
+
         let doStuff = () => {
             //console.log('Setting everything up...')
             let temp = [];
@@ -73,7 +81,13 @@ export class DimensionsComponent implements OnInit, OnDestroy {
 
             this.answers = this.assessmentService.answers;
             //passing route param...
-            this.sub = this.route.params.subscribe(params => {
+            this.route.snapshot.params['dimension_id']
+            let id = +this.dimensionid || +this.route.snapshot.params['dimension_id']; // (+) converts string 'id' to a number
+            this.dimension = this.assessmentService.getDimension(id);
+            this.dimension.trustedTemplate = this.sanitizer.bypassSecurityTrustHtml(this.dimension.template);
+
+            this.buildData();
+            /* this.sub = this.route.params.subscribe(params => {
 
                 //console.log('Dimension Comp', this.userService.userData);
                 let id = +this.dimensionid || +params['id']; // (+) converts string 'id' to a number
@@ -82,7 +96,7 @@ export class DimensionsComponent implements OnInit, OnDestroy {
 
                 this.buildData();
 
-            });
+            }); */
 
         }
 
@@ -90,7 +104,7 @@ export class DimensionsComponent implements OnInit, OnDestroy {
         if (!this.assessmentData) {
             this.userService.getUser().subscribe((user) => {
 
-                this.assessmentService.getByUserId(user._id).subscribe(res => {
+                this.assessmentService.getByUserId(user._id, this.route.snapshot.params['assessment_id']).subscribe(res => {
                     //console.log('The result from getting the assessment is: ', res.length, res);
                     this.assessmentData = res[0]; //stores all of the assessment data.            
 
@@ -150,7 +164,7 @@ export class DimensionsComponent implements OnInit, OnDestroy {
 
 
     ngOnDestroy() {
-        this.sub.unsubscribe();
+        //this.sub.unsubscribe();
     }
 
     save() {
@@ -220,8 +234,14 @@ export class DimensionsComponent implements OnInit, OnDestroy {
     }
 
     goToDashboard() {
+       
 
-        this.router.navigate(['/dashboard']);
+            if(this.route.snapshot.params['assessment_id']){
+                this.router.navigate(['/dashboard/'+this.route.snapshot.params['assessment_id']])    
+            }
+    
+       
+        
 
     }
 

@@ -73,15 +73,18 @@ export class DashboardComponent implements OnInit {
 
 
     ngOnInit() {
+        if(!this.route.snapshot.params['assessment_id']){
+            this.router.navigate(['/assessment']);
+        }
         //console.log('Dashboard init...');
         //we added this to make sure we have data on page reload!
         this.userService.getUser().subscribe((user) => {
             //console.log('user data retrieved...');
             this.userData = user;
-
-            this.assessmentService.getByUserId(this.userData._id).subscribe(res => {
+            this.assessmentService.getByUserId(this.userData._id, this.route.snapshot.params['assessment_id'] ).subscribe(res => {
                 //console.log('The result from getting the assessment is: ', res.length, res);
-                this.assessmentData = res[0]; //stores all of the assessment data.      
+                this.assessmentData = res[0]; //stores all of the assessment data.   
+                
                 if(!this.assessmentData.survey || this.assessmentData.survey.length == 0){
                     this.assessmentData.survey = this.ss.survey;
                     //console.log('!!!! we had to default the survey data!')
@@ -446,13 +449,13 @@ export class DashboardComponent implements OnInit {
     }
 
     goToDimension(id) {
-        if (!this.surveyComplete && this.getCurrentStep() > 2) {
+        if (!this.surveyComplete && this.getCurrentStep() > 2 && parseInt(sessionStorage.getItem('surveyReminderShown')) < 3) {
             this.g.onHide.subscribe((hidden) => {
-                this.router.navigate(['/dimensions', id]);
+                this.router.navigate(['/dimensions/'+this.route.snapshot.params['assessment_id']+'/'+id]);
             });
             this.g.show();
         } else {
-            this.router.navigate(['/dimensions', id]);
+            this.router.navigate(['/dimensions/'+this.route.snapshot.params['assessment_id']+'/'+id]);
 
         }
 

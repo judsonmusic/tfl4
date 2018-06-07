@@ -22,6 +22,8 @@ import { ForgotPasswordComponent } from '../forgot-password/forgot-password.comp
 
 var routes:Routes = [
   { path: '', component: HomeComponent },
+  
+  { path: 'dashboard/:assessment_id', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'forgot-password/:email/:code', component: ForgotPasswordComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
@@ -36,7 +38,7 @@ var routes:Routes = [
   { path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},
   { path: 'contract', component: ContractComponent, canActivate: [AuthGuard]},
 
-  { path: 'dimensions/:id', component: DimensionsComponent},
+  { path: 'dimensions/:assessment_id/:dimension_id', component: DimensionsComponent},
 
   { path: 'stress', component: StressPage},
 

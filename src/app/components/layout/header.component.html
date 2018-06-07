@@ -16,7 +16,7 @@
     <ul class="nav navbar-nav">
       <li class=""><a class="nav-link" routerLink="/">Home</a></li>
       <li class=""><a class="nav-link" routerLink="/about">About</a></li>
-      <li class="" *ngIf="loggedIn"><a class="nav-link" routerLink="/dashboard">TFL Dashboard <span class="sr-only">(current)</span></a></li>
+      <li class="" *ngIf="loggedIn"><a class="nav-link" (click)="goToRoute('/dashboard');">TFL Dashboard <span class="sr-only">(current)</span></a></li>
       <li class=""><a class="nav-link" routerLink="/assessment">TFL Assessment <span class="sr-only">(current)</span></a></li>
       <!-- <li class="" *ngIf="loggedIn && isAdmin"><a class="nav-link" routerLink="/admin">Admin Portal<span class="sr-only">(current)</span></a></li> -->
       <!--<li class=""><a class="nav-link" routerLink="/resources">Resources <span class="sr-only">(current)</span></a></li>-->

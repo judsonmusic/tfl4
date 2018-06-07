@@ -1,3 +1,4 @@
+import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { AuthService } from './../auth/auth.service';
 import {Component, ViewChild, ElementRef, AfterViewInit} from '@angular/core';
 import {UserService} from "../user-service/user.service";
@@ -13,7 +14,7 @@ export class HeaderComponent implements AfterViewInit {
     public isAdmin: boolean;
     public loggedIn;
 
-    constructor(private userService: UserService, public authService: AuthService) {
+    constructor(private userService: UserService, public authService: AuthService, public route: ActivatedRoute, private router: Router) {
 
         this.userService = userService;
 
@@ -71,6 +72,15 @@ export class HeaderComponent implements AfterViewInit {
             }
 
         });
+
+    }
+
+    goToRoute(){
+
+        if(this.route.snapshot.children[0].params['assessment_id']){
+            this.router.navigate(['/dashboard/'+this.route.snapshot.children[0].params['assessment_id']])
+
+        }
 
     }
 
