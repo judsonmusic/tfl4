@@ -1,24 +1,24 @@
 <div class="container">
-    <div *ngIf="!startAssessment && dataLoaded">
+    <div *ngIf="!startAssessment && !newAssessment && dataLoaded && userData">
         <div class="row">
             <div class="col-xs-4 col-sm-4 col-md-4">
                 <img src="/assets/images/tfl-color-wheel.jpg" style="float: left; width: 100%;"/>
             </div>
             <div class="col-md-8" padding>      
                 <h2>You have done {{assessments.length}} {{assessments.length == 1 ? 'assessment' : 'assessments'}}.</h2>  
-                <p>Click the correspoding date button for the assessment you would like to view.</p>   
+                <p  *ngIf="assessments.length > 0">Click the correspoding date button for the assessment you would like to view.</p>   
                 <ul>
                     <li style="list-style: none; padding-top: 10px;"  *ngFor="let a of assessments; let i = index"><button class="btn btn-primary" (click)="loadAssessment(a)">{{a.createdAt | date:'MMM dd yyyy - hh:mm a'}}</button></li>
                 </ul> 
                 <p>If you would like to take a new assessment click the button below.</p>    
-                <div style="padding-left: 80px"><button class="btn btn-primary" (click)="addNewAssessment()" >Take New Assessment</button></div>
+                <div style="padding-left: 80px"><button class="btn btn-primary" (click)="takeNewAssessment()" >Take New Assessment</button></div>
                 <!-- <p style="padding-top: 30px;">Looks like you have completed your TFL assessment. <br>Click the TFL Dashboard link to access your results, TFL Actions Plans and TFL Empowerment Guide!</p> -->
                 <!-- <button class="btn btn-primary pull-right" routerLink="/dashboard">TFL Dashboard</button> -->
             </div>
         </div>
     </div>
-
-    <div *ngIf="startAssessment && dataLoaded">
+<!--if they dont have user data...-->
+    <div *ngIf="startAssessment && dataLoaded || !userData || newAssessment">
         <!--<h1>Train For Life Assessment <span *ngIf="userData.firstName">for {{userData.firstName}}</span></h1>-->
         <h1>Welcome to your Train for Life (TFL) assessment!</h1>
         <!--<h4>Please answer the following questions to create your profile. <a href="javascript:void(0)" (click)="finish($event)">Go to dashboard!</a></h4>-->
@@ -39,7 +39,7 @@
         </div>
 
         <!--show the instructions if count is 0 and account has been created-->
-        <div class="instructions" *ngIf="count==0 && userData && userData.createdAt">
+        <div class="instructions" *ngIf="count==0 && userData && userData.createdAt;">
             <div class="row">
                 <div class="col-xs-4 col-sm-4 col-md-4">
                     <img src="/assets/images/tfl-color-wheel.jpg" style="float: left; width: 100%;"/>

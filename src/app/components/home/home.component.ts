@@ -11,7 +11,7 @@ export class HomeComponent {
 
   constructor(public router: Router, public userService: UserService){
 
-
+    sessionStorage.clear();
   }
 
   getStarted(){

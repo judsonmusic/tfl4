@@ -31,6 +31,7 @@ export class AssessmentComponent implements OnInit {
   public dataLoaded: boolean = false;
   public assessments: Array<any> = [];
   public startAssessment: boolean = false;
+  public newAssessment: boolean = false;
 
 
 
@@ -67,11 +68,12 @@ export class AssessmentComponent implements OnInit {
         this.userData = user;
 
         this.assessmentService.getByUserId(this.userData._id).subscribe(res => {
-          //console.log('Did we find an existing assessment?', res);
+          console.log('Did we find an existing assessment?', res);
           if(!res || res.length == 0){
-            //console.log('No assessment found, lets begin one!')
+            console.log('No assessment found, lets begin one!')
 
-            this.initNewAssessment();          
+            //this.initNewAssessment();    
+            this.newAssessment = true;
              
           }else{
 
@@ -91,6 +93,12 @@ export class AssessmentComponent implements OnInit {
 
     }
 
+  }
+
+  takeNewAssessment(){
+
+    this.newAssessment = true;
+    
   }
 
   addNewAssessment(){
@@ -129,12 +137,14 @@ export class AssessmentComponent implements OnInit {
         this.assessmentData = res.assessment;
         this.utils.hideLoading();
         this.dataLoaded = true;
+        this.startAssessment = true;
+        this.count = 1;
     });
   }
 
   start() {
-
-    this.count = 1;
+    this.initNewAssessment();
+    //this.count = 1;
   }
   save() {
 

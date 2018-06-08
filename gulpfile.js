@@ -11,5 +11,7 @@ gulp.task('version', function() {
   .pipe(gulp.dest('./dist/'))
   .pipe(replace(/favicon.ico/g, 'favicon.ico?v='+p.version))
   .pipe(gulp.dest('./dist/'))
+  .pipe(replace(/v.version/g, 'v. '+p.version))
+  .pipe(gulp.dest('./dist/'))
   
 });

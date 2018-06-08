@@ -17,6 +17,8 @@
     "dotenv": "^5.0.1",
     "ejs": "^2.5.6",
     "errorhandler": "^1.5.0",
+    "gulp": "^3.9.1",
+    "gulp-string-replace": "^1.1.0",
     "jsonwebtoken": "^7.4.1",
     "mdn-polyfills": "^3.6.0",
     "mongoose": "^4.10.6",
