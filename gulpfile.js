@@ -7,11 +7,11 @@ gulp.task('serve:after', ['version']);
 console.log('Task init!!!');
 gulp.task('version', function() {
   gulp.src(["./dist/index.html"])
-  .pipe(replace(/bundle.js/g, 'bundle.js?v='+p.version))
+ /*  .pipe(replace(/bundle.js/g, 'bundle.js?v='+p.version))
   .pipe(gulp.dest('./dist/'))
   .pipe(replace(/favicon.ico/g, 'favicon.ico?v='+p.version))
-  .pipe(gulp.dest('./dist/'))
-  .pipe(replace(/v.version/g, 'v. '+p.version))
-  .pipe(gulp.dest('./dist/'))
+  .pipe(gulp.dest('./dist/')) */
+  .pipe(replace(/v.VERSION/g, 'v. '+p.version))
+  .pipe(gulp.dest('./dist/'));
   
 });

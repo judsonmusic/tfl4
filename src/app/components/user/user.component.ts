@@ -191,7 +191,7 @@ export class UserComponent {
           //console.log(this.authService.isLoggedIn);
           // Get the redirect URL from our auth service
           // If no redirect has been set, use the default
-          let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/assessment';
+          //let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/assessment';
           // Redirect the user
           //console.log('Redirecting to...', redirect);  
           this.utils_service.showLoading();

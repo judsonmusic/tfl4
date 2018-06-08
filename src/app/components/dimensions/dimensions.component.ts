@@ -56,11 +56,11 @@ export class DimensionsComponent implements OnInit, OnDestroy {
     ngOnInit() {
 
         if(!this.route.snapshot.params['assessment_id']){
-            this.router.navigate(['/assessment']);
+            //this.router.navigate(['/assessment']);
         }
 
         if(!this.route.snapshot.params['dimension_id']){
-            this.router.navigate(['/assessment']);
+            //this.router.navigate(['/assessment']);
         }
 
         let doStuff = () => {

@@ -581,7 +581,7 @@ export class DashboardComponent implements OnInit {
             this.g2.onHide.subscribe((hidden) => {
 
                 sessionStorage.setItem("surveyReminderShown", (parseInt(sessionStorage.getItem("surveyReminderShown")) + 1).toString());
-                this.router.navigate(['data-junkie']);
+                this.router.navigate(['data-junkie/'+this.route.snapshot.params['assessment_id']]);
             });
 
             this.g2.show();
@@ -589,7 +589,7 @@ export class DashboardComponent implements OnInit {
             
         } else {
             this.g2.hide();
-            this.router.navigate(['data-junkie']);
+            this.router.navigate(['data-junkie/'+this.route.snapshot.params['assessment_id']]);
 
         }
 
@@ -600,11 +600,11 @@ export class DashboardComponent implements OnInit {
             this.g3.onHide.subscribe((hidden) => {
 
                 sessionStorage.setItem("surveyReminderShown", (parseInt(sessionStorage.getItem("surveyReminderShown")) + 1).toString());
-                this.router.navigate(['tfl-guide']);
+                this.router.navigate(['tfl-guide/'+this.route.snapshot.params['assessment_id']]);
             });
             this.g3.show();
         } else {
-            this.router.navigate(['tfl-guide']);
+            this.router.navigate(['tfl-guide/'+this.route.snapshot.params['assessment_id']]);
 
         }
 

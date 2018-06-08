@@ -1,6 +1,6 @@
 import { ModalDataJunkieComponent } from './../modals/modalDataJunkieComponent';
 import{ Component , OnInit, ViewChild, AfterViewInit} from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import {AssessmentService} from "../assessment/assessment.service";
 import {UserService} from "../user-service/user.service";
 import {SurveyService} from "../a-survey/survey.service";
@@ -23,7 +23,7 @@ export class DataJunkieComponent implements OnInit, AfterViewInit{
   public guidemode;
   public datamode;
 
-  constructor(public router: Router, public assessmentService: AssessmentService, public userService: UserService, public surveyService: SurveyService) {
+  constructor(public route: ActivatedRoute, public router: Router, public assessmentService: AssessmentService, public userService: UserService, public surveyService: SurveyService) {
 
     this.router = router;
     this.assessmentService = assessmentService;
@@ -84,12 +84,12 @@ export class DataJunkieComponent implements OnInit, AfterViewInit{
       //console.log('user data retrieved...');
       this.userData = user;
 
-      this.assessmentService.getByUserId(this.userData._id).subscribe(res => {
-          //console.log('The result from getting the assessment is: ', res.length, res);
+      this.assessmentService.getByUserId(this.userData._id, this.route.snapshot.params['assessment_id'] ).subscribe(res => {
+          console.log('The result from getting the assessment is: ', res.length, res);
           this.assessmentData = res[0]; //stores all of the assessment data.     
           //do everything else...
 
-          let temp = [];
+           let temp = [];
           this.assessmentService.questions.map((x)=> {
       
             temp.push({id: x.id, category: x.category});
@@ -98,7 +98,7 @@ export class DataJunkieComponent implements OnInit, AfterViewInit{
       
           this.categories = temp;    
           this.checkComplete();
-          this.buildSeries();
+          this.buildSeries(); 
 
       });
     });

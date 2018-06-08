@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import{ Component , OnInit, Input} from '@angular/core';
 import { Router } from '@angular/router';
 import {AssessmentService} from "../assessment/assessment.service";
@@ -19,7 +20,7 @@ export class TflGuideComponent implements OnInit {
   public datamode;
   public guidemode;
 
-  constructor(public router: Router, public assessmentService: AssessmentService, public userService: UserService, public surveyService: SurveyService) {
+  constructor(public route: ActivatedRoute, public router: Router, public assessmentService: AssessmentService, public userService: UserService, public surveyService: SurveyService) {
 
    
     this.router = router;
@@ -35,19 +36,17 @@ export class TflGuideComponent implements OnInit {
 
     //console.log('Init TFL guide component....')
     if(!this.assessmentData){
+      //console.log('We have no assessment data...')
     this.userService.getUser().subscribe((user) => {
-      //console.log('user data retrieved...');
+      //console.log('user data retrieved...', user);
       this.userData = user;
 
-      this.assessmentService.getByUserId(this.userData._id).subscribe(res => {
-          //console.log('The result from getting the assessment is: ', res.length, res);
+       this.assessmentService.getByUserId(this.userData._id, this.route.snapshot.params['assessment_id'] ).subscribe(res => {
+          console.log('The result from getting the assessment is: ', res.length, res);
           this.assessmentData = res[0]; //stores all of the assessment data.   
           
-      });
+      }); 
     });
-  }else{
-
-
   }
 
 
