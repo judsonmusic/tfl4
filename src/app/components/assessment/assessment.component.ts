@@ -37,7 +37,8 @@ export class AssessmentComponent implements OnInit {
 
   constructor(private router: Router, public userService: UserService, public authService: AuthService, public assessmentService: AssessmentService, private renderer: Renderer, public ss: SurveyService, public ds: DimensionService, public utils: UtilitiesService) {
 
-
+    sessionStorage.removeItem('steps');
+    sessionStorage.removeItem('surveyReminderShown');
     this.authService.redirectUrl = '/assessment';
 
     this.Math = Math;

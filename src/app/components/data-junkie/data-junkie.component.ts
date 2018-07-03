@@ -191,7 +191,9 @@ export class DataJunkieComponent implements OnInit, AfterViewInit{
 
   goToDashboard() {
 
-    this.router.navigate(['/dashboard']);
+    if(this.route.snapshot.params['assessment_id']){
+      this.router.navigate(['/dashboard/'+this.route.snapshot.params['assessment_id']])    
+  }
 
   }
 

@@ -87,6 +87,8 @@ export class DashboardComponent implements OnInit {
                 
                 if(!this.assessmentData.survey || this.assessmentData.survey.length == 0){
                     this.assessmentData.survey = this.ss.survey;
+                    this.assessmentData.steps[5] = null;
+                    sessionStorage.setItem('steps', this.assessmentData.steps);
                     //console.log('!!!! we had to default the survey data!')
                 }                      
 

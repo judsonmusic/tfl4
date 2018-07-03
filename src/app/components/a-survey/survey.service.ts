@@ -18,7 +18,8 @@ export class SurveyService {
 
     this.http = http;
 
-    this.questions = [
+    /***
+     *  this.questions = [
 
       {id: 1, question: "Taking the Train For Life (TFL) assessment was a valuable experience."},
       {id: 2, question: "The TFL assessment results reflect my life accurately."},
@@ -36,6 +37,25 @@ export class SurveyService {
       {id: 14, question: "I found the TFL assessment and site content easy to understand and navigate."},
       {id: 15, question: "I liked the TFL reporting and charts."},
       {id: 16, question: "I would be interested in learning more about additional Train For Life services, assessments, workshops, and programs."},      
+      /*{id: 100, question: "I think the assessment is worth:"},
+      {id: 101, question: "Additional Feedback"}
+
+    ]; */
+
+    this.questions = [
+
+      {id: 1, question: "Taking the Train For Life (TFL) assessment was a valuable experience."},
+      {id: 2, question: "My perspective of well-being has broadened."},
+      {id: 3, question: "I am more self-aware of my overall well-being."},
+      {id: 4, question: "I am more self-aware of where I am motivated to take action."},
+      {id: 5, question: "I am more self-aware of what is causing me stress."},
+      {id: 6, question: "I would like to learn how I can better manage stress."},
+      {id: 7, question: "I am going to take action in one or more of the dimensions that are important to me."},
+      {id: 8, question: "The 15 dimensions selected to be part of the Ideal Being Model represent the different areas of my life in a comprehensive manner?"},
+      {id: 9, question: "I would value one or more coaching sessions to design a TFL Action Plan based on the dimensions that are important to me."},
+      {id: 10, question: "I would like to learn more about how I can reach a state of optimal health and happiness"},
+      {id: 11, question: "I am going to use the tools and resources provided on the site."},
+      {id: 12, question: "I found the site easy to understand and navigate."},   
       /*{id: 100, question: "I think the assessment is worth:"},*/
       {id: 101, question: "Additional Feedback"}
 
@@ -65,10 +85,6 @@ export class SurveyService {
       {id: 10, answer: ""},
       {id: 11, answer: ""},
       {id: 12, answer: ""},
-      {id: 13, answer: ""},
-      {id: 14, answer: ""},
-      {id: 15, answer: ""},
-      {id: 16, answer: ""},
       /*{id: 100, answer: ""},*/
       {id: 101, answer: ""}
 

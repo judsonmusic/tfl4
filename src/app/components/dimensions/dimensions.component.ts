@@ -256,7 +256,7 @@ export class DimensionsComponent implements OnInit, OnDestroy {
 
     goToDimension(id) {
 
-        this.router.navigate(['/dimensions', id]);
+        this.router.navigate(['/dimensions/'+this.route.snapshot.params['assessment_id']+'/'+id]);
 
     }
 

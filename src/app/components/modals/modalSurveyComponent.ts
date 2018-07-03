@@ -25,6 +25,7 @@ export class ModalSurveyComponent implements AfterViewInit {
     public survey_answers;
     public surveyComplete: boolean;
     public surveySubmitted;
+    public message;
 
     constructor(public userService: UserService, public surveyService: SurveyService, private router: Router, public changeRef: ChangeDetectorRef, public assessmentService: AssessmentService) {
         //we need to take the assessment data into this function then udpate it when they complete the survey...
@@ -34,16 +35,33 @@ export class ModalSurveyComponent implements AfterViewInit {
         this.survey_questions = surveyService.questions;
         this.survey_answers = surveyService.answers;
         this.surveySubmitted = false;
+
+        
     }
-   
+
+     
 
     checkComplete() {
 
+        /**
+         * Because the survey data changes, we need to check the survey and if the length is different, we need to wipe out their original survey data and start over...
+         * 
+         * 
+         */
+        //check to see if array is different fort this user...
+        if(this.survey_questions.length!=this.assessmentData.survey.length){
+            //the length is different. Wipe clean and start over...
+            this.message = 'The survey data has changed since the last time you took the assessment. Please retake the survey.';
+            this.assessmentData.survey = this.surveyService.survey;
+        }
+
+        //console.log('Checking completion...')
         this.surveyComplete = false;
         //first check to see if we have valid survey data. If not, fix it!
 
         //do nothing, we have data...  
         let complete = [];
+        //console.log(this.survey_questions.length)
         this.assessmentData.survey.map((item, index) => {
             //console.log(item, index);
             if ((item.id < 100 && item.answer != '') || item.id == 101) {
@@ -123,9 +141,10 @@ export class ModalSurveyComponent implements AfterViewInit {
 
     }
 
+   
     ngAfterViewInit() {
-
-        //console.log('AssessmentData for survey: ' , this.assessmentData);
+       
+        //console.log('AssessmentData for survey: ' , this.assessmentData.survey);
 
 
     }

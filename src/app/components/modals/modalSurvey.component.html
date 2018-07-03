@@ -30,6 +30,7 @@
 
 <form class="form" *ngIf="!surveyComplete && assessmentData && assessmentData.survey.length > 0">
   
+  <alert type="info" *ngIf="message" type="danger">{{message}}</alert>
 
   <p>Congratulations! This is the final step of the assessment process. Our desire is to ensure the TFL Assessment experience is meaningful to all participants so your feedback is extremely important to us. Please take a few minutes and share your thoughts.</p>
 
@@ -38,10 +39,10 @@
 
   <ol style="padding: 0;">
     <li *ngFor="let q of survey_questions | surveyFilter; let i = index;" class="" style="position:relative;">
-      <div style="padding-bottom:15px;">{{q.question}}</div>
-      <div class="assessment-radio-wrapper" *ngFor="let a of survey_answers">               
-        <input type="radio" id="{{q.id}}_{{a.id}}" name="survey_question_{{q.id}}" [value]="a.id" (change)="updateSurvey($event, q.id, a.id)" [(ngModel)]="assessmentData.survey[i].answer"/> {{a.id}}
-        <label [attr.for]="q.id + '_' + a.id"><span></span>{{a.value}}</label>
+      <div style="padding-bottom:5px;">{{q.question}}</div>
+      <div class="assessment-radio-wrapper" *ngFor="let a of survey_answers" style="width:50px;">               
+        <input class="star" type="radio" id="{{q.id}}_{{a.id}}" name="survey_question_{{q.id}}" [value]="a.id" (change)="updateSurvey($event, q.id, a.id)" [(ngModel)]="assessmentData.survey[i].answer"/> <!-- {{a.id}} -->
+        <label [attr.for]="q.id + '_' + a.id"><span></span><!-- {{a.value}} --></label>
       </div>
     </li>
   </ol>

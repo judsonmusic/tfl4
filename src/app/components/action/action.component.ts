@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import{ Component , OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import {AssessmentService} from "../assessment/assessment.service";
@@ -15,7 +16,7 @@ export class ActionComponent implements OnInit {
   public seriesdata: any;
   public h;
 
-  constructor(public router: Router, public assessmentService: AssessmentService, public userService: UserService) {
+  constructor(public route: ActivatedRoute, public router: Router, public assessmentService: AssessmentService, public userService: UserService) {
 
     this.router = router;
     this.assessmentService = assessmentService;
@@ -102,7 +103,7 @@ export class ActionComponent implements OnInit {
 
   goToDimension(id){
 
-      this.router.navigate(['/dimensions', id]);
+    this.router.navigate(['/dimensions/'+this.route.snapshot.params['assessment_id']+'/'+id]);
 
   }
 }

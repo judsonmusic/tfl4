@@ -122,7 +122,7 @@
       </div>
       <div *ngIf="!datamode" style="padding-bottom: 10px; clear: both; height: 24px;">
         <a href="javascript:void(0);" style="text-decoration: none;" class="green pull-left" (click)="t.show();"><i class="fa fa-question-circle grey"></i> Understand my TFL chart</a>
-        <a href="javascript:void(0);" style="text-decoration: none;" class="red pull-right" routerLink="/dashboard"><i class="fa fa-lock grey"></i> Click here to unlock more dimensions!</a>
+        <a href="javascript:void(0);" style="text-decoration: none;" class="red pull-right" (click)="goToDashboard()"><i class="fa fa-lock grey"></i> Click here to unlock more dimensions!</a>
       </div>
       <hr>
      
