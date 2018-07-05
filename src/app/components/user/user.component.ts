@@ -1,7 +1,7 @@
 import { UtilitiesService } from './../../utilities/utilities.component';
 import { TextMaskModule } from 'angular2-text-mask';
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from "./../user-service/user.service";
 import { AuthService } from "./../auth/auth.service";
 
@@ -23,9 +23,22 @@ export class UserComponent {
   public education: any[];
   public hear: any[];
   public message: string;
+  public ccReadOnly: boolean = false;
 
-  constructor(private userService: UserService, public authService: AuthService, public router: Router, public utils_service: UtilitiesService) {
+  constructor(private ar: ActivatedRoute, private userService: UserService, public authService: AuthService, public router: Router, public utils_service: UtilitiesService) {
+  
 
+    this.ar.queryParams.subscribe((res)=>{
+      console.log(res.code);
+      if(res.code && res.code !== undefined){
+        sessionStorage.setItem('code', res.code);
+        this.ccReadOnly = true;
+      }else{
+        sessionStorage.removeItem('code');
+        this.ccReadOnly = false;
+      }
+
+    })
     this.user = {
 
       firstName: "",
@@ -37,7 +50,8 @@ export class UserComponent {
       income: "",
       ethnicity: "",
       phone: "",
-      hear: ""
+      hear: "",
+      companyCode: sessionStorage.code || ""
 
     };
 
