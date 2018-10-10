@@ -271,15 +271,37 @@ export class AssessmentComponent implements OnInit {
     //console.log('Clicked!');
   }
 
+  checkIfAssessmentComplete(a){
+
+
+    var temp = [];
+ 
+
+    a.assessment.map((obj) => {
+     
+        temp.push(obj.answer != "");
+
+    });
+
+    //console.log('First 15 questions: ', temp, temp.indexOf(false) > -1);
+
+    return temp.indexOf(false) > -1;
+
+    //this.allUnlocked = temp.indexOf(false) === -1;
+    //this.assessmentData.steps[6] = this.allUnlocked;
+
+
+}
+
   loadAssessment(assessmentData){
-    console.log(assessmentData);
+    //console.log(assessmentData);
     //before we can navigate we need to check to see if the need to do the inital steps...
     this.checkComplete(assessmentData)
     this.assessmentData = assessmentData;
     if(!this.assessmentComplete) {
       this.startAssessment = true;
     }else{
-      this.router.navigate(['/dashboard/' + assessmentData._id]);
+      this.router.navigate(['/dashboard/' + assessmentData.user_id + "/" + assessmentData._id]);
     }
     console.log('Is the assessment complete?', this.assessmentComplete);
     //

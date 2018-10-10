@@ -21,20 +21,25 @@ export class HeaderComponent implements AfterViewInit {
         this.isAdmin = false;
 
         this.userService.loggedIn$.subscribe((res)=>{
-            //console.log('Logged In', res);
+            console.log('Logged In', res);
 
             this.loggedIn = res;
+            if(this.userService.userData){
+                this.isAdmin = this.userService.userData.admin;
+            }
+            console.log('Is admin? ', this.isAdmin);
+            //console.log(this.userService.userData);
 
         })
 
         this.userService.user$.subscribe((user) => {
 
-            //console.log('Was a user defined from the user service?', user);
+            console.log('Was a user defined from the user service?', user);
             if (user && user.admin === true) {
                 this.isAdmin = user.admin;
             }else{
                 this.isAdmin = false;
-                //console.log('THE USER WAS NOT DEFINED IN THE HEADER FUNCTION', user);
+                console.log('THE USER WAS NOT DEFINED IN THE HEADER FUNCTION', user);
             }
         })
 

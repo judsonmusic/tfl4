@@ -8,6 +8,7 @@ import {SurveyService} from "../a-survey/survey.service";
 import {DimensionService} from "../dimension-service/dimension.service";
 import {Subject} from "rxjs/Subject";
 import {Observable} from "rxjs/Observable";
+declare var jQuery: any;
 
 
 @Injectable()
@@ -52,6 +53,16 @@ export class UserService{
 
           }else {
             //console.log('USER SERVICE: user was found.');
+            if(res.admin === true) {
+              sessionStorage.setItem('adminMode', "true");
+              jQuery("body").addClass('adminMode');
+            }else{
+              sessionStorage.removeItem("adminMode");
+              jQuery("body").removeClass('adminMode');
+            }
+
+           
+
             this.authService.isLoggedIn = true;            
             this.loggedIn.next(true);
             this.userData = res;
@@ -61,9 +72,30 @@ export class UserService{
               this.userData.dimensions = this.dimensionService.dimensions;
             } */
             //this.surveyService.checkComplete(this.userData);
-            //this.user.next(res);
+            //this.user.next(res); //added back for adming checl
             return res;
           }
+        }, (error) => console.log('There was an error', error));
+
+  }
+
+  getUserById(user_id){
+
+    //console.log('USER SERVICE: get user...');
+
+      let headers = new Headers();
+      //headers.append('Content-Type', 'application/json');
+
+      headers.append('x-access-token', sessionStorage.getItem('jwt'));
+      //console.log('We have a user ID! Lets try to get a user!');
+      return this.http
+        .get(this.us.apiUrl() + '/api/accounts/' + user_id, {headers : headers} )
+        .map(res => res.json())
+        .map((res) => {      
+
+            return res;  
+            
+            
         }, (error) => console.log('There was an error', error));
 
   }

@@ -3,6 +3,7 @@ var router = express.Router();
 var Account = require('../models/account');
 var Assessments = require('../models/assessments');
 var moment = require('moment');
+var mongoose = require('mongoose');
 
 router.route('/updateAssessment/:assessmentId')
     // update the account with this id (accessed at PUT http://localhost:8080/api/accounts/:account_id)
@@ -104,11 +105,12 @@ router.route('/')
 /*TODO: right now we are getting the assessment only here from accounts. Eventually need to move the data to its own collection*/
 router.route('/getByUserId/:user_id/:assessment_id?')
 
-    .get(function (req, res) {
-
-        var query = { user_id: req.params.user_id };
+    .get(function (req, res) {        
+        //console.log( mongoose.Types.ObjectId('578df3efb618f5141202a196') );
+        var id =  req.params.user_id;
+        var query = { user_id: id };
         if (req.params.assessment_id){
-            query = { user_id: req.params.user_id, _id: req.params.assessment_id };
+            query = { user_id: id, _id: req.params.assessment_id };
         }
         Assessments.find(query).sort({ "createdAt": -1 }).exec(function (err, assessments) {
             if (err) {
@@ -164,25 +166,38 @@ router.route('/aggregate')
                 b = 5;
             }
             return b;
-        }
-        Account.find(function (err, accounts) {
+        };
+        Account.aggregate(
+            [{$lookup:{
+                from: "assessments",
+                localField: "_id", //this is the _id user from tests
+                foreignField: "user_id", //this is the _id from users
+                as: "assessmentData"
+        }}]
+        )
+        .exec(function(err, accounts) {
             if (err) {
                 res.send(err);
             } else {
+                //TODO: because we created the ability to retake the assessment, we need to fix this to pull all of the assessments based on ids etc...
+                console.log(accounts);
+
+               /*  //now that we have accounts we need to get assessments for each account i
 
                 var assessments = [];
-
+                //TODO, item assessment does not exist anymore we need to joing assessments...
                 accounts.map(function (item) {
 
                     if (checkAssessment(item.assessment)) {
                         assessments.push({
                             assessment: item.assessment
-                        })
+                        });
                     }
 
                 });
+                console.log(assessments);
 
-                var answersArray = []
+                var answersArray = [];
 
                 //var answersArray = [{qa: []}]               
 
@@ -217,18 +232,18 @@ router.route('/aggregate')
 
                         result.stats[key.replace('question', '')] = somObj[key].reduce((r, k) => {
                             r[k] = 1 + r[k] || 1;
-                            return r
-                        }, {})
+                            return r;
+                        }, {});
 
                     }
-                }
+                } */
 
 
 
-                res.json(result);
+                res.json(accounts);
             }
         });
-    })
+    });
 
 
 

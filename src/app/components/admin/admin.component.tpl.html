@@ -3,26 +3,26 @@
   <hr>
 
 
-  <div class="row">
-    <div class="col-md-12">
-      <a-survey></a-survey>
-    </div>
-  </div>
-  <hr>
+  <!-- <div class="row"> -->
+    <!-- <div class="col-md-12"> -->
+      <!-- <a-survey></a-survey> -->
+    <!-- </div> -->
+  <!-- </div> -->
+  <!-- <hr> -->
 
-  <div class="row">
-    <div class="col-md-12">
-      <a-assessment></a-assessment>
-    </div>
-  </div>
-  <hr>
+  <!-- <div class="row"> -->
+    <!-- <div class="col-md-12"> -->
+      <!-- <a-assessment></a-assessment> -->
+    <!-- </div> -->
+  <!-- </div> -->
+  <!-- <hr> -->
 
-  <div class="row">
-    <div class="col-md-12">
-      <a-stress></a-stress>
-    </div>
-  </div>
-  <hr>
+  <!-- <div class="row"> -->
+    <!-- <div class="col-md-12"> -->
+      <!-- <a-stress></a-stress> -->
+    <!-- </div> -->
+  <!-- </div> -->
+  <!-- <hr> -->
 
   <div>
     <h2>Users</h2>
@@ -53,7 +53,7 @@
                 <label>Company</label>
                 <select class="form-control" required [(ngModel)]="userFilterParams.companyCode" name="selectedCompanyCode" (change)="filterChange()">
                   <option value="">Please Select</option>
-                  <option *ngFor="let p of companies | orderBy : 'p'" [value]="p">{{p}}</option>
+                  <option *ngFor="let p of companies" [value]="p">{{p}}</option>
                 </select>
               </div>
             </div>
@@ -78,8 +78,8 @@
           <!-- <th>Birth Date</th> -->
           <th>Age</th>
           <th>Email</th>
-          <th>Steps Completed</th>
-          <th>Took Survey?</th>
+          <!-- <th>Steps Completed</th> -->
+          <!-- <th>Took Survey?</th> -->
           <th>Actions</th>
         </tr>
       </thead>
@@ -91,54 +91,54 @@
           <!--  <td>{{user.birthDate}}</td> -->
           <td>{{user.age}}</td>
           <td>{{user.email}}</td>
-          <td>{{checkSteps(user.steps)}}</td>
-          <td>{{checkSurvey(user.survey) ? 'Yes!' : ''}}</td>
+          <!-- <td>{{checkSteps(user.steps)}}</td> -->
+          <!-- <td>{{checkSurvey(user.survey) ? 'Yes!' : ''}}</td> -->
           <td>
-            <a href="javascript:void(0)" (click)="viewUser(user);">[View Stats]</a>
-            <a href="javascript:void(0)" (click)="deleteUser(user);">[Delete]</a>
+            <a routerLink="/admin-view-user/{{user._id}}">[View]</a>
+            <!-- <a href="javascript:void(0)" (click)="deleteUser(user);">[Delete]</a> -->
           </td>
         </tr>
-        <tr *ngIf="currentUser && currentUser.email == user.email">
-          <td colspan="5" style="background:lightgrey">
-            <h3>Assessment Answers for {{user.firstName + " " + user.lastName}}</h3>
-            <table width="100%" class="table table-striped table-bordered">
-                <tr>
-                    <th>Dimension</th>
-                    <th>Question</th>
-                    <th>Answer</th>
-                </tr>
-              <tr *ngFor="let item of user.assessment">
-                <td>{{getDimension(item.id).category}}</td>
-                <td>{{item.questionValue}}</td>
-                <td>{{item.answerValue}}</td>
-              </tr>
-            </table>
-            <hr>
-            <h3>Survey Answers for {{user.firstName + " " + user.lastName}}</h3>
-            <hr>
-            <table width="100%" class="table table-striped table-bordered">
-              <tr *ngFor="let item of user.survey">
-                <td>{{item.questionValue}}</td>
-                <td>{{item.answerValue}}</td>
-              </tr>
-            </table>
-            <hr>
-            <h3>Stress and Motivation for {{user.firstName + " " + user.lastName}}</h3>
-            <hr>
-            <table width="100%" class="table table-striped table-bordered">
-                <tr>
-                    <th>Dimension</th>
-                    <th>Stress Level</th>
-                    <th>Motivated</th>
-                </tr>
-              <tr *ngFor="let item of user.dimensions">
-                <td>{{getDimension(item.id).category}}</td>
-                <td>{{item.stressLevel || 'Not Answered'}}</td>
-                <td>{{getMotivated(currentUser, item.id) ? 'YES!' : ''}}</td>                
-              </tr>
-            </table>
-          </td>
-        </tr>
+        <!-- <tr *ngIf="currentUser && currentUser.email == user.email"> -->
+          <!-- <td colspan="5" style="background:lightgrey"> -->
+            <!-- <h3>Assessment Answers for {{user.firstName + " " + user.lastName}}</h3> -->
+            <!-- <table width="100%" class="table table-striped table-bordered"> -->
+                <!-- <tr> -->
+                    <!-- <th>Dimension</th> -->
+                    <!-- <th>Question</th> -->
+                    <!-- <th>Answer</th> -->
+                <!-- </tr> -->
+              <!-- <tr *ngFor="let item of user.assessment"> -->
+                <!-- <td>{{getDimension(item.id).category}}</td> -->
+                <!-- <td>{{item.questionValue}}</td> -->
+                <!-- <td>{{item.answerValue}}</td> -->
+              <!-- </tr> -->
+            <!-- </table> -->
+            <!-- <hr> -->
+            <!-- <h3>Survey Answers for {{user.firstName + " " + user.lastName}}</h3> -->
+            <!-- <hr> -->
+            <!-- <table width="100%" class="table table-striped table-bordered"> -->
+              <!-- <tr *ngFor="let item of user.survey"> -->
+                <!-- <td>{{item.questionValue}}</td> -->
+                <!-- <td>{{item.answerValue}}</td> -->
+              <!-- </tr> -->
+            <!-- </table> -->
+            <!-- <hr> -->
+            <!-- <h3>Stress and Motivation for {{user.firstName + " " + user.lastName}}</h3> -->
+            <!-- <hr> -->
+            <!-- <table width="100%" class="table table-striped table-bordered"> -->
+                <!-- <tr> -->
+                    <!-- <th>Dimension</th> -->
+                    <!-- <th>Stress Level</th> -->
+                    <!-- <th>Motivated</th> -->
+                <!-- </tr> -->
+              <!-- <tr *ngFor="let item of user.dimensions"> -->
+                <!-- <td>{{getDimension(item.id).category}}</td> -->
+                <!-- <td>{{item.stressLevel || 'Not Answered'}}</td> -->
+                <!-- <td>{{getMotivated(currentUser, item.id) ? 'YES!' : ''}}</td>                 -->
+              <!-- </tr> -->
+            <!-- </table> -->
+          <!-- </td> -->
+        <!-- </tr> -->
       </tbody>
     </table>
   </div>

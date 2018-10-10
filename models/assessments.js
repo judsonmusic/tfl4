@@ -4,7 +4,7 @@ var Schema       = mongoose.Schema;
 
 var date = new Date();
 var AssessmentSchema   = new Schema({
-    user_id: {type: String},
+    user_id: {type: mongoose.Schema.Types.ObjectId},
     dateTaken: {type: Date, default: Date.now()},
     companyCode: {type: String, trim: true},
     lastName: String,

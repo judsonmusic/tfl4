@@ -51,7 +51,7 @@ export class UserComponent {
       ethnicity: "",
       phone: "",
       hear: "",
-      companyCode: sessionStorage.code || ""
+      companyCode: sessionStorage["code"] || ""
 
     };
 
@@ -76,25 +76,6 @@ export class UserComponent {
       { id: 5, value: '101-150k' },
       { id: 6, value: '151-250k' },
       { id: 7, value: '> 250k' }    
-
-    ];
-
-    this.education = [
-
-      { id: 1, value: 'High school freshman' },
-      { id: 2, value: 'High school sophomore' },
-      { id: 3, value: 'High school junior' },
-      { id: 4, value: 'High school senior' },
-      { id: 5, value: 'High school diploma/GED' },
-      { id: 6, value: 'College freshman' },
-      { id: 7, value: 'College sophomore' },
-      { id: 8, value: 'College junior' },
-      { id: 9, value: 'College senior' },
-      { id: 10, value: 'Certified in a specific skill' },
-      { id: 11, value: 'Undergraduate' },
-      { id: 12, value: 'Masters or graduate degree' },
-      { id: 13, value: 'Doctorate or Ph.D.' },
-      { id: 99, value: 'Other' }
 
     ];
 

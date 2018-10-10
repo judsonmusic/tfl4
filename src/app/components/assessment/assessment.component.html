@@ -8,7 +8,7 @@
                 <h2>You have done {{assessments.length}} {{assessments.length == 1 ? 'assessment' : 'assessments'}}.</h2>  
                 <p  *ngIf="assessments.length > 0">Click the corresponding date button for the assessment you would like to view.</p>   
                 <ul>
-                    <li style="list-style: none; padding-top: 10px;"  *ngFor="let a of assessments; let i = index"><button class="btn btn-primary" (click)="loadAssessment(a)">{{a.createdAt | date:'MMM dd yyyy - hh:mm a'}}</button></li>
+                    <li style="list-style: none; padding-top: 10px;"  *ngFor="let a of assessments; let i = index"><button class="btn btn-primary" (click)="loadAssessment(a)">{{a.createdAt | date:'MMM dd yyyy - hh:mm a'}}</button> <span class="red" *ngIf="checkIfAssessmentComplete(a)">Not Completed.</span></li>
                 </ul> 
                 <p>If you would like to take a new assessment click the button below.</p>    
                 <div style="padding-left: 80px"><button class="btn btn-primary" (click)="takeNewAssessment()" >Take New Assessment</button></div>

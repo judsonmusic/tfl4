@@ -1,3 +1,4 @@
+import { AllPipesModule } from './components/pipes/utils.pipe.module';
 import { CompaniesService } from './components/services/companies.service';
 import { AuthGuard } from './components/auth/auth-guard.service';
 import { AuthService } from './components/auth/auth.service';
@@ -50,7 +51,6 @@ import { DimensionService } from "./components/dimension-service/dimension.servi
 import { AlertModule } from "ngx-bootstrap";
 import { GaugeComponent } from "./components/charts/guage.component";
 import { StressPage } from "./components/pages/stress";
-import { OrderByPipe } from "./components/pipes/orderBy.pipe";
 import { ContractComponent } from "./components/contract/contract.component";
 import {TextMaskModule} from 'angular2-text-mask';
 import { ASurveyComponent } from './components/a-survey/survey.component';
@@ -58,7 +58,11 @@ import { ADimensionsComponent } from './components/a-dimensions/a-dimensions.com
 import { AAssessmentComponent } from './components/a-assessment/a-assessment.component';
 import { AStressComponent } from './components/a-stress/a-stress.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { UserFilterPipe } from './pipes/user-filter.pipe'
+import { UserFilterPipe } from './pipes/user-filter.pipe';
+import { AdminViewUserComponent } from './components/admin-view-user/admin-view-user.component';
+
+ 
+import { OrderModule } from 'ngx-order-pipe';
 
 
 
@@ -98,17 +102,18 @@ import { UserFilterPipe } from './pipes/user-filter.pipe'
     AdminComponent,
     SurveyFilterPipe,
     StressPage,
-    OrderByPipe,
     ContractComponent,
     ASurveyComponent,
     ADimensionsComponent,
     AAssessmentComponent,
     AStressComponent,
     ForgotPasswordComponent,
-    UserFilterPipe
+    UserFilterPipe,
+    AdminViewUserComponent,
   ],
   entryComponents: [],
   imports: [
+    OrderModule,
     BrowserModule,
     FormsModule,
     Ng2BootstrapModule,
@@ -116,6 +121,7 @@ import { UserFilterPipe } from './pipes/user-filter.pipe'
     UtilitiesModule,
     RouterModule,
     HttpModule,
+    AllPipesModule,
     AppRoutingModule,
     ModalModule.forRoot(),
     TooltipModule.forRoot(),

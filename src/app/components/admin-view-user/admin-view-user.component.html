@@ -1,0 +1,39 @@
+<div *ngIf="user">
+  <h2>{{user.firstName}} {{user.lastName}}</h2> <button class="btn btn-primary" routerLink="/admin" pull-right>Back</button>
+  <h4><i>[{{user.companyCode}}]</i></h4>
+  <hr>
+  <div class="grid" padding>
+    <div class="row">
+      <div class="col-md-4">Last Update: <strong>{{user.updatedAt | date: "MM/dd/yyyy"}}</strong></div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">{{user.firstName}} heard about TFDL through: <strong>{{user.hear | hear}}</strong></div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">Education Level: <strong>{{user.education | education}}</strong></div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">Occupation: <strong>{{user.occupation | occupation}}</strong></div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">Ethnicity: <strong>{{user.ethnicity | ethnicity}}</strong></div>
+    </div>
+  </div>
+</div>
+<hr>
+<div *ngIf="user && assessmentData">
+  <div class="grid" padding>
+    <div class="row">
+      <div class="col-md-4">{{user.firstName}} has taken {{assessmentData.length}} assessment(s).</div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <p  *ngIf="assessmentData.length > 0">Click the corresponding date button for the assessment you would like to view.</p>   
+                <ul>
+                    <li style="list-style: none; padding-top: 10px;"  *ngFor="let a of assessmentData; let i = index">
+                      <button class="btn btn-primary" [disabled]="checkComplete(a)" (click)="loadAssessment(a)">{{a.createdAt | date:'MMM dd yyyy - hh:mm a'}}</button> <span class="red" *ngIf="checkComplete(a)">Not Completed.</span></li>
+                </ul> 
+                </div>
+      </div>
+  </div>
+</div>

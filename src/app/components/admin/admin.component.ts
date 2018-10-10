@@ -36,7 +36,7 @@ export class AdminComponent implements OnInit {
 
                 this.cs.getCompanies().subscribe((companies)=>{
 
-                    //console.log('The companies: ' , companies);
+                    console.log('The companies: ' , companies);
                     this.companies = companies;
                 })
                 this.adminService.getUsers().subscribe((users) => {

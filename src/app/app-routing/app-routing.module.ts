@@ -1,3 +1,4 @@
+import { AdminViewUserComponent } from './../components/admin-view-user/admin-view-user.component';
 import { AboutComponent } from './../components/about/about.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -23,8 +24,8 @@ import { ForgotPasswordComponent } from '../forgot-password/forgot-password.comp
 var routes:Routes = [
   { path: '', component: HomeComponent },
   
-  { path: 'dashboard/:assessment_id', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'dashboard/:user_id/:assessment_id', component: DashboardComponent, canActivate: [AuthGuard] },
+  //{ path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'forgot-password/:email/:code', component: ForgotPasswordComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'action', component: ActionComponent, canActivate: [AuthGuard]},
@@ -38,6 +39,7 @@ var routes:Routes = [
   { path: 'data-junkie/:assessment_id', component: DataJunkieComponent, canActivate: [AuthGuard]},
   { path: 'data-junkie', component: DataJunkieComponent, canActivate: [AuthGuard]},
   { path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},
+  { path: 'admin-view-user/:user_id', component: AdminViewUserComponent, canActivate: [AuthGuard]},
   { path: 'contract', component: ContractComponent, canActivate: [AuthGuard]},
 
   { path: 'dimensions/:assessment_id/:dimension_id', component: DimensionsComponent},

@@ -93,7 +93,7 @@ export class AppComponent implements OnInit {
 
 
     }, (error) => {
-      console.log('Error! Redirecting!');
+      console.log('Error! Redirecting!', console.log(error));
       //let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/';
       // Redirect the user
       //this.router.navigate(['/']);

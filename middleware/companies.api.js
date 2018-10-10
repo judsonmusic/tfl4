@@ -7,36 +7,33 @@ var Account = require('../models/account');
 router.route('/')
 
     .get(function(req, res) {
-        Account.distinct('companyCode', function(err, companies) {
+
+        Account.aggregate([            
+                      // Initial unwind
+                {"$unwind": "$companyCode"},
+
+                // Do your $addToSet part
+                {"$group": {"_id": null, "companyCode": {"$addToSet": {$toLower: "$companyCode" }}}},
+            
+                // Unwind it again
+                {"$unwind": "$companyCode"},
+            
+                // Sort how you want to
+                {"$sort": { "companyCode": 1} },
+            
+                // Use $push for a regular array
+                {"$group": { "_id": null, "companies": {"$push": "$companyCode" }}}  
+            
+        ]).exec(function(err, companies){
+
             if (err) {
                 res.send(err);
             } else {
-
-               /*  var temp = [];
-                companies.forEach((item)=>{
-
-                    item = item.trim().toLowerCase()
-                    temp.push(item);
-                    //item = item.replace("^\\s*|\\s*$\g", "");
-                    //console.log(item);
-
-
-                });   
-                
-                Array.prototype.unique = function() {
-                    var a = [];
-                    for (i = 0; i < this.length; i++) {
-                        var current = this[i];
-                        if (a.indexOf(current) < 0) a.push(current);
-                    }
-                  
-                    return a;
-                };
-
-                console.log(temp.unique()); */
-                res.json(companies);                
+                res.json(companies[0].companies);   
             }
         });
     });
+
+
 
 module.exports = router;
