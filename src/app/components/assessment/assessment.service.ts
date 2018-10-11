@@ -219,4 +219,17 @@ export class AssessmentService{
 
   }
 
+  deleteAssessment(assessment){
+    let headers = new Headers();   
+      headers.append('x-access-token', sessionStorage['jwt']);
+      return this.http
+        .put(this.us.apiUrl() + '/api/assessment/deleteAssessment/' + assessment._id, assessment, {headers : headers} )
+        .map(res => res.json())
+        .map((res) => {      
+          //console.log('Assessment Updated:', res);   
+            return res;          
+        }, (error) => console.log('There was an error', error));
+
+  }
+
 }

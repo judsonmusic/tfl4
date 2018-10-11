@@ -82,7 +82,7 @@ export class HeaderComponent implements AfterViewInit {
 
     goToRoute(){
         //this was an attempt to maintain route params...
-        console.log(this.route.snapshot.children[0].params);
+        //console.log(this.route.snapshot.children[0].params);
         if(this.route.snapshot.children[0].params['assessment_id']){
             this.router.navigate(['/dashboard/'+this.route.snapshot.children[0].params['user_id'] + "/" +this.route.snapshot.children[0].params['assessment_id']])
 

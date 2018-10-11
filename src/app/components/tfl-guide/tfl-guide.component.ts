@@ -42,7 +42,7 @@ export class TflGuideComponent implements OnInit {
       this.userData = user;
 
        this.assessmentService.getByUserId(this.userData._id, this.route.snapshot.params['assessment_id'] ).subscribe(res => {
-          console.log('The result from getting the assessment is: ', res.length, res);
+          //console.log('The result from getting the assessment is: ', res.length, res);
           this.assessmentData = res[0]; //stores all of the assessment data.   
           
       }); 

@@ -118,7 +118,7 @@ export class UserService{
         .map(res => res.json())
         .map((res) => {
           if (res['account']) {
-            console.log('Account created!', res["account"]);
+            //console.log('Account created!', res["account"]);
             //this.authService.isLoggedIn = true;
             //this.loggedIn.next(true);
             //this.userData = res["account"];
@@ -137,7 +137,7 @@ export class UserService{
 
   login(user) {
 
-    console.log('Loggin you in...');
+    //console.log('Loggin you in...');
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
@@ -228,7 +228,7 @@ export class UserService{
         return this.http.post(this.us.apiUrl() +  "/api/change-password", payload)
         .map(res => res.json())
         .map(res => {   
-          console.log('Hello');   
+          //console.log('Hello');   
           return res;
         })
         .catch((error: any) => Observable.throw(error.json().error || 'Server error'));    

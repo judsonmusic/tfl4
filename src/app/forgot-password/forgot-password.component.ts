@@ -45,14 +45,14 @@ export class ForgotPasswordComponent implements OnInit {
       && params['email'] != ":email" 
       && params.hasOwnProperty('code')) {
 
-      console.log(':::Change password mode!');
+      //console.log(':::Change password mode!');
       this.changePasswordMode = true;
       this.registerData.email = params['email'];
       this.formValid = true;
 
     } else {
 
-      console.log(':::Change password INSTRUCTIONS mode!');
+      //console.log(':::Change password INSTRUCTIONS mode!');
       this.changePasswordMode = false;
       this.formValid = true;
 

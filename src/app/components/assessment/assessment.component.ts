@@ -41,7 +41,7 @@ export class AssessmentComponent implements OnInit, OnDestroy {
       // If it is a NavigationEnd event re-initalise the component
       if (e instanceof NavigationEnd) {
         //here we can do things on any route change no matter what...
-        console.log('Assessment init again...');
+        //console.log('Assessment init again...');
         this.initialize();
       }
     });
@@ -58,13 +58,14 @@ export class AssessmentComponent implements OnInit, OnDestroy {
 
   initialize(){
 
-    console.log('Initialize Assessment screen...')
+    //console.log('Initialize Assessment screen...')
 
     this.assessmentData = null;
     this.startAssessment = false;
     this.dataLoaded = false;
     this.userData = null;
     this.newAssessment = false;
+    this.count = 0;
 
     sessionStorage.removeItem('steps');
     sessionStorage.removeItem('surveyReminderShown');
@@ -88,9 +89,9 @@ export class AssessmentComponent implements OnInit, OnDestroy {
           this.userData = user;
   
           this.assessmentService.getByUserId(this.userData._id).subscribe(res => {
-            console.log('Did we find an existing assessment?', res);
+            //console.log('Did we find an existing assessment?', res);
             if(!res || res.length == 0){
-              console.log('No assessment found, lets begin one!')
+              //console.log('No assessment found, lets begin one!')
   
               //this.initNewAssessment();    
               this.newAssessment = true;
@@ -188,7 +189,7 @@ export class AssessmentComponent implements OnInit, OnDestroy {
   }
 
   counterUp() {
-
+    //console.log('Counter up!');
     this.assessmentComplete = false;
 
     if (this.count < this.questions.length) {
@@ -203,7 +204,7 @@ export class AssessmentComponent implements OnInit, OnDestroy {
   }//end counter
 
   counterDown() {
-
+    //console.log('Counter down!');
     this.g2.show();
 
     this.g2.onHide.subscribe((data) => {
@@ -317,10 +318,17 @@ export class AssessmentComponent implements OnInit, OnDestroy {
   loadAssessment(assessmentData){
     //before we can navigate we need to check to see if the need to do the inital steps...
     this.checkComplete(assessmentData)
-    console.log('Is the assessment complete?', this.assessmentComplete);
+    //console.log('Is the assessment complete?', this.assessmentComplete);
     this.assessmentData = assessmentData;
+    //if the assessment is not complete, we need to delete is before we start a new one...
     if(!this.assessmentComplete) {
-      this.startAssessment = true;
+      //delete the assessment based on assessment data...
+      //console.log('Deleting the selected assessment because it was not completed...')
+      this.assessmentService.deleteAssessment(assessmentData).subscribe((res)=>{
+          //asessment deleted...
+          this.startAssessment = true;
+      })
+      
     }else{
       this.router.navigate(['/dashboard/' + assessmentData.user_id + "/" + assessmentData._id]);
     }

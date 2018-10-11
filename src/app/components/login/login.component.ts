@@ -28,7 +28,7 @@ export class LoginComponent {
     this.userService.login(user).subscribe(user => {
       if(user['success'] == true) {
         this.authService.login();
-        console.log(this.authService.isLoggedIn);
+        //console.log(this.authService.isLoggedIn);
         // Get the redirect URL from our auth service
         // If no redirect has been set, use the default
         //let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/assessment';

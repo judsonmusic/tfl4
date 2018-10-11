@@ -17,7 +17,7 @@ export class WhenCreateView implements OnInit{
 
   }
   ngOnInit() {
-    console.log('WHENCREATEVIEW: The data mode is: ' , this.datamode, this.whencreateview);
+    //console.log('WHENCREATEVIEW: The data mode is: ' , this.datamode, this.whencreateview);
     this.assessmentService.getHtmlForDimension(this.whencreateview).subscribe((html) =>{
 
       this.el.nativeElement.innerHTML = html;

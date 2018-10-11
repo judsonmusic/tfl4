@@ -48,7 +48,7 @@ export class AppComponent implements OnInit {
            jQuerythis.addClass('panel-is-collapsed');
            jQuerythis.find('i').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
        } else {
-           console.log('it is collapsed, we need to open it!');
+           //console.log('it is collapsed, we need to open it!');
            jQuerythis.parents('.panel').find('.panel-body').removeClass('panel-collapsed').animate({height: 'auto'});
            jQuerythis.parents('.panel').find('.panel-body').slideDown();
            jQuerythis.parents('.panel').find('.panel-body').css({minHeight: minHeight});
@@ -93,7 +93,7 @@ export class AppComponent implements OnInit {
 
 
     }, (error) => {
-      console.log('Error! Redirecting!', console.log(error));
+      //console.log('Error! Redirecting!', console.log(error));
       //let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/';
       // Redirect the user
       //this.router.navigate(['/']);

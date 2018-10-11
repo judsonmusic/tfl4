@@ -29,7 +29,7 @@ export class UserComponent {
   
 
     this.ar.queryParams.subscribe((res)=>{
-      console.log(res.code);
+      //console.log(res.code);
       if(res.code && res.code !== undefined){
         sessionStorage.setItem('code', res.code);
         this.ccReadOnly = true;

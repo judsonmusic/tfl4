@@ -49,9 +49,11 @@ export class DashboardComponent implements OnInit {
     public assessmentDataLoaded: boolean = false;
     public adminMode: boolean = false;
     public idealBeingScore;
+    public sessionUserId;
 
     constructor(public route: ActivatedRoute, public router: Router, public assessmentService: AssessmentService, public userService: UserService, public ss: SurveyService) {
         this.adminMode = sessionStorage.getItem('adminMode') === "true";
+        this.sessionUserId = sessionStorage.getItem('_id');
         this.router = router;
         this.assessmentService = assessmentService;
         this.areas = this.assessmentService.questions;  
@@ -75,7 +77,7 @@ export class DashboardComponent implements OnInit {
 
 
     ngOnInit() {
-        console.log( 'USER ID: ', this.route.snapshot.params['user_id'], 'ASSESSMENT_ID', this.route.snapshot.params['assessment_id'])
+        //console.log( 'USER ID: ', this.route.snapshot.params['user_id'], 'ASSESSMENT_ID', this.route.snapshot.params['assessment_id'])
         if(!this.route.snapshot.params['assessment_id'] && !this.route.snapshot.params['user_id']){
             alert('Proper params not defined. Redirecting.');
             this.router.navigate(['/assessment']);
@@ -150,7 +152,7 @@ export class DashboardComponent implements OnInit {
         var avg = Math.floor(((sum / temp.length) + 1) / 10) * 10;
         this.overAllScore = avg;
         this.idealBeingScore = avg;
-        console.log('Overall being score: ', this.idealBeingScore);    
+        //console.log('Overall being score: ', this.idealBeingScore);    
         
     }
 

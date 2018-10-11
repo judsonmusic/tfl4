@@ -13,6 +13,7 @@ var AssessmentSchema   = new Schema({
     otherElements: { type: Array, default: []},
     steps: { type: Array, default: new Array(7)},
     deleted: { type: Boolean, default: false},
+    dateDeleted: { type: Date}
 },{
   timestamps: true
 });

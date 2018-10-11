@@ -23,7 +23,7 @@ export class UserFilterPipe implements PipeTransform {
       return item.firstName.toLowerCase().includes(searchText);
     }); */
   }
-  /*   console.log('Filtering: ' , items, filter);
+  /*   //console.log('Filtering: ' , items, filter);
     return items.filter(item => {
         let notMatchingField = Object.keys(filter)
                                      .find(key => item[key] !== filter[key]);

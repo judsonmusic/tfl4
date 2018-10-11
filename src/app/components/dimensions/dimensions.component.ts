@@ -169,7 +169,7 @@ export class DimensionsComponent implements OnInit, OnDestroy {
 
     save() {
 
-        console.log('Saving your data...');
+        //console.log('Saving your data...');
         this.assessmentService.updateAssessment(this.assessmentData).subscribe((res)=>{
 
             this.assessmentData = res.assessment;
@@ -192,12 +192,12 @@ export class DimensionsComponent implements OnInit, OnDestroy {
                 if (x.answer <= 3 && x.subs.indexOf(null) > -1) {
 
                     //data check did not pass we need to update step as such...
-                    console.log('Data Check Failed...');
+                    //console.log('Data Check Failed...');
                     dataCheckPassed.push(false);
 
                 } else if (x.answer <= 3 && x.subs.indexOf(null) === -1) {
 
-                    console.log('Data Check Passed...');
+                    //console.log('Data Check Passed...');
                     dataCheckPassed.push(true);
 
                 }
@@ -276,23 +276,23 @@ export class DimensionsComponent implements OnInit, OnDestroy {
             mediaQueryList.addListener(function (mql) {
                 if (mql.matches) {
                     //beforePrint();
-                    console.log('Before Print...');
+                    //console.log('Before Print...');
                 } else {
-                    console.log('After Print...')
+                    //console.log('After Print...')
                     self.closeAllPanels();
                 }
             });
         } else {
 
             window.onafterprint = function () {
-                console.log("*******Printing completed...");
+                //console.log("*******Printing completed...");
                 self.closeAllPanels();
             }
         }
 
         this.openAllPanels().then(() => {
 
-            console.log('Promise resolved!');
+            //console.log('Promise resolved!');
             window.print();
 
         })

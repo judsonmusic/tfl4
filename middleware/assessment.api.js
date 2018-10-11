@@ -5,6 +5,32 @@ var Assessments = require('../models/assessments');
 var moment = require('moment');
 var mongoose = require('mongoose');
 
+router.route('/deleteAssessment/:assessmentId')
+
+.put(function(req, res){
+
+    Assessments.findById(req.params.assessmentId, function (err, assessment) {
+
+        if (err)
+            return res.send(err);
+            assessment.deleted = true;
+            assessment.dateDeleted = Date.now();
+            // save the account
+            assessment.save(function (err, saved) {
+                if (err)
+                    return res.send(err);
+
+                res.json({
+                    message: 'Assessment deleted!',
+                    assessment: saved
+                }).end();
+
+            });
+        
+    });
+
+});
+
 router.route('/updateAssessment/:assessmentId')
     // update the account with this id (accessed at PUT http://localhost:8080/api/accounts/:account_id)
     .put(function (req, res) {
@@ -108,9 +134,9 @@ router.route('/getByUserId/:user_id/:assessment_id?')
     .get(function (req, res) {        
         //console.log( mongoose.Types.ObjectId('578df3efb618f5141202a196') );
         var id =  req.params.user_id;
-        var query = { user_id: id };
+        var query = { user_id: id, deleted: { $ne: true } };
         if (req.params.assessment_id){
-            query = { user_id: id, _id: req.params.assessment_id };
+            query = { user_id: id, _id: req.params.assessment_id, deleted: { $ne: true } };
         }
         Assessments.find(query).sort({ "createdAt": -1 }).exec(function (err, assessments) {
             if (err) {

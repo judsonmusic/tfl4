@@ -1,11 +1,12 @@
-<div *ngIf="adminMode && userData" class="text-red">
+<div *ngIf="adminMode && userData && assessmentData" class="text-red">
   <alert type="danger">
-    You are viewing the dashboard for {{userData.firstName}} {{userData.lastName}}
+    You are viewing the dashboard for {{userData.firstName}} {{userData.lastName}} assessment taken on {{assessmentData.createdAt | date:'MMM dd yyyy - hh:mm a'}}
+    <a routerLink="/admin-view-user/{{userData._id}}">Click here to go back</a>
   </alert>
 </div>
 <div *ngIf="assessmentData">
   <div [class.dashboard-bg]="!showMotivated">
-    <h1>Welcome to Your TFL Dashboard!
+    <h1>{{userData.firstName + '\'s'}} TFL Dashboard!
       <i class="fa fa-question-circle-o blue" (click)="m.show()" style="cursor: pointer;" *ngIf="!showMotivated"></i>
       <i class="fa fa-question-circle-o blue" (click)="r.show()" style="cursor: pointer;" *ngIf="showMotivated"></i>
     </h1>
