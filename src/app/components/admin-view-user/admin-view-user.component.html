@@ -7,16 +7,16 @@
       <div class="col-md-4">Last Update: <strong>{{user.updatedAt | date: "MM/dd/yyyy"}}</strong></div>
     </div>
     <div class="row">
-      <div class="col-md-4">{{user.firstName}} heard about TFDL through: <strong>{{user.hear | hear}}</strong></div>
+      <div class="col-md-4">{{user.firstName}} heard about TFDL through: <strong>{{user.hear ? (user.hear | hear) : 'Not Provided'}}</strong></div>
     </div>
     <div class="row">
-      <div class="col-md-4">Education Level: <strong>{{user.education | education}}</strong></div>
+      <div class="col-md-4">Education Level: <strong>{{user.education ? (user.education | education) : 'Not Provided'}}</strong></div>
     </div>
     <div class="row">
-      <div class="col-md-4">Occupation: <strong>{{user.occupation | occupation}}</strong></div>
+      <div class="col-md-4">Occupation: <strong>{{user.occupation ? (user.occupation | occupation) : 'Not Provided'}}</strong></div>
     </div>
     <div class="row">
-      <div class="col-md-4">Ethnicity: <strong>{{user.ethnicity | ethnicity}}</strong></div>
+      <div class="col-md-4">Ethnicity: <strong>{{user.ethnicity ? (user.ethnicity | ethnicity) : 'Not Provided'}}</strong></div>
     </div>
   </div>
 </div>

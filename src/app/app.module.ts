@@ -8,8 +8,8 @@ import { UtilitiesService } from './utilities/utilities.component';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { Ng2BootstrapModule, ModalModule, TooltipModule } from 'ngx-bootstrap';
-import { HttpModule } from '@angular/http';
+import { ModalModule, TooltipModule } from 'ngx-bootstrap';
+import { HttpModule, } from '@angular/http';
 import { AboutComponent } from './components/about/about.component';
 import { UserService } from "./components/user-service/user.service";
 import { LoginComponent } from "./components/login/login.component";
@@ -52,7 +52,7 @@ import { AlertModule } from "ngx-bootstrap";
 import { GaugeComponent } from "./components/charts/guage.component";
 import { StressPage } from "./components/pages/stress";
 import { ContractComponent } from "./components/contract/contract.component";
-import {TextMaskModule} from 'angular2-text-mask';
+import { TextMaskModule } from 'angular2-text-mask';
 import { ASurveyComponent } from './components/a-survey/survey.component';
 import { ADimensionsComponent } from './components/a-dimensions/a-dimensions.component';
 import { AAssessmentComponent } from './components/a-assessment/a-assessment.component';
@@ -113,10 +113,10 @@ import { OrderModule } from 'ngx-order-pipe';
   ],
   entryComponents: [],
   imports: [
+
     OrderModule,
     BrowserModule,
     FormsModule,
-    Ng2BootstrapModule,
     TextMaskModule,
     UtilitiesModule,
     RouterModule,

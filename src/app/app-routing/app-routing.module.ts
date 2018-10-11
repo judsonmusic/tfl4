@@ -24,7 +24,7 @@ import { ForgotPasswordComponent } from '../forgot-password/forgot-password.comp
 var routes:Routes = [
   { path: '', component: HomeComponent },
   
-  { path: 'dashboard/:user_id/:assessment_id', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'dashboard/:user_id/:assessment_id', component: DashboardComponent, canActivate: [AuthGuard], runGuardsAndResolvers: 'always' },
   //{ path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'forgot-password/:email/:code', component: ForgotPasswordComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
@@ -34,15 +34,15 @@ var routes:Routes = [
   { path: 'assessment', component: AssessmentComponent},
   { path: 'about', component: AboutComponent},
   { path: 'login', component: LoginComponent},
-  { path: 'tfl-guide/:assessment_id', component: TflGuideComponent, canActivate: [AuthGuard]},
-  { path: 'tfl-guide', component: TflGuideComponent, canActivate: [AuthGuard]},
-  { path: 'data-junkie/:assessment_id', component: DataJunkieComponent, canActivate: [AuthGuard]},
-  { path: 'data-junkie', component: DataJunkieComponent, canActivate: [AuthGuard]},
-  { path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},
-  { path: 'admin-view-user/:user_id', component: AdminViewUserComponent, canActivate: [AuthGuard]},
-  { path: 'contract', component: ContractComponent, canActivate: [AuthGuard]},
+  { path: 'tfl-guide/:user_id/:assessment_id', component: TflGuideComponent, canActivate: [AuthGuard], runGuardsAndResolvers: 'always'},
+  { path: 'tfl-guide', component: TflGuideComponent, canActivate: [AuthGuard], runGuardsAndResolvers: 'always'},
+  { path: 'data-junkie/:user_id/:assessment_id', component: DataJunkieComponent, canActivate: [AuthGuard], runGuardsAndResolvers: 'always'},
+  { path: 'data-junkie', component: DataJunkieComponent, canActivate: [AuthGuard], runGuardsAndResolvers: 'always'},
+  { path: 'admin', component: AdminComponent, canActivate: [AuthGuard], runGuardsAndResolvers: 'always'},
+  { path: 'admin-view-user/:user_id', component: AdminViewUserComponent, canActivate: [AuthGuard], runGuardsAndResolvers: 'always'},
+  { path: 'contract', component: ContractComponent, canActivate: [AuthGuard], runGuardsAndResolvers: 'always'},
 
-  { path: 'dimensions/:assessment_id/:dimension_id', component: DimensionsComponent},
+  { path: 'dimensions/:user_id/:assessment_id/:dimension_id', component: DimensionsComponent},
 
   { path: 'stress', component: StressPage},
 
@@ -50,9 +50,7 @@ var routes:Routes = [
 ];
 
 @NgModule({
-    imports: [
-        RouterModule.forRoot(routes)
-    ],
+    imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
     exports: [
         RouterModule
     ],

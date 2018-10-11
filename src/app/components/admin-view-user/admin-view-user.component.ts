@@ -30,7 +30,7 @@ export class AdminViewUserComponent implements OnInit {
 
         this.as.getByUserId(id).subscribe(res2=>{
           this.assessmentData = res2;  
-          console.log(this.assessmentData);                
+          //console.log(this.assessmentData);                
     
         })
       })
@@ -53,7 +53,7 @@ export class AdminViewUserComponent implements OnInit {
 
     });
 
-    console.log('First 15 questions: ', temp, temp.indexOf(false) > -1);
+    //console.log('First 15 questions: ', temp, temp.indexOf(false) > -1);
 
     return temp.indexOf(false) > -1;
 
@@ -65,7 +65,7 @@ export class AdminViewUserComponent implements OnInit {
 
 
   loadAssessment(assessmentData){
-    console.log(assessmentData);
+    //console.log(assessmentData);
       this.router.navigate(['/dashboard/' + this.user._id + "/" + assessmentData._id]);
     }  
    

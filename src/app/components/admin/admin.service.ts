@@ -6,7 +6,7 @@ import { Http, Headers } from '@angular/http';
 import {AuthService} from "../auth/auth.service";
 import {AssessmentService} from "../assessment/assessment.service";
 import {Subject} from "rxjs/Subject";
-import {Observable} from "rxjs/Observable";
+import {Observable} from "rxjs/observable";
 
 
 @Injectable()

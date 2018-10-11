@@ -1,8 +1,8 @@
 import { ModalGenericComponent } from './../modals/modalGenericComponent';
 import { UtilitiesService } from './../../utilities/utilities.component';
 import { DimensionService } from './../dimension-service/dimension.service';
-import { Component, OnInit, ViewChild, Renderer } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChild, Renderer, OnDestroy } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { UserService } from "../user-service/user.service";
 import { AuthService } from "../auth/auth.service";
 import { AssessmentService } from "../assessment/assessment.service";
@@ -12,9 +12,9 @@ declare var System: any;
 @Component({
   templateUrl: 'assessment.component.html',
 })
-export class AssessmentComponent implements OnInit {
+export class AssessmentComponent implements OnInit, OnDestroy {
 
-
+  navigationSubscription;
   @ViewChild('g') public g: ModalDirective;
   @ViewChild('g2') public g2: ModalDirective;
 
@@ -37,63 +37,81 @@ export class AssessmentComponent implements OnInit {
 
   constructor(private router: Router, public userService: UserService, public authService: AuthService, public assessmentService: AssessmentService, private renderer: Renderer, public ss: SurveyService, public ds: DimensionService, public utils: UtilitiesService) {
 
+    this.navigationSubscription = this.router.events.subscribe((e: any) => {
+      // If it is a NavigationEnd event re-initalise the component
+      if (e instanceof NavigationEnd) {
+        //here we can do things on any route change no matter what...
+        console.log('Assessment init again...');
+        this.initialize();
+      }
+    });
+
+    
+
+  }
+
+  ngOnInit() {
+
+
+
+  }
+
+  initialize(){
+
+    console.log('Initialize Assessment screen...')
+
+    this.assessmentData = null;
+    this.startAssessment = false;
+    this.dataLoaded = false;
+    this.userData = null;
+    this.newAssessment = false;
+
     sessionStorage.removeItem('steps');
     sessionStorage.removeItem('surveyReminderShown');
     this.authService.redirectUrl = '/assessment';
 
     this.Math = Math;
-
-
-    //console.log('the assessment componet loaded.');
-    //array of answers they can select for main question.
-
-    /* this.data = {};
-    this.data.account = {};
-    this.data.account.assessment = this.assessmentService.assessment; */
-    //this.userData = {};
+ 
     this.questions = this.assessmentService.questions;
     this.subquestions = this.assessmentService.subquestions;
     this.answers = this.assessmentService.answers;
     this.assessmentComplete = false;
 
-  }
-
-  ngOnInit() {
+       //console.log('Init assessment comp...')
     //this.utils.showLoading();
       //console.log('The session storage on assessment load: ' , sessionStorage);
-     if (sessionStorage.getItem('jwt')) {
-      //console.log('User is logged in. Lets check for any previous assessments...');
-      //we added this to make sure we have data on page reload!
-      this.userService.getUser().subscribe((user) => {
-        //console.log('user data retrieved...', user);
-        this.userData = user;
-
-        this.assessmentService.getByUserId(this.userData._id).subscribe(res => {
-          console.log('Did we find an existing assessment?', res);
-          if(!res || res.length == 0){
-            console.log('No assessment found, lets begin one!')
-
-            //this.initNewAssessment();    
-            this.newAssessment = true;
-             
-          }else{
-
-            this.utils.hideLoading();
-            this.assessments = res;
-            this.assessmentData = res[0];
-            //this.checkComplete();
-            this.dataLoaded = true;
-
-          }
-          
+      if (sessionStorage.getItem('jwt')) {
+        //console.log('User is logged in. Lets check for any previous assessments...');
+        //we added this to make sure we have data on page reload!
+        this.userService.getUser().subscribe((user) => {
+          //console.log('user data retrieved...', user);
+          this.userData = user;
+  
+          this.assessmentService.getByUserId(this.userData._id).subscribe(res => {
+            console.log('Did we find an existing assessment?', res);
+            if(!res || res.length == 0){
+              console.log('No assessment found, lets begin one!')
+  
+              //this.initNewAssessment();    
+              this.newAssessment = true;
+               
+            }else{
+  
+              this.utils.hideLoading();
+              this.assessments = res;
+              this.assessmentData = res[0];
+              //this.checkComplete();
+              this.dataLoaded = true;
+  
+            }
+            
+          });
         });
-      });
-    }else{
-      //no session info do nothing?
-      this.dataLoaded = true;
-
-    }
-
+      }else{
+        //no session info do nothing?
+        this.dataLoaded = true;
+  
+      }
   }
 
   takeNewAssessment(){
@@ -120,7 +138,8 @@ export class AssessmentComponent implements OnInit {
         this.startAssessment = true;
     });
   }
-
+  //this creates a new assessment.
+  //TODO: we DO NOT need to do this right away instead check to see if they have a pending one....
   initNewAssessment(){
 
     let assessmentData = {
@@ -144,6 +163,8 @@ export class AssessmentComponent implements OnInit {
   }
 
   start() {
+    //TODO: we need to check to see if the last one they did is complete(all 15 questions, if not, delete it! DO NOT create a new one!
+    //TODO: Do we delete the last one and make them start over? maybe we check here before initalizing? or when they click the link, use the ID and delete it? Need to talk to Terrie.
     this.initNewAssessment();
     //this.count = 1;
   }
@@ -224,7 +245,7 @@ export class AssessmentComponent implements OnInit {
       this.g.onHide.subscribe((hidden) => {
         //console.log('The modal us hidden!');
         //this.save();      
-        this.router.navigate(['/dashboard/' + this.assessmentData._id]);
+        this.router.navigate(['/dashboard/' + this.assessmentData.user_id + "/" + this.assessmentData._id]);
       });
 
 
@@ -294,17 +315,25 @@ export class AssessmentComponent implements OnInit {
 }
 
   loadAssessment(assessmentData){
-    //console.log(assessmentData);
     //before we can navigate we need to check to see if the need to do the inital steps...
     this.checkComplete(assessmentData)
+    console.log('Is the assessment complete?', this.assessmentComplete);
     this.assessmentData = assessmentData;
     if(!this.assessmentComplete) {
       this.startAssessment = true;
     }else{
       this.router.navigate(['/dashboard/' + assessmentData.user_id + "/" + assessmentData._id]);
     }
-    console.log('Is the assessment complete?', this.assessmentComplete);
-    //
+    
+  }
+
+  ngOnDestroy() {
+    // avoid memory leaks here by cleaning up after ourselves. If we  
+    // don't then we will continue to run our initialiseInvites()   
+    // method on every navigationEnd event.
+    if (this.navigationSubscription) {  
+       this.navigationSubscription.unsubscribe();
+    }
   }
 
 

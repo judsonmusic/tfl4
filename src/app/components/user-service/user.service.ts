@@ -7,7 +7,7 @@ import {AssessmentService} from "../assessment/assessment.service";
 import {SurveyService} from "../a-survey/survey.service";
 import {DimensionService} from "../dimension-service/dimension.service";
 import {Subject} from "rxjs/Subject";
-import {Observable} from "rxjs/Observable";
+import {Observable} from "rxjs/observable";
 declare var jQuery: any;
 
 

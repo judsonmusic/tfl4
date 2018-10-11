@@ -56,8 +56,7 @@ export class TflGuideComponent implements OnInit {
   goToDashboard() {
 
     if(this.route.snapshot.params['assessment_id']){
-      this.router.navigate(['/dashboard/'+this.route.snapshot.params['assessment_id']])    
-  }
+      this.router.navigate(['/dashboard/'+this.route.snapshot.children[0].params['user_id'] + "/" +this.route.snapshot.children[0].params['assessment_id']])  }
 
   }
 
