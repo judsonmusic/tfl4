@@ -78,12 +78,11 @@ export class AdminViewUserComponent implements OnInit {
   }
 
   getMotivated(assessmentData, item) {
-    let motivated;
     var subs = assessmentData.assessment.filter(res => res.id == item.id)[0].subs;
     if (subs[1] && !!subs[5]) {
-      return "Yes!";
+      return true;
     }else{
-      return "Not Answered";
+      return false;
     }   
   }
 
