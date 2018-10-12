@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, ActivatedRouteSnapshot } from '@angular/router';
 import { AssessmentService } from "../assessment/assessment.service";
 import { Subscription } from 'rxjs/Subscription';
 import { UserService } from "../user-service/user.service";
@@ -57,10 +57,16 @@ export class DimensionsComponent implements OnInit, OnDestroy {
 
         if(!this.route.snapshot.params['assessment_id']){
             //this.router.navigate(['/assessment']);
+            console.warn('AssessmentID was not provided!')
         }
 
-        if(!this.route.snapshot.params['dimension_id']){
+        if(this.route.snapshot.url[0].path != "tfl-guide" && !this.route.snapshot.params['dimension_id']){
             //this.router.navigate(['/assessment']);
+            console.warn('dimensionID was not provided!')
+        }
+        if(!this.route.snapshot.params['user_id']){
+            //this.router.navigate(['/assessment']);
+            console.warn('userID was not provided!')
         }
 
         let doStuff = () => {
@@ -102,7 +108,7 @@ export class DimensionsComponent implements OnInit, OnDestroy {
 
        //if data is not passed in, go get it...
         if (!this.assessmentData) {
-            this.userService.getUser().subscribe((user) => {
+            this.userService.getUserById(this.route.snapshot.params['user_id']).subscribe((user) => {
 
                 this.assessmentService.getByUserId(user._id, this.route.snapshot.params['assessment_id']).subscribe(res => {
                     //console.log('The result from getting the assessment is: ', res.length, res);

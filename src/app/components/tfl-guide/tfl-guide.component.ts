@@ -37,7 +37,7 @@ export class TflGuideComponent implements OnInit {
     //console.log('Init TFL guide component....')
     if(!this.assessmentData){
       //console.log('We have no assessment data...')
-    this.userService.getUser().subscribe((user) => {
+    this.userService.getUserById(this.route.snapshot.params['user_id']).subscribe((user) => {
       //console.log('user data retrieved...', user);
       this.userData = user;
 

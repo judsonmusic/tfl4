@@ -20,9 +20,4 @@ export class HomeComponent {
 
   }
 
-  getUser() {
-
-    this.userService.getUser().subscribe();
-
-  }
 }

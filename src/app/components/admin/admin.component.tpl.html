@@ -25,7 +25,7 @@
   <!-- <hr> -->
 
   <div>
-    <h2>Users</h2>
+    <h2>Users <span *ngIf="users && users.length > 0">{{users.length}} people have taken the assessment to date.</span></h2>
     <div padding>
       <form>
         <div class="grid">
