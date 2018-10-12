@@ -12,7 +12,7 @@ var dotenv = require('dotenv').config({path: '/var/www/tfl/.env'});
 var express = require('express');
 var http = require('http');
 var moment = require('moment');
-var open = require('open');
+//var open = require('open');
 
 //var morgan = require('morgan'); // formerly express.logger
 var errorhandler = require('errorhandler');
