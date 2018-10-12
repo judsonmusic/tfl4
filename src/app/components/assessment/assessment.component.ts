@@ -1,4 +1,3 @@
-import { ModalGenericComponent } from './../modals/modalGenericComponent';
 import { UtilitiesService } from './../../utilities/utilities.component';
 import { DimensionService } from './../dimension-service/dimension.service';
 import { Component, OnInit, ViewChild, Renderer, OnDestroy } from '@angular/core';

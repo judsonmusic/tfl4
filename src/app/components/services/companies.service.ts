@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UtilitiesService } from './../../utilities/utilities.component';
-import { Router }      from '@angular/router';
 import { Http, Headers } from '@angular/http';
-import { AuthService } from "../auth/auth.service";
-import { Subject } from "rxjs/Subject";
-import { Observable } from "rxjs/observable";
 
 @Injectable()
 export class CompaniesService {

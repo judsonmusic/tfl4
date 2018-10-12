@@ -65,6 +65,7 @@ export class UserService{
 
             this.authService.isLoggedIn = true;            
             this.loggedIn.next(true);
+            this.user.next(res);
             this.userData = res;
             //this.user.next(res);
             //TODO: move this to assessment service.

@@ -1,10 +1,10 @@
+import { UtilitiesService } from './utilities/utilities.component';
 import { AllPipesModule } from './components/pipes/utils.pipe.module';
 import { CompaniesService } from './components/services/companies.service';
 import { AuthGuard } from './components/auth/auth-guard.service';
 import { AuthService } from './components/auth/auth.service';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { UtilitiesModule } from './utilities/utilities.module';
-import { UtilitiesService } from './utilities/utilities.component';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -21,7 +21,6 @@ import { ResourcesComponent } from "./components/resources/resources.component";
 import { LogoutComponent } from "./components/logout/logout.component";
 import { DimensionsComponent } from "./components/dimensions/dimensions.component";
 import { SurveyService } from "./components/a-survey/survey.service";
-import { ActionComponent } from "./components/action/action.component";
 import { AssessmentService } from "./components/assessment/assessment.service";
 import { TflGuideComponent } from "./components/tfl-guide/tfl-guide.component";
 import { DataJunkieComponent } from "./components/data-junkie/data-junkie.component";
@@ -76,7 +75,6 @@ import { OrderModule } from 'ngx-order-pipe';
     HomeComponent,
     AssessmentComponent,
     DashboardComponent,
-    ActionComponent,
     LoginComponent,
     TflGuideComponent,
     DataJunkieComponent,

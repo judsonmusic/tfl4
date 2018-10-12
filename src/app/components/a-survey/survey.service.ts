@@ -1,5 +1,4 @@
 import { UtilitiesService } from './../../utilities/utilities.component';
-import { UserService } from './../user-service/user.service';
 import {Injectable} from '@angular/core';
 import {Http, Headers} from '@angular/http';
 

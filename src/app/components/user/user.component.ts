@@ -1,5 +1,4 @@
 import { UtilitiesService } from './../../utilities/utilities.component';
-import { TextMaskModule } from 'angular2-text-mask';
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from "./../user-service/user.service";
@@ -153,15 +152,6 @@ export class UserComponent {
     this.mask = [/[0-9]/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/];
     this.maskPhone = ['(', /[0-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
 
-    // this.userService.user$.subscribe((userData) => {
-    //   this.user = userData;
-    //   //console.log('We got some data!');
-    // });
-    //
-    // this.userService.loggedIn$.subscribe((loggedIn) => {
-    //   this.loggedIn = loggedIn;
-    //   //console.log('The user is logged in!');
-    // });
 
   }
 

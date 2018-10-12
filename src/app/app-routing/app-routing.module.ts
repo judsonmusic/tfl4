@@ -13,7 +13,6 @@ import {LogoutComponent} from "./../components/logout/logout.component";
 import {AuthGuard} from "./../components/auth/auth-guard.service";
 import {LoginComponent} from "./../components/login/login.component";
 import {DimensionsComponent} from "./../components/dimensions/dimensions.component";
-import {ActionComponent} from "./../components/action/action.component";
 import {TflGuideComponent} from "./../components/tfl-guide/tfl-guide.component";
 import {DataJunkieComponent} from "./../components/data-junkie/data-junkie.component";
 import {AdminComponent} from "./../components/admin/admin.component";
@@ -28,7 +27,6 @@ var routes:Routes = [
   //{ path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'forgot-password/:email/:code', component: ForgotPasswordComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'action', component: ActionComponent, canActivate: [AuthGuard]},
   { path: 'logout', component: LogoutComponent },
   { path: 'resources', component: ResourcesComponent},
   { path: 'assessment', component: AssessmentComponent},

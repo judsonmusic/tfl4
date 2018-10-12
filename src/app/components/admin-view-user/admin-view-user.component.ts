@@ -119,7 +119,7 @@ export class AdminViewUserComponent implements OnInit {
     //if its less than 100, set the answer value to the answer given.
     //if (item.id < 100) {
 
-    question = (this.ss.questions.filter((res: any) => res.id === item.id)[0].question);
+    question = (this.ss.questions.filter((res: any) => res.id === item.id)[0] ? this.ss.questions.filter((res: any) => res.id === item.id)[0].question : "Not Available (old question)");
     //}   
 
     return question;
