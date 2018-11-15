@@ -77,11 +77,11 @@ export class DashboardComponent implements OnInit {
 
 
     ngOnInit() {
-        //console.log( 'USER ID: ', this.route.snapshot.params['user_id'], 'ASSESSMENT_ID', this.route.snapshot.params['assessment_id'])
-        if(!this.route.snapshot.params['assessment_id'] && !this.route.snapshot.params['user_id']){
-            alert('Proper params not defined. Redirecting.');
+        console.log( 'USER ID: ', this.route.snapshot.params['user_id'], 'ASSESSMENT_ID', this.route.snapshot.params['assessment_id'])
+        if(!this.route.snapshot.params['assessment_id'] || !this.route.snapshot.params['user_id']){
+            console.error('Proper params not defined. Redirecting.');
             this.router.navigate(['/assessment']);
-        }
+        }else{
         
         //console.log('Dashboard init...');
         //we added this to make sure we have data on page reload!
@@ -118,6 +118,7 @@ export class DashboardComponent implements OnInit {
 
             });
         });
+    }
 
 
     }
@@ -464,8 +465,12 @@ export class DashboardComponent implements OnInit {
     }
 
     goToDimension(id) {
-        if (!this.surveyComplete && this.getCurrentStep() > 2 && parseInt(sessionStorage.getItem('surveyReminderShown')) < 3) {
+       
+         if (!this.surveyComplete && this.getCurrentStep() > 2 && parseInt(sessionStorage.getItem('surveyReminderShown')) < 1) {
             this.g.onHide.subscribe((hidden) => {
+                var count = parseInt(sessionStorage.getItem('surveyReminderShown'));
+                count++               
+                sessionStorage.setItem('surveyReminderShown', count.toString());
                 this.router.navigate(['/dimensions/'+this.route.snapshot.params['user_id']+'/'+this.route.snapshot.params['assessment_id']+'/'+id]);
             });
             this.g.show();
@@ -566,7 +571,7 @@ export class DashboardComponent implements OnInit {
         this.showMotivated = true;
         //console.log(this.surveyComplete, parseInt(sessionStorage.getItem('surveyReminderShown')));
 
-        if (!this.surveyComplete && parseInt(sessionStorage.getItem('surveyReminderShown')) < 3) { 
+        if (!this.surveyComplete && parseInt(sessionStorage.getItem('surveyReminderShown')) < 1) { 
             //console.log('We need to show the survey reminder...')
             this.g.onHide.subscribe((hidden) => {
                 sessionStorage.setItem("surveyReminderShown", (parseInt(sessionStorage.getItem("surveyReminderShown")) + 1).toString());
@@ -589,7 +594,7 @@ export class DashboardComponent implements OnInit {
     showDataJunkie() {
        
         //console.log(parseInt(sessionStorage.getItem('surveyReminderShown')));
-        if (!this.surveyComplete && parseInt(sessionStorage.getItem('surveyReminderShown')) < 3) { 
+        if (!this.surveyComplete && parseInt(sessionStorage.getItem('surveyReminderShown')) < 1) { 
             //console.log('Need to show survey...')
             
 
@@ -611,7 +616,7 @@ export class DashboardComponent implements OnInit {
     }
 
     showTFLGuide() {
-        if (!this.surveyComplete && parseInt(sessionStorage.getItem('surveyReminderShown')) < 3) { 
+        if (!this.surveyComplete && parseInt(sessionStorage.getItem('surveyReminderShown')) < 1) { 
             this.g3.onHide.subscribe((hidden) => {
 
                 sessionStorage.setItem("surveyReminderShown", (parseInt(sessionStorage.getItem("surveyReminderShown")) + 1).toString());

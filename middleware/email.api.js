@@ -19,15 +19,15 @@ var nodemailer = require('nodemailer');
 //     //pass: 'hmcd-zdvw-tqzn-ykcf'
 //   }
 // };
-if (process.env.NODE_ENV == "development") {
+if (process.env.NODE_ENV == "development" || 1==1) {
   var smtpConfig = {
     host: 'smtp.gmail.com',
     port: 587,
     //secure: true, // use SSL
     //requireTLS: true,
     auth: {
-      user: 'judsonterrell1974@gmail.com',
-      pass: 'Morr2sse12!'
+      user: 'trainforlife.help@gmail.com',
+      pass: 'Tfldev1!!'
     }
   };
 } else {
@@ -110,17 +110,18 @@ router.post('/', function (req, res) {
     //console.log('Sending the email');
     transporter.sendMail(mailOptions, function (err, res2) {
       if (err) {
-        console.log('There was an error sending the email: ', err);
-        res.send(err);
-        process.exit(0);
+        //console.log('There was an error sending the email: ', err);
+        res.status(500).send(err);
+        //process.exit(0);
       } else {
         //this is the response from sending mail...
         //if we have gotten to the end of the process count....
         //console.log(processCount, req.body.emails.length);
+        console.log('@@@The email length...', req.body.emails.length);
         if (processCount == req.body.emails.length || req.body.emails.length == 1) {
           //we are done...
           processCount = 1;
-          res.send({
+          res.status(200).send({
             success: true,
             message: "Messages sent!",
             emails: req.body.emails,

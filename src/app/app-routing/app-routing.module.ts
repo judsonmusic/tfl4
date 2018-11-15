@@ -24,7 +24,7 @@ var routes:Routes = [
   { path: '', component: HomeComponent },
   
   { path: 'dashboard/:user_id/:assessment_id', component: DashboardComponent, canActivate: [AuthGuard], runGuardsAndResolvers: 'always' },
-  //{ path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], runGuardsAndResolvers: 'always' },
   { path: 'forgot-password/:email/:code', component: ForgotPasswordComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'logout', component: LogoutComponent },
@@ -41,7 +41,7 @@ var routes:Routes = [
   { path: 'contract', component: ContractComponent, canActivate: [AuthGuard], runGuardsAndResolvers: 'always'},
 
   { path: 'dimensions/:user_id/:assessment_id/:dimension_id', component: DimensionsComponent},
-
+  { path: 'stress/:user_id/:assessment_id', component: StressPage, canActivate: [AuthGuard], runGuardsAndResolvers: 'always'},
   { path: 'stress', component: StressPage},
 
   { path: '**', component: PageNotFoundComponent}

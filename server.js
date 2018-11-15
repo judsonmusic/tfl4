@@ -374,7 +374,7 @@ router.route('/accounts')
             otherElements: item.otherElements,
             steps: item.steps || [],
             companyCode: item.companyCode || 'betatester'
-          })
+          });
 
 
         });

@@ -23,12 +23,18 @@ router.route('/:email/:access_id')
         "message": 'Please <a href="https://www.trainforlifeamerica.com/forgot-password/' + email + '/' + Date.now() + '">click here to reset your password</a>, if you did not inititate this request. Please contact info@trainforlifeamerica.com'
       }
     }, function (code, data) {
-        //console.log(code, data);
-      res.json({
+        console.log('CODE: ', code, 'DATA', data);
+      if(code===500){
+        res.status(code).send(data);
+      }else{
+        res.status(code).send(data);
+      }
+       
+      /* res.status(200).send({
         message: 'Password reset instructions sent to: ' + email,
         success: true
-      });
-      res.end();
+      }); */
+     
       //process.exit() //this exits the worker process currently being used.
     });
 

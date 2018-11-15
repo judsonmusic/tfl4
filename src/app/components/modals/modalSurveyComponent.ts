@@ -85,7 +85,7 @@ export class ModalSurveyComponent implements AfterViewInit {
         if (this.surveyComplete && this.surveySubmitted) {
             //console.log('The survey is complete. Lets update the account', this.assessmentData);
              this.assessmentData.steps[5] = true;
-             sessionStorage.setItem("surveyReminderShown", "3");
+             sessionStorage.setItem("surveyReminderShown", "1");
 
             this.assessmentService.updateAssessment(this.assessmentData).subscribe((res) => {
 

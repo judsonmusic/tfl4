@@ -7,7 +7,9 @@ import {AssessmentService} from "../assessment/assessment.service";
 import {SurveyService} from "../a-survey/survey.service";
 import {DimensionService} from "../dimension-service/dimension.service";
 import {Subject} from "rxjs/Subject";
-import {Observable} from "rxjs/observable";
+import 'rxjs/add/observable/throw';
+import { Observable, throwError, of } from 'rxjs';
+import { catchError, tap, map } from 'rxjs/operators';
 declare var jQuery: any;
 
 
@@ -214,13 +216,17 @@ export class UserService{
 
 
   sendPassword(email){
-
+    //TODO: need a global error handler...
     return this.http.post(this.us.apiUrl() +  "/api/forgot-password/" + email + "/" + Math.random(), email)
-    .map(res => res.json())
-    .map(res => {      
-      return res;
-    })
-    .catch((error: any) => Observable.throw(error.json().error || 'Server error'));    
+    .pipe(
+      tap(_ => /*do nothing*/{}),
+      catchError(this.handleError('SendPassword', []))
+    );
+    //.map(res => res.json())
+    //.map(res => {      
+      //return res;
+    //})
+    //catch((error: any) => throwError(error.json().error || 'Server error'));    
 
   }
 
@@ -232,8 +238,36 @@ export class UserService{
           //console.log('Hello');   
           return res;
         })
-        .catch((error: any) => Observable.throw(error.json().error || 'Server error'));    
+        .pipe(
+          catchError(this.handleError('getHeroes', []))
+        );   
     
       }
+
+     /**
+ * Handle Http operation that failed.
+ * Let the app continue.
+ * @param operation - name of the operation that failed
+ * @param result - optional value to return as the observable result
+ */
+private handleError<T> (operation = 'operation', result?: T) {
+  return (error: any): Observable<T> => {
+ 
+    // TODO: send the error to remote logging infrastructure
+    console.error(error); // log to console instead
+ 
+    // TODO: better job of transforming error for user consumption
+    this.log(`${operation} failed: ${error.message}`);
+ 
+    // Let the app keep running by returning an empty result.
+    return of(error as T);
+  };
+}
+
+
+private log(message: string) {
+  //console.log(message);
+  //this.messageService.add(`HeroService: ${message}`);
+}
 
 }

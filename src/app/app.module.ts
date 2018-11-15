@@ -62,6 +62,7 @@ import { AdminViewUserComponent } from './components/admin-view-user/admin-view-
 
  
 import { OrderModule } from 'ngx-order-pipe';
+import { LowercaseDirective } from './pipes/lowercase.pipe';
 
 
 
@@ -108,6 +109,7 @@ import { OrderModule } from 'ngx-order-pipe';
     ForgotPasswordComponent,
     UserFilterPipe,
     AdminViewUserComponent,
+    LowercaseDirective,
   ],
   entryComponents: [],
   imports: [

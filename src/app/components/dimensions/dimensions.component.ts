@@ -57,16 +57,16 @@ export class DimensionsComponent implements OnInit, OnDestroy {
 
         if(!this.route.snapshot.params['assessment_id']){
             //this.router.navigate(['/assessment']);
-            console.warn('AssessmentID was not provided!')
+            //console.warn('AssessmentID was not provided!')
         }
 
         if(this.route.snapshot.url[0].path != "tfl-guide" && !this.route.snapshot.params['dimension_id']){
             //this.router.navigate(['/assessment']);
-            console.warn('dimensionID was not provided!')
+            //console.warn('dimensionID was not provided!')
         }
         if(!this.route.snapshot.params['user_id']){
             //this.router.navigate(['/assessment']);
-            console.warn('userID was not provided!')
+            //console.warn('userID was not provided!')
         }
 
         let doStuff = () => {
@@ -239,11 +239,10 @@ export class DimensionsComponent implements OnInit, OnDestroy {
 
     }
 
-    goToDashboard() {
-       
-
-            if(this.route.snapshot.params['assessment_id']){
-                this.router.navigate(['/dashboard/'+this.route.snapshot.children[0].params['user_id'] + "/" +this.route.snapshot.children[0].params['assessment_id']])
+    goToDashboard() {       
+  
+            if(this.route.snapshot && this.route.snapshot.params['assessment_id']){
+                this.router.navigate(['/dashboard/'+this.route.snapshot.params['user_id'] + "/" +this.route.snapshot.params['assessment_id']])
             }
     
        
@@ -262,13 +261,13 @@ export class DimensionsComponent implements OnInit, OnDestroy {
 
     goToDimension(id) {
 
-        this.router.navigate(['/dimensions/'+this.route.snapshot.params['assessment_id']+'/'+id]);
+        this.router.navigate(['/dimensions/'+this.route.snapshot.params['user_id'] + '/' + this.route.snapshot.params['assessment_id'] + '/' + id]);
 
     }
 
     goToStress() {
 
-        this.router.navigate(['/stress']);
+        this.router.navigate(['/stress/'+this.route.snapshot.params['user_id'] + '/' + this.route.snapshot.params['assessment_id']]);
 
     }
 

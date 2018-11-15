@@ -233,7 +233,7 @@
                 (click)="goToDimension(item.id)"></i>
               <i class="fa fa-lock" aria-hidden="true" style="font-size: 72px; color: #efefef; cursor: pointer; text-shadow: 0 0 3px #444;"
                 *ngIf="item.subs.indexOf(null) > -1 || item.subs.length === 0" (click)="goToDimension(item.id)" tooltip="Click to unlock this dimension"
-                #tooltip2="bs-tooltip" placement="top" popover-enable="true" [isDisabled]="false"></i>
+                #tooltip2="bs-tooltip" placement="top" popover-enable="true" [isDisabled]="false" triggers="hover"></i>
               <br> {{(categories | myfilter: item.id)[0].category}}
             </div>
           </div>
@@ -266,11 +266,11 @@
             <!--<div class="lock-score">{{item.answer * 20}}</div>-->
             <i class="fa fa-unlock-alt green" aria-hidden="true" style="font-size: 72px; cursor: pointer" *ngIf="item.subs.indexOf(null) === -1 && item.subs.length === 6"
               (click)="goToDimension(item.id)"></i>
-            <i class="fa fa-lock" aria-hidden="true" style="font-size: 72px; color: #efefef; cursor: pointer; text-shadow: 0 0 3px #444;"
-              *ngIf="item.subs.indexOf(null) > -1 || item.subs.length === 0" (click)="goToDimension(item.id)" tooltip="Click to unlock this dimension"
-              #tooltip2="bs-tooltip" placement="top" popover-enable="true" container="action-icons" triggers="hover"
-              [isDisabled]="false"></i>
-            <br> {{(categories | myfilter: item.id)[0].category}}
+              <i class="fa fa-lock" aria-hidden="true" style="font-size: 72px; color: #efefef; cursor: pointer; text-shadow: 0 0 3px #444;"
+                *ngIf="item.subs.indexOf(null) > -1 || item.subs.length === 0" (click)="goToDimension(item.id)" tooltip="Click to unlock this dimension"
+                #tooltip2="bs-tooltip" placement="top" popover-enable="true" [isDisabled]="false" triggers="hover"></i>
+              <br> {{(categories | myfilter: item.id)[0].category}}           
+      
           </div>
         </div>
       </div>
@@ -320,19 +320,19 @@
 
 
 
-<modal-generic #g="child10" message="<h3 text-red class='red'>Chance to win a $200 gift card by completing our 1 minute survey!</h3><br>
+<modal-generic #g="child10" message="
     You will find the Take TFL Survey button in your toolkit on your dashboard or #5 in the steps box.<br>
 Completing the survey is required if you are taking the assessment in association with a company. <br> 
 Thank you in advance for sharing your thoughts."></modal-generic>
 
 
-<modal-generic #g2="child10" message="<h3 text-red class='red'>Chance to win a $200 gift card by completing our 1 minute survey!</h3><br>
+<modal-generic #g2="child10" message="
         You will find the Take TFL Survey button in your toolkit on your dashboard or #5 in the steps box.<br>
     Completing the survey is required if you are taking the assessment in association with a company. <br> 
     Thank you in advance for sharing your thoughts."></modal-generic>
 
 
-<modal-generic #g3="child10" message="<h3 text-red class='red'>Chance to win a $200 gift card by completing our 1 minute survey!</h3><br>
+<modal-generic #g3="child10" message="
         You will find the Take TFL Survey button in your toolkit on your dashboard or #5 in the steps box.<br>
     Completing the survey is required if you are taking the assessment in association with a company. <br> 
     Thank you in advance for sharing your thoughts."></modal-generic>

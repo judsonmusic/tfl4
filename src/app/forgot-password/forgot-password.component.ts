@@ -126,10 +126,24 @@ export class ForgotPasswordComponent implements OnInit {
 
   sendPassword() {
     this.utils_service.showLoading();
-    this.as.sendPassword(this.registerData.email).subscribe(res => {     
-      alert('Success! Password instructions have been sent to your email address. If you do not receive an email, please check your junk or spam folder. \n \n Please click ok to be redirected to the home page.');
-      window.location.href = "";
-      this.utils_service.hideLoading();
+    this.as.sendPassword(this.registerData.email).subscribe(res => {  
+
+      if (res && res['status'] === 500) {
+
+        //console.log('Response from send password:', res);
+        alert('There was an internal server error while attempting to reset your password. Please wait and try again or contact support at support@judsondesigns.com');
+        this.utils_service.hideLoading();
+
+      }else{
+
+        //console.log('Response from send password:', res);
+        alert('Success! Password instructions have been sent to your email address. If you do not receive an email, please check your junk or spam folder. \n \n Please click ok to be redirected to the home page.');
+        window.location.href = "";
+       
+
+      }
+
+     
 
     })
   }

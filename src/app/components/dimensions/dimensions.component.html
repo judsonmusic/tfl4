@@ -127,8 +127,7 @@
       <hr>
      
       <hr>
-      <h3 *ngIf="!datamode"><img src="assets/images/logo-tfl-mini.jpg" style="float: left; height: 24px; margin-left: -4px;" /> Your TFL Action
-        Plan {{datamode}} <i class="pull-right fa fa-print" *ngIf="answerData && answerData.subs.indexOf(null) < 0 && answerConfirmed && !datamode && !guidemode"
+      <h3 *ngIf="!datamode"><img src="assets/images/logo-tfl-mini.jpg" style="float: left; height: 24px; margin-left: -4px;" /> Your TFL Action Plan <i class="pull-right fa fa-print" *ngIf="answerData && answerData.subs.indexOf(null) < 0 && answerConfirmed && !datamode && !guidemode"
         aria-hidden="true" style="font-size: 24px;
          cursor: pointer" tooltip="Print TFL action plan." placement="top" triggers="mouseenter" [isDisabled]="false" onclick="window.print()"></i></h3>
       <hr>
