@@ -1,45 +1,24 @@
 var express = require('express');
 var router = express.Router();
 var nodemailer = require('nodemailer');
-//var logger = require("./logger");
 
-
-//module.exports = logger;
-
-// create reusable transporter object using the default SMTP transport
-// var smtpConfig = {
-//   //host: 'smtp.mail.me.com',
-//   host:'secure.emailsrvr.com',
-//   port: 465,//587
-//   secure: true, // use SSL
-//   auth: {
-//     user:'info@skoolaide.com',
-//     pass:'SkoolAideDev1'
-//     //user: 'judsonmusic@me.com',
-//     //pass: 'hmcd-zdvw-tqzn-ykcf'
-//   }
-// };
 if (process.env.NODE_ENV == "development" || 1==1) {
   var smtpConfig = {
-    host: 'smtp.gmail.com',
-    port: 587,
-    //secure: true, // use SSL
-    //requireTLS: true,
+    service: 'Gmail',
     auth: {
       user: 'trainforlife.help@gmail.com',
       pass: 'Tfldev1!!'
-    }
-  };
-} else {
-
-  var smtpConfig = {
-    name: 'localhost',
-    host: 'localhost',
-    port: 25,
-    tls: {
-      rejectUnauthorized: false
-    }
-  };
+    }}
+//   var smtpConfig = {
+//     host: 'smtp.gmail.com',
+//     port: 587,
+//     //secure: true, // use SSL
+//     //requireTLS: true,
+//     auth: {
+//       user: 'trainforlife.help@gmail.com',
+//       pass: 'Tfldev1!!'
+//     }
+//   };
 
 }
 
@@ -51,12 +30,6 @@ router.post('/', function (req, res) {
   console.log('***Attempting to send email: ', req.body, smtpConfig, process.env.NODE_ENV);
 
   var processCount = 1;
-  //console.log('Posting to send mail', req.body.emails);
-
-
-  //console.log('This isnt working..');
-
-  //console.log(req, res);
 
   if (typeof req.body.title === "undefined") {
     req.body.title = "Hello!";
