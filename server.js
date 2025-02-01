@@ -37,9 +37,23 @@ var changePassword = require("./middleware/change-password.api");
 var companies = require("./middleware/companies.api");
 
 mongoose.connect(config.database, function (err, res) {
-
-  //console.log(err, res);
+  // console.log(err, res);
+  if(res){
+    console.log('Connected!');
+  }else{
+    console.log('Not Connected!');
+  }
 });
+
+// mongoose.connect('mongodb+srv://judsonmusic:Morr2sse12!@cluster0.mongodb.net/tfl', {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true
+// }).then(() => {
+//   console.log("✅ Connected to MongoDB successfully");
+// }).catch(err => {
+//   console.error("❌ MongoDB Connection Error:", err);
+// });
+
 app.set('superSecret', config.secret);
 
 // use body parser so we can get info from POST and/or URL parameters
@@ -93,7 +107,9 @@ router.post('/authenticate', function (req, res) {
     email: req.body.email
   }, function (err, account) {
 
-    if (account.length === 0) {
+  console.log(err, account);
+
+    if (typeof account === undefined) {
 
       return res.json({
         success: false,
@@ -473,11 +489,11 @@ router.route('/accounts/:account_id')
   // get the account with that id (accessed at GET http://localhost:8080/api/accounts/:account_id)
   .get(function (req, res) {
     //console.log('ATTEMPTING TO FIND BY ID!', req);
-    Account.findById(req.params.account_id, function (err, account) {      
+    Account.findById(req.params.account_id, function (err, account) {
 
         if (err)
           return res.send(err);
-        res.json(account);   
+        res.json(account);
 
     });
   })
